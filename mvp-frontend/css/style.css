@@ -1,0 +1,12 @@
+:root {
+    --main-background:#0D2B1E;
+    /* Farmer */
+    --container-background: #152F20;
+    --actio-button:#48A068;
+    --success-color:#7EC8A0;
+    /* Buyer */
+    --action-button:#C8612A;
+    --hover-state: #E07B45;
+    --alerts-notification: #D4A843;
+
+}
