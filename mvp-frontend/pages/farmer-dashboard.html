@@ -1,13 +1,434 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/mvp-frontend/css/style.css">
-    <script src="/mvp-frontend/js/script.js"></script>
-    <title>Travia Farmer</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Travia Farmer Dashboard</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+  <script src="../js/dashboard.js" defer></script>
 </head>
-<body>
-    <!-- Farmer Dahboard -->
+<body class="dashboard-body farmer-mode" data-role="farmer">
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">Travia<span>.</span></div>
+
+      <div class="profile-card">
+        <div class="avatar farmer">&#129489;&#8205;&#127806;</div>
+        <div>
+          <div class="profile-name">Emeka Okafor</div>
+          <span class="role-chip">Farmer</span>
+        </div>
+      </div>
+
+      <div class="nav-group-title">Main</div>
+      <nav class="nav-list">
+        <button class="nav-item active" data-tab="overview" data-title="Farmer Overview">&#128202; Overview</button>
+        <button class="nav-item" data-tab="listings" data-title="My Listings">&#128203; My Listings <span class="nav-badge" id="activeListingsBadge">0</span></button>
+        <button class="nav-item" data-tab="cluster" data-title="Farm Cluster">&#128699; Farm Cluster</button>
+        <button class="nav-item" data-tab="prices" data-title="Price Intelligence">&#128200; Price Intel</button>
+        <button class="nav-item" data-tab="preorders" data-title="Farmer Pre-Orders">&#128467;&#65039; Pre-Orders</button>
+      </nav>
+
+      <div class="nav-group-title">Finance</div>
+      <nav class="nav-list">
+        <button class="nav-item" data-tab="earnings" data-title="Earnings Wallet">&#128176; Earnings</button>
+        <button class="nav-item" data-tab="payout" data-title="Payout Requests">&#127974; Payout</button>
+        <button class="nav-item" data-tab="profile" data-title="Farmer Profile">&#128100; My Profile</button>
+      </nav>
+
+      <div class="sidebar-foot">
+        <button class="signout" type="button">&#128682; Sign Out</button>
+      </div>
+    </aside>
+
+    <main class="main-panel">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="menu-toggle" data-menu-toggle type="button" aria-label="Open menu">&#9776;</button>
+          <div class="topbar-title-wrap">
+            <h1 class="topbar-title" id="topbarTitle">Farmer Overview</h1>
+            <p class="topbar-subtitle">Emeka's Fish &amp; Snail Farm &middot; Ikorodu, Lagos</p>
+          </div>
+        </div>
+
+        <div class="topbar-actions">
+          <button class="icon-btn" type="button" aria-label="Notifications">
+            &#128276;
+            <span class="icon-dot"></span>
+          </button>
+          <button class="btn btn-g" type="button" data-open-listing>+ Add Listing</button>
+        </div>
+      </header>
+
+      <div class="panel-body">
+        <section class="tab-panel active" id="tab-overview">
+          <div class="stat-grid">
+            <article class="stat-card">
+              <div class="stat-label">This Month</div>
+              <div class="stat-value" id="statMonthRevenue">&#8358;0</div>
+              <div class="stat-change stat-up">+24% vs last month</div>
+            </article>
+            <article class="stat-card">
+              <div class="stat-label">Orders</div>
+              <div class="stat-value" id="statOrderCount">14</div>
+              <div class="stat-change stat-up">6 new this week</div>
+            </article>
+            <article class="stat-card">
+              <div class="stat-label">Active Listings</div>
+              <div class="stat-value" id="statActiveListings">0</div>
+              <div class="stat-change">Track stock depletion live</div>
+            </article>
+            <article class="stat-card">
+              <div class="stat-label">Rating</div>
+              <div class="stat-value">4.8</div>
+              <div class="stat-change stat-up">Verified farmers build trust</div>
+            </article>
+          </div>
+
+          <div class="content-grid">
+            <div>
+              <article class="card">
+                <div class="card-head">
+                  <h2 class="card-title">Inventory Snapshot</h2>
+                  <button class="link-btn" type="button" data-tab-trigger="listings">View all</button>
+                </div>
+                <div class="list-stack" id="overviewListingPreview"></div>
+              </article>
+
+              <article class="card">
+                <div class="card-head">
+                  <h2 class="card-title">Recent Orders</h2>
+                </div>
+                <div class="list-stack">
+                  <div class="list-row">
+                    <div>
+                      <div class="list-name">10kg Catfish &middot; Mama Chidi Restaurant</div>
+                      <div class="list-meta">Today 9:30am &middot; Farm Cluster</div>
+                    </div>
+                    <div class="value-col">
+                      <div class="value-main">+&#8358;42,000</div>
+                      <span class="badge badge-done">Done</span>
+                    </div>
+                  </div>
+
+                  <div class="list-row">
+                    <div>
+                      <div class="list-name">8kg Tilapia &middot; Hotel Eko</div>
+                      <div class="list-meta">Yesterday &middot; Kwik Delivery</div>
+                    </div>
+                    <div class="value-col">
+                      <div class="value-main">+&#8358;30,400</div>
+                      <span class="badge badge-transit">In Transit</span>
+                    </div>
+                  </div>
+                </div>
+              </article>
+            </div>
+
+            <div>
+              <article class="card">
+                <div class="card-head">
+                  <h2 class="card-title">Wallet</h2>
+                  <span class="card-meta">24hr escrow window active</span>
+                </div>
+                <div class="list-stack">
+                  <div class="list-row">
+                    <div>
+                      <div class="list-name">Available Balance</div>
+                      <div class="list-meta">Ready for payout</div>
+                    </div>
+                    <div class="value-main" id="availableBalance">&#8358;0</div>
+                  </div>
+                  <div class="list-row">
+                    <div>
+                      <div class="list-name">Escrow Balance</div>
+                      <div class="list-meta">In transit/review</div>
+                    </div>
+                    <div class="value-main" id="escrowBalance">&#8358;0</div>
+                  </div>
+                </div>
+              </article>
+
+              <article class="card">
+                <div class="card-head">
+                  <h2 class="card-title">Price Intelligence</h2>
+                </div>
+                <table class="simple-table">
+                  <tbody>
+                    <tr><td>Catfish/kg</td><td class="money">&#8358;4,200</td><td><span class="badge badge-done">+&#8358;150</span></td></tr>
+                    <tr><td>Tilapia/kg</td><td class="money">&#8358;3,800</td><td><span class="badge badge-transit">-&#8358;80</span></td></tr>
+                    <tr><td>Snail/pc</td><td class="money">&#8358;850</td><td><span class="badge badge-done">+&#8358;50</span></td></tr>
+                  </tbody>
+                </table>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="tab-panel" id="tab-listings">
+          <div class="card-head" style="margin-bottom: 0.6rem;">
+            <h2 class="section-title" style="margin: 0;">My Listings</h2>
+            <button class="btn btn-g" type="button" data-open-listing>Add New</button>
+          </div>
+          <article class="card">
+            <div class="list-stack" id="farmerListingRows"></div>
+          </article>
+        </section>
+
+        <section class="tab-panel" id="tab-cluster">
+          <h2 class="section-title">Farm Cluster</h2>
+          <p class="helper-text" style="margin-bottom: 0.7rem;">Share delivery routes with nearby farmers and cut logistics cost by up to 70%.</p>
+
+          <article class="cluster-box">
+            <div class="cluster-title">&#128699; Ikorodu North Cluster</div>
+            <div class="cluster-meta">4 farmers &middot; Next batch: Tomorrow 8AM &middot; Lagos Island</div>
+            <div class="cluster-savings">Your share: &#8358;1,200 &middot; Solo trip: &#8358;8,000</div>
+            <button class="btn btn-g" type="button" style="margin-top: 0.6rem;" data-toast="Joined Ikorodu North Cluster">Join Batch</button>
+          </article>
+
+          <article class="cluster-box" style="opacity: 0.75;">
+            <div class="cluster-title">&#128699; Epe South Cluster</div>
+            <div class="cluster-meta">2 farmers &middot; Needs 1 more to activate</div>
+            <div class="cluster-savings">Invite nearby farmers to unlock &#8358;600 delivery tier.</div>
+            <button class="btn btn-ghost" type="button" style="margin-top: 0.6rem;">Invite Farmer</button>
+          </article>
+        </section>
+
+        <section class="tab-panel" id="tab-prices">
+          <h2 class="section-title">Price Intelligence</h2>
+          <article class="card">
+            <table class="simple-table">
+              <thead>
+                <tr>
+                  <th>Product</th>
+                  <th>Travia Rate</th>
+                  <th>Middlemen Avg</th>
+                  <th>Spread</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Catfish/kg</td><td>&#8358;4,200</td><td>&#8358;5,500</td><td><span class="badge badge-done">+&#8358;1,300</span></td></tr>
+                <tr><td>Tilapia/kg</td><td>&#8358;3,800</td><td>&#8358;4,950</td><td><span class="badge badge-done">+&#8358;1,150</span></td></tr>
+                <tr><td>Giant Snail/pc</td><td>&#8358;850</td><td>&#8358;1,200</td><td><span class="badge badge-done">+&#8358;350</span></td></tr>
+              </tbody>
+            </table>
+          </article>
+        </section>
+
+        <section class="tab-panel" id="tab-preorders">
+          <h2 class="section-title">Pre-Orders</h2>
+          <article class="card">
+            <div class="list-stack">
+              <div class="list-row">
+                <div>
+                  <div class="list-name">25kg Catfish &middot; Eko Hotel</div>
+                  <div class="list-meta">Friday, March 20 &middot; Deposit secured</div>
+                </div>
+                <div class="value-col">
+                  <div class="value-main">&#8358;105,000</div>
+                  <span class="badge badge-done">Confirmed</span>
+                </div>
+              </div>
+
+              <div class="list-row">
+                <div>
+                  <div class="list-name">100pcs Snails &middot; Mama Cass</div>
+                  <div class="list-meta">Monday, March 23 &middot; Awaiting payout clearance</div>
+                </div>
+                <div class="value-col">
+                  <div class="value-main">&#8358;85,000</div>
+                  <span class="badge badge-transit">Pending</span>
+                </div>
+              </div>
+            </div>
+          </article>
+        </section>
+
+        <section class="tab-panel" id="tab-earnings">
+          <h2 class="section-title">Earnings Wallet</h2>
+          <div class="stat-grid">
+            <article class="stat-card">
+              <div class="stat-label">Available</div>
+              <div class="stat-value" id="earnAvailable">&#8358;0</div>
+              <div class="stat-change">Ready for withdrawal</div>
+            </article>
+            <article class="stat-card">
+              <div class="stat-label">Escrow</div>
+              <div class="stat-value" id="earnEscrow">&#8358;0</div>
+              <div class="stat-change">24-hour delivery window</div>
+            </article>
+            <article class="stat-card">
+              <div class="stat-label">This Month</div>
+              <div class="stat-value" id="earnMonth">&#8358;0</div>
+              <div class="stat-change stat-up">+24% momentum</div>
+            </article>
+            <article class="stat-card">
+              <div class="stat-label">Total Earned</div>
+              <div class="stat-value" id="earnTotal">&#8358;0</div>
+              <div class="stat-change">Since onboarding</div>
+            </article>
+          </div>
+        </section>
+
+        <section class="tab-panel" id="tab-payout">
+          <h2 class="section-title">Payout Requests</h2>
+          <div class="split-two">
+            <article class="card">
+              <div class="card-head">
+                <h3 class="card-title">Bank Verification</h3>
+              </div>
+
+              <div class="field">
+                <label for="bankSearch">Search Bank</label>
+                <input id="bankSearch" list="bankList" placeholder="Start typing bank name">
+                <datalist id="bankList"></datalist>
+              </div>
+
+              <div class="field">
+                <label for="nubanInput">10-digit NUBAN</label>
+                <input id="nubanInput" type="text" maxlength="10" inputmode="numeric" placeholder="0123456789">
+              </div>
+
+              <div class="verify-status pending" id="accountNameResult">Awaiting account verification.</div>
+            </article>
+
+            <article class="card">
+              <div class="card-head">
+                <h3 class="card-title">Request Withdrawal</h3>
+              </div>
+              <p class="helper-text" style="margin-bottom: 0.8rem;">Minimum withdrawal: &#8358;5,000</p>
+
+              <div class="field">
+                <label for="payoutAmount">Amount</label>
+                <input id="payoutAmount" type="number" min="5000" placeholder="Enter amount">
+              </div>
+
+              <button class="btn btn-g" type="button" id="requestPayoutBtn">Request Payout</button>
+            </article>
+          </div>
+
+          <article class="card" style="margin-top: 0.8rem;">
+            <div class="card-head">
+              <h3 class="card-title">Payout History</h3>
+            </div>
+            <table class="simple-table">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="payoutHistoryRows"></tbody>
+            </table>
+          </article>
+        </section>
+
+        <section class="tab-panel" id="tab-profile">
+          <h2 class="section-title">My Profile</h2>
+          <div class="split-two">
+            <article class="card">
+              <div class="card-head">
+                <h3 class="card-title">Farm Identity</h3>
+              </div>
+              <div class="list-stack">
+                <div class="list-row"><div class="list-name">Farmer</div><div class="value-main">Emeka Okafor</div></div>
+                <div class="list-row"><div class="list-name">Farm Name</div><div class="value-main">Emeka's Fish &amp; Snail Farm</div></div>
+                <div class="list-row"><div class="list-name">Location</div><div class="value-main">Ikorodu, Lagos</div></div>
+                <div class="list-row"><div class="list-name">Verification</div><span class="badge badge-done">Identity Verified</span></div>
+              </div>
+            </article>
+
+            <article class="card">
+              <div class="card-head">
+                <h3 class="card-title">Update Details</h3>
+              </div>
+              <div class="field">
+                <label for="farmType">Farm Type</label>
+                <select id="farmType">
+                  <option>Both Fish &amp; Snails</option>
+                  <option>Fish only</option>
+                  <option>Snails only</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="farmLocation">Location</label>
+                <input id="farmLocation" value="Ikorodu, Lagos">
+              </div>
+              <div class="field">
+                <label for="farmOutput">Monthly Output</label>
+                <select id="farmOutput">
+                  <option>100 - 500kg</option>
+                  <option>500kg - 1 tonne</option>
+                  <option>Above 1 tonne</option>
+                </select>
+              </div>
+              <button class="btn btn-g" type="button" data-toast="Farmer profile saved">Save Changes</button>
+            </article>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <div class="modal-overlay" id="listingModal">
+    <div class="modal-card">
+      <div class="modal-head">
+        <h2 class="card-title">Add New Listing</h2>
+        <button class="modal-close" type="button" data-close-listing>&times;</button>
+      </div>
+      <p class="helper-text" style="margin-bottom: 0.7rem;">Set harvest details to start stock and freshness tracking immediately.</p>
+
+      <form id="listingForm">
+        <div class="inline-fields">
+          <div class="field">
+            <label for="listingProduct">Product Type</label>
+            <select id="listingProduct" required>
+              <option value="Catfish">Catfish</option>
+              <option value="Tilapia">Tilapia</option>
+              <option value="Mackerel">Mackerel</option>
+              <option value="Giant Snails">Giant Snails</option>
+              <option value="Medium Snails">Medium Snails</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="listingQuantity">Quantity</label>
+            <input id="listingQuantity" type="number" min="1" required>
+          </div>
+        </div>
+
+        <div class="inline-fields">
+          <div class="field">
+            <label for="listingUnit">Unit</label>
+            <select id="listingUnit" required>
+              <option value="kg">kg</option>
+              <option value="pieces">pieces</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="listingPrice">Price per Unit (&#8358;)</label>
+            <input id="listingPrice" type="number" min="1" required>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="listingHarvest">Harvest Time</label>
+          <input id="listingHarvest" type="datetime-local" required>
+        </div>
+
+        <div class="field">
+          <label for="listingLocation">Pickup Location (State/LGA)</label>
+          <input id="listingLocation" type="text" placeholder="e.g. Ikorodu, Lagos" required>
+        </div>
+
+        <button class="btn btn-g" type="submit">Publish Listing</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
 </body>
 </html>

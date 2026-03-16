@@ -1,13 +1,264 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/mvp-frontend/css/style.css">
-    <script src="/mvp-frontend/js/script.js"></script>
-    <title>Travia Buyer</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Travia Buyer Dashboard</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+  <script src="../js/dashboard.js" defer></script>
 </head>
-<body>
-    <!-- Buyer Dashboard -->
+<body class="dashboard-body buyer-mode" data-role="buyer">
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">Travia<span>.</span></div>
+
+      <div class="profile-card">
+        <div class="avatar buyer">&#128105;&#8205;&#127859;</div>
+        <div>
+          <div class="profile-name">Chidi Nwosu</div>
+          <span class="role-chip">Buyer</span>
+        </div>
+      </div>
+
+      <div class="nav-group-title">Marketplace</div>
+      <nav class="nav-list">
+        <button class="nav-item active" data-tab="market" data-title="Buyer Marketplace">&#128722; Marketplace</button>
+        <button class="nav-item" data-tab="orders" data-title="My Orders">&#128230; My Orders <span class="nav-badge">2</span></button>
+        <button class="nav-item" data-tab="preorders" data-title="Pre-Orders">&#128467;&#65039; Pre-Orders</button>
+        <button class="nav-item" data-tab="favorites" data-title="Favourite Farms">&#10084;&#65039; Favourite Farms</button>
+      </nav>
+
+      <div class="nav-group-title">Account</div>
+      <nav class="nav-list">
+        <button class="nav-item" data-tab="profile" data-title="Buyer Profile">&#128100; My Profile</button>
+        <button class="nav-item" data-open-cart>&#128722; My Cart <span class="nav-badge" id="cartNavCount">0</span></button>
+      </nav>
+
+      <div class="sidebar-foot">
+        <button class="signout" type="button">&#128682; Sign Out</button>
+      </div>
+    </aside>
+
+    <main class="main-panel">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="menu-toggle" data-menu-toggle type="button" aria-label="Open menu">&#9776;</button>
+          <div class="topbar-title-wrap">
+            <h1 class="topbar-title" id="topbarTitle">Buyer Marketplace</h1>
+            <p class="topbar-subtitle">Mama Chidi Restaurant &middot; Lagos Island</p>
+          </div>
+        </div>
+
+        <div class="topbar-actions">
+          <button class="icon-btn" type="button" aria-label="Notifications">
+            &#128276;
+            <span class="icon-dot"></span>
+          </button>
+          <button class="icon-btn cart" type="button" data-open-cart aria-label="Open cart">
+            &#128722;
+            <span class="icon-count" id="cartTopCount">0</span>
+          </button>
+          <button class="btn btn-e" type="button" data-tab-trigger="preorders">Pre-Order</button>
+        </div>
+      </header>
+
+      <div class="panel-body">
+        <section class="tab-panel active" id="tab-market">
+          <h2 class="section-title">Marketplace</h2>
+          <p class="helper-text">Freshness timer, verified farms, and transparent logistics pricing.</p>
+
+          <div class="search-wrap" style="margin-top: 0.8rem;">
+            <span>&#128269;</span>
+            <input id="marketSearch" type="search" placeholder="Search fish, snails, location, or farm name">
+          </div>
+
+          <div class="filter-row" id="marketFilters">
+            <button class="chip active" type="button" data-filter="all">All</button>
+            <button class="chip" type="button" data-filter="fish">&#128031; Fish</button>
+            <button class="chip" type="button" data-filter="snails">&#128012; Snails</button>
+            <button class="chip" type="button" data-filter="near">&#128205; Near Me</button>
+            <button class="chip" type="button" data-filter="freshest">&#9201; Freshest</button>
+            <button class="chip" type="button" data-filter="top">&#11088; Top Rated</button>
+          </div>
+
+          <div class="listing-grid" id="listingGrid"></div>
+        </section>
+
+        <section class="tab-panel" id="tab-orders">
+          <h2 class="section-title">My Orders</h2>
+          <div class="card">
+            <div class="list-stack">
+              <div class="list-row">
+                <div>
+                  <div class="list-name">10kg Catfish from Emeka's Farm</div>
+                  <div class="list-meta">Today &middot; Kwik Delivery &middot; ETA 2hrs</div>
+                </div>
+                <div class="value-col">
+                  <div class="value-main">&#8358;42,000</div>
+                  <span class="badge badge-transit">In Transit</span>
+                </div>
+              </div>
+
+              <div class="list-row">
+                <div>
+                  <div class="list-name">30pcs Giant Snails from Ade Farm</div>
+                  <div class="list-meta">Yesterday &middot; Self Pickup</div>
+                </div>
+                <div class="value-col">
+                  <div class="value-main">&#8358;25,500</div>
+                  <span class="badge badge-done">Delivered</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="tab-panel" id="tab-preorders">
+          <h2 class="section-title">Pre-Orders</h2>
+          <div class="card">
+            <div class="list-stack">
+              <div class="list-row">
+                <div>
+                  <div class="list-name">25kg Catfish (Upcoming Harvest)</div>
+                  <div class="list-meta">Friday, March 20 &middot; Deposit paid</div>
+                </div>
+                <div class="value-col">
+                  <div class="value-main">&#8358;105,000</div>
+                  <span class="badge badge-done">Confirmed</span>
+                </div>
+              </div>
+
+              <div class="list-row">
+                <div>
+                  <div class="list-name">80pcs Snails (Batch Booking)</div>
+                  <div class="list-meta">Monday, March 23 &middot; Awaiting final invoice</div>
+                </div>
+                <div class="value-col">
+                  <div class="value-main">&#8358;68,000</div>
+                  <span class="badge badge-transit">Pending</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="tab-panel" id="tab-favorites">
+          <h2 class="section-title">Favourite Farms</h2>
+          <div class="listing-grid">
+            <article class="listing-card">
+              <div class="listing-name">Emeka's Fish Farm</div>
+              <div class="listing-meta">&#128205; Ikorodu &middot; &#11088; 4.8 &middot; 3 active listings</div>
+              <button class="btn-sm" type="button" data-toast="Opening farm profile">View Farm</button>
+            </article>
+
+            <article class="listing-card">
+              <div class="listing-name">Ade Snail Farm</div>
+              <div class="listing-meta">&#128205; Ikorodu &middot; &#11088; 4.9 &middot; 2 active listings</div>
+              <button class="btn-sm" type="button" data-toast="Opening farm profile">View Farm</button>
+            </article>
+          </div>
+        </section>
+
+        <section class="tab-panel" id="tab-profile">
+          <h2 class="section-title">My Profile</h2>
+          <div class="split-two">
+            <article class="card">
+              <div class="card-head">
+                <h3 class="card-title">Buyer Details</h3>
+              </div>
+              <div class="list-stack">
+                <div class="list-row">
+                  <div class="list-name">Business Name</div>
+                  <div class="value-main">Mama Chidi Restaurant</div>
+                </div>
+                <div class="list-row">
+                  <div class="list-name">Buyer Type</div>
+                  <div class="value-main">Restaurant</div>
+                </div>
+                <div class="list-row">
+                  <div class="list-name">Location</div>
+                  <div class="value-main">Lagos Island</div>
+                </div>
+                <div class="list-row">
+                  <div class="list-name">Verification</div>
+                  <span class="badge badge-done">Verified Buyer</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="card">
+              <div class="card-head">
+                <h3 class="card-title">Edit Preferences</h3>
+              </div>
+
+              <div class="field">
+                <label for="buyerType">Buyer Type</label>
+                <select id="buyerType">
+                  <option>Restaurant</option>
+                  <option>Hotel</option>
+                  <option>Retailer</option>
+                  <option>Exporter</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="buyerArea">Area</label>
+                <input id="buyerArea" type="text" value="Lagos Island, Lagos">
+              </div>
+
+              <div class="field">
+                <label for="buyerDelivery">Delivery Preference</label>
+                <select id="buyerDelivery">
+                  <option>Either works</option>
+                  <option>Self Pickup</option>
+                  <option>Door Delivery</option>
+                </select>
+              </div>
+
+              <button class="btn btn-e" type="button" data-toast="Buyer profile saved">Save Changes</button>
+            </article>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <div class="cart-overlay" id="cartOverlay" data-close-cart></div>
+  <aside class="cart-drawer" id="cartDrawer" aria-label="Cart drawer">
+    <div class="drawer-head">
+      <div class="drawer-head-top">
+        <h2 class="card-title">My Cart</h2>
+        <button class="modal-close" type="button" data-close-cart aria-label="Close cart">&times;</button>
+      </div>
+      <p class="helper-text" id="cartCountBadge">0 items</p>
+    </div>
+
+    <div class="drawer-scroll">
+      <div class="empty-state" id="cartEmpty">Your cart is empty. Add fresh produce from the marketplace.</div>
+      <div id="cartItems"></div>
+
+      <div id="deliveryBlock" style="display: none;">
+        <p class="helper-text" style="margin-top: 0.7rem;">Delivery Method</p>
+        <div class="delivery-grid" id="deliveryOptions">
+          <button class="delivery-btn active" type="button" data-delivery="pickup">Self Pickup<br>Free</button>
+          <button class="delivery-btn" type="button" data-delivery="kwik">Kwik Delivery<br>&#8358;1,500</button>
+          <button class="delivery-btn" type="button" data-delivery="cluster">Farm Cluster<br>&#8358;600</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="drawer-foot" id="cartFoot" style="display: none;">
+      <div class="amount-row"><span>Subtotal</span><strong id="cartSubtotal">&#8358;0</strong></div>
+      <div class="amount-row"><span>Delivery</span><strong id="cartDelivery">Free</strong></div>
+      <div class="amount-row"><span>Travia fee (4%)</span><strong id="cartService">&#8358;0</strong></div>
+      <div class="amount-row amount-total"><span>Total</span><strong id="cartTotal">&#8358;0</strong></div>
+
+      <button class="btn btn-e" id="checkoutBtn" type="button">Pay with Paystack</button>
+      <button class="btn btn-ghost" id="clearCartBtn" type="button" style="margin-top: 0.5rem;">Clear Cart</button>
+    </div>
+  </aside>
+
+  <div class="toast" id="toast"></div>
 </body>
 </html>
