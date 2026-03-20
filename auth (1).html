@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Travia — Join the Marketplace</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --forest: #071911;
+  --deep: #0D2B1E;
+  --moss: #1E4A30;
+  --sage: #2D6A4A;
+  --leaf: #48A068;
+  --mint: #7EC8A0;
+  --cream: #F5EED8;
+  --ember: #E86A33;
+  --white: #FFFFFF;
+  --glass: rgba(255,255,255,0.05);
+  --glass-border: rgba(255,255,255,0.1);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: var(--forest);
+  color: var(--cream);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+/* ── CARD ── */
+.card {
+  width: 100%;
+  max-width: 460px;
+  background: var(--deep);
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;
+  padding: 44px 40px;
+  box-shadow: 0 32px 80px rgba(0,0,0,0.5);
+}
+
+/* ── LOGO ── */
+.logo {
+  text-align: center;
+  margin-bottom: 32px;
+}
+.logo-mark {
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--mint);
+  letter-spacing: -1px;
+}
+.logo-mark span { color: var(--ember); }
+.logo-tag {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: rgba(126,200,160,0.45);
+  margin-top: 4px;
+}
+
+/* ── SCREENS ── */
+.screen { display: none; }
+.screen.active { display: block; }
+
+/* ── TITLES ── */
+.title {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--white);
+  text-align: center;
+  margin-bottom: 6px;
+}
+.subtitle {
+  font-size: 13px;
+  color: rgba(245,238,216,0.45);
+  text-align: center;
+  margin-bottom: 28px;
+  line-height: 1.5;
+}
+
+/* ── ROLE CARDS ── */
+.role-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.role-card {
+  background: var(--glass);
+  border: 1.5px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 22px 14px;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.25s ease;
+}
+.role-card:hover { transform: translateY(-3px); }
+.role-card.farmer:hover { border-color: rgba(72,160,104,0.5); background: rgba(72,160,104,0.08); }
+.role-card.buyer:hover  { border-color: rgba(232,106,51,0.5);  background: rgba(232,106,51,0.08); }
+
+.role-emoji { font-size: 32px; margin-bottom: 10px; display: block; }
+.role-name  { font-size: 15px; font-weight: 800; color: var(--white); margin-bottom: 4px; }
+.role-desc  { font-size: 11px; color: rgba(245,238,216,0.4); line-height: 1.4; }
+
+/* ── DIVIDER ── */
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 20px 0;
+}
+.div-line { flex: 1; height: 1px; background: var(--glass-border); }
+.div-text { font-size: 12px; color: rgba(245,238,216,0.3); white-space: nowrap; }
+
+/* ── FORM HEADER ── */
+.form-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.back-btn {
+  width: 36px; height: 36px;
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: 10px;
+  cursor: pointer;
+  color: var(--cream);
+  font-size: 18px;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+.back-btn:hover { background: rgba(255,255,255,0.1); transform: translateX(-2px); }
+.head-title { font-size: 20px; font-weight: 800; color: var(--white); line-height: 1.2; }
+.head-title small {
+  display: block;
+  font-size: 12px;
+  font-weight: 400;
+  color: rgba(245,238,216,0.35);
+  margin-top: 2px;
+}
+
+/* ── ROLE BADGE ── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 99px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  margin-bottom: 18px;
+}
+.badge.farmer { background: rgba(72,160,104,0.12); border: 1px solid rgba(72,160,104,0.25); color: var(--mint); }
+.badge.buyer  { background: rgba(232,106,51,0.12);  border: 1px solid rgba(232,106,51,0.25);  color: #f09060; }
+
+/* ── SOCIAL BTN ── */
+.social-btn {
+  width: 100%;
+  height: 48px;
+  background: var(--glass);
+  border: 1.5px solid var(--glass-border);
+  border-radius: 12px;
+  color: var(--cream);
+  font-size: 14px;
+  font-weight: 600;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: all 0.2s;
+  margin-bottom: 18px;
+}
+.social-btn:hover {
+  border-color: rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.08);
+  transform: translateY(-2px);
+}
+.google-icon { width: 18px; height: 18px; }
+
+/* ── METHOD TABS ── */
+.tabs {
+  display: flex;
+  gap: 4px;
+  background: rgba(255,255,255,0.04);
+  border-radius: 10px;
+  padding: 4px;
+  margin-bottom: 16px;
+}
+.tab {
+  flex: 1; height: 32px;
+  border-radius: 7px; border: none;
+  background: transparent;
+  color: rgba(245,238,216,0.38);
+  font-size: 12px; font-weight: 600;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  cursor: pointer;
+  transition: all 0.18s;
+}
+.tab.active {
+  background: rgba(255,255,255,0.1);
+  color: var(--cream);
+}
+
+/* ── FIELDS ── */
+.field { margin-bottom: 12px; }
+.field label {
+  display: block;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: rgba(245,238,216,0.38);
+  margin-bottom: 6px;
+}
+.field input,
+.field select {
+  width: 100%;
+  height: 48px;
+  background: rgba(255,255,255,0.05);
+  border: 1.5px solid var(--glass-border);
+  border-radius: 12px;
+  padding: 0 14px;
+  color: var(--cream);
+  font-size: 14px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  outline: none;
+  transition: all 0.2s;
+  -webkit-appearance: none;
+}
+.field input::placeholder { color: rgba(245,238,216,0.2); }
+.field input:focus,
+.field select:focus {
+  border-color: rgba(72,160,104,0.55);
+  background: rgba(72,160,104,0.07);
+  box-shadow: 0 0 0 3px rgba(72,160,104,0.1);
+}
+.field select option { background: var(--deep); color: var(--cream); }
+.row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+/* strength */
+.strength-bar { height: 2px; background: rgba(255,255,255,0.07); border-radius: 2px; margin-top: 6px; overflow: hidden; }
+.strength-fill { height: 100%; border-radius: 2px; width: 0; transition: width 0.35s, background 0.3s; }
+
+/* ── SUBMIT BTN ── */
+.submit-btn {
+  width: 100%;
+  height: 50px;
+  border-radius: 14px;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 700;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  color: white;
+  margin-top: 6px;
+  transition: all 0.25s ease;
+  position: relative;
+  overflow: hidden;
+}
+.submit-btn.green  { background: var(--leaf);  box-shadow: 0 8px 24px rgba(72,160,104,0.25); }
+.submit-btn.orange { background: var(--ember); box-shadow: 0 8px 24px rgba(232,106,51,0.25); }
+.submit-btn:hover  { filter: brightness(1.1); transform: translateY(-2px); }
+.submit-btn:active { transform: scale(0.98); }
+
+/* loading */
+.submit-btn.loading { pointer-events: none; color: transparent; }
+.submit-btn.loading::after {
+  content: '';
+  position: absolute; top: 50%; left: 50%;
+  width: 18px; height: 18px; margin: -9px;
+  border: 2px solid rgba(255,255,255,0.35);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── LINK ROW ── */
+.link-row {
+  text-align: center;
+  font-size: 13px;
+  color: rgba(245,238,216,0.38);
+  margin-top: 18px;
+}
+.link-row a {
+  color: var(--mint);
+  text-decoration: none;
+  font-weight: 600;
+  cursor: pointer;
+}
+.link-row a:hover { color: var(--leaf); }
+
+.forgot {
+  text-align: right;
+  margin-bottom: 14px;
+  margin-top: -6px;
+}
+.forgot a {
+  font-size: 12px;
+  color: rgba(245,238,216,0.3);
+  text-decoration: none;
+  cursor: pointer;
+}
+.forgot a:hover { color: var(--mint); }
+
+/* ── SUCCESS ── */
+.success-wrap { text-align: center; padding: 10px 0; }
+
+.suc-ring {
+  width: 88px; height: 88px;
+  border-radius: 50%;
+  margin: 0 auto 24px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 36px;
+  position: relative;
+  animation: popIn 0.5s cubic-bezier(0.16,1,0.3,1) both;
+}
+.suc-ring.farmer { background: rgba(72,160,104,0.12); border: 1.5px solid rgba(72,160,104,0.3); }
+.suc-ring.buyer  { background: rgba(232,106,51,0.12);  border: 1.5px solid rgba(232,106,51,0.3); }
+
+.suc-ring::before, .suc-ring::after {
+  content: ''; position: absolute; inset: -10px;
+  border-radius: 50%; border: 1px solid;
+  animation: ringOut 2s ease-out infinite;
+}
+.suc-ring.farmer::before,
+.suc-ring.farmer::after { border-color: rgba(72,160,104,0.2); }
+.suc-ring.buyer::before,
+.suc-ring.buyer::after  { border-color: rgba(232,106,51,0.2); }
+.suc-ring::after { inset: -22px; animation-delay: 0.6s; }
+
+@keyframes popIn {
+  0%  { transform: scale(0); opacity: 0; }
+  70% { transform: scale(1.1); }
+  100%{ transform: scale(1);   opacity: 1; }
+}
+@keyframes ringOut {
+  0%  { transform: scale(0.85); opacity: 1; }
+  100%{ transform: scale(1.35); opacity: 0; }
+}
+
+.suc-title {
+  font-size: 24px; font-weight: 800;
+  color: var(--white); margin-bottom: 10px;
+}
+.suc-title .hi { color: var(--mint); }
+.suc-body {
+  font-size: 14px;
+  color: rgba(245,238,216,0.48);
+  line-height: 1.65;
+  margin-bottom: 24px;
+}
+.suc-chips {
+  display: flex; flex-wrap: wrap;
+  justify-content: center; gap: 8px;
+  margin-bottom: 28px;
+}
+.suc-chip {
+  padding: 4px 12px; border-radius: 99px;
+  font-size: 11px; font-weight: 600;
+  background: rgba(126,200,160,0.07);
+  border: 1px solid rgba(126,200,160,0.18);
+  color: rgba(126,200,160,0.7);
+}
+
+.proceed-btn {
+  width: 100%; height: 50px;
+  border-radius: 14px; border: none;
+  font-size: 15px; font-weight: 700;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  color: white; cursor: pointer;
+  transition: all 0.25s ease;
+}
+.proceed-btn.farmer { background: var(--leaf); box-shadow: 0 8px 24px rgba(72,160,104,0.25); }
+.proceed-btn.buyer  { background: var(--ember); box-shadow: 0 8px 24px rgba(232,106,51,0.25); }
+.proceed-btn:hover { filter: brightness(1.1); transform: translateY(-2px); }
+
+/* ── MOBILE ── */
+@media (max-width: 500px) {
+  .card { padding: 32px 22px; }
+  .row  { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="card">
+
+  <!-- LOGO -->
+  <div class="logo">
+    <div class="logo-mark">Travia<span>.</span></div>
+    <div class="logo-tag">The Pathway to Trade</div>
+  </div>
+
+  <!-- ══ SCREEN: ROLE PICKER ══ -->
+  <div class="screen active" id="s-role">
+    <div class="title">Join the Marketplace</div>
+    <div class="subtitle">Who are you trading as?</div>
+
+    <div class="role-grid">
+      <div class="role-card farmer" onclick="pickRole('farmer')">
+        <span class="role-emoji">🐟</span>
+        <div class="role-name">Farmer</div>
+        <div class="role-desc">I grow fish or snails to sell</div>
+      </div>
+      <div class="role-card buyer" onclick="pickRole('buyer')">
+        <span class="role-emoji">🛒</span>
+        <div class="role-name">Buyer</div>
+        <div class="role-desc">I want fresh fish and snails</div>
+      </div>
+    </div>
+
+    <div class="divider">
+      <div class="div-line"></div>
+      <div class="div-text">Already have an account?</div>
+      <div class="div-line"></div>
+    </div>
+    <div class="link-row"><a onclick="goTo('s-login')">Sign in to your account →</a></div>
+  </div>
+
+  <!-- ══ SCREEN: REGISTER ══ -->
+  <div class="screen" id="s-register">
+    <div class="form-head">
+      <button class="back-btn" onclick="goTo('s-role')">←</button>
+      <div class="head-title">
+        Create Account
+        <small id="reg-sub">Step into the marketplace</small>
+      </div>
+    </div>
+
+    <div class="badge" id="reg-badge"></div>
+
+    <!-- Google -->
+    <button class="social-btn" onclick="handleGoogle()">
+      <svg class="google-icon" viewBox="0 0 24 24" fill="none">
+        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
+        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+      </svg>
+      Continue with Google
+    </button>
+
+    <div class="divider">
+      <div class="div-line"></div>
+      <div class="div-text">or register with</div>
+      <div class="div-line"></div>
+    </div>
+
+    <div class="tabs">
+      <button class="tab active" onclick="regMethod('email', this)">Email</button>
+      <button class="tab" onclick="regMethod('phone', this)">Phone</button>
+    </div>
+
+    <!-- Email fields -->
+    <div id="reg-email-fields">
+      <div class="row">
+        <div class="field">
+          <label>First Name</label>
+          <input type="text" id="fname" placeholder="Emeka">
+        </div>
+        <div class="field">
+          <label>Last Name</label>
+          <input type="text" placeholder="Okafor">
+        </div>
+      </div>
+      <div class="field">
+        <label>Email Address</label>
+        <input type="email" placeholder="emeka@example.com">
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <input type="password" placeholder="Create a strong password" oninput="checkStrength(this.value)">
+        <div class="strength-bar"><div class="strength-fill" id="str-fill"></div></div>
+      </div>
+    </div>
+
+    <!-- Phone fields -->
+    <div id="reg-phone-fields" style="display:none">
+      <div class="field">
+        <label>Phone Number</label>
+        <input type="tel" id="fname-phone" placeholder="+234 801 234 5678">
+      </div>
+      <div class="row">
+        <div class="field">
+          <label>First Name</label>
+          <input type="text" placeholder="Emeka">
+        </div>
+        <div class="field">
+          <label>Last Name</label>
+          <input type="text" placeholder="Okafor">
+        </div>
+      </div>
+      <div class="field">
+        <label>Create Password</label>
+        <input type="password" placeholder="Create a strong password" oninput="checkStrength(this.value)">
+        <div class="strength-bar"><div class="strength-fill" id="str-fill-phone"></div></div>
+      </div>
+    </div>
+
+    <!-- Farmer extra -->
+    <div id="farmer-fields">
+      <div class="field">
+        <label>Farm Name</label>
+        <input type="text" placeholder="Emeka's Catfish Farm">
+      </div>
+      <div class="row">
+        <div class="field">
+          <label>Farm Type</label>
+          <select>
+            <option value="">Select</option>
+            <option>Fish Farm</option>
+            <option>Snail Farm</option>
+            <option>Both</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>State</label>
+          <select>
+            <option value="">Select</option>
+            <option>Lagos</option>
+            <option>Abuja FCT</option>
+            <option>Rivers</option>
+            <option>Anambra</option>
+            <option>Oyo</option>
+            <option>Kano</option>
+            <option>Other</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Buyer extra -->
+    <div id="buyer-fields" style="display:none">
+      <div class="field">
+        <label>Buying For</label>
+        <select>
+          <option value="">Select purpose</option>
+          <option>Personal / Home</option>
+          <option>Restaurant</option>
+          <option>Hotel</option>
+          <option>Retail Shop</option>
+          <option>Other Business</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>City / Area</label>
+        <input type="text" placeholder="Lagos Island, Lagos">
+      </div>
+    </div>
+
+    <button class="submit-btn green" id="reg-btn" onclick="submitRegister()">
+      Create Account →
+    </button>
+
+    <div class="link-row">Already have an account? <a onclick="goTo('s-login')">Sign in</a></div>
+  </div>
+
+  <!-- ══ SCREEN: LOGIN ══ -->
+  <div class="screen" id="s-login">
+    <div class="form-head">
+      <button class="back-btn" onclick="goTo('s-role')">←</button>
+      <div class="head-title">
+        Welcome Back
+        <small>Sign in to your account</small>
+      </div>
+    </div>
+
+    <button class="social-btn" onclick="handleGoogle()">
+      <svg class="google-icon" viewBox="0 0 24 24" fill="none">
+        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
+        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+      </svg>
+      Continue with Google
+    </button>
+
+    <div class="divider">
+      <div class="div-line"></div>
+      <div class="div-text">or sign in with</div>
+      <div class="div-line"></div>
+    </div>
+
+    <div class="tabs">
+      <button class="tab active" onclick="loginMethod('email', this)">Email</button>
+      <button class="tab" onclick="loginMethod('phone', this)">Phone</button>
+    </div>
+
+    <div id="login-email-fields">
+      <div class="field">
+        <label>Email Address</label>
+        <input type="email" placeholder="your@email.com">
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <input type="password" placeholder="Your password">
+      </div>
+    </div>
+    <div id="login-phone-fields" style="display:none">
+      <div class="field">
+        <label>Phone Number</label>
+        <input type="tel" placeholder="+234 801 234 5678">
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <input type="password" placeholder="Your password">
+      </div>
+    </div>
+
+    <div class="forgot"><a>Forgot password?</a></div>
+
+    <button class="submit-btn green" onclick="submitLogin()">Sign In →</button>
+
+    <div class="link-row">New to Travia? <a onclick="goTo('s-role')">Create an account</a></div>
+  </div>
+
+  <!-- ══ SCREEN: SUCCESS ══ -->
+  <div class="screen" id="s-success">
+    <div class="success-wrap">
+      <div class="suc-ring" id="suc-ring">🎉</div>
+      <div class="suc-title">Welcome aboard<span class="hi" id="suc-name">!</span></div>
+      <div class="suc-body" id="suc-body"></div>
+      <div class="suc-chips" id="suc-chips"></div>
+      <button class="proceed-btn" id="suc-btn" onclick="goToDashboard()">Go to Dashboard →</button>
+    </div>
+  </div>
+
+</div><!-- /card -->
+
+<script>
+  var activeRole = null;
+
+  function goTo(id) {
+    var screens = document.querySelectorAll('.screen');
+    for (var i = 0; i < screens.length; i++) {
+      screens[i].classList.remove('active');
+    }
+    document.getElementById(id).classList.add('active');
+  }
+
+  function pickRole(role) {
+    activeRole = role;
+
+    var badge = document.getElementById('reg-badge');
+    badge.className = 'badge ' + role;
+    badge.textContent = role === 'farmer' ? '🐟 Farmer Account' : '🛒 Buyer Account';
+
+    document.getElementById('reg-sub').textContent = role === 'farmer'
+      ? 'List your harvest & earn more'
+      : 'Find fresh produce near you';
+
+    var btn = document.getElementById('reg-btn');
+    btn.className = role === 'farmer' ? 'submit-btn green' : 'submit-btn orange';
+
+    document.getElementById('farmer-fields').style.display = role === 'farmer' ? 'block' : 'none';
+    document.getElementById('buyer-fields').style.display  = role === 'buyer'  ? 'block' : 'none';
+
+    goTo('s-register');
+  }
+
+  function regMethod(m, btn) {
+    var tabs = document.querySelectorAll('#s-register .tab');
+    for (var i = 0; i < tabs.length; i++) tabs[i].classList.remove('active');
+    btn.classList.add('active');
+    document.getElementById('reg-email-fields').style.display = m === 'email' ? 'block' : 'none';
+    document.getElementById('reg-phone-fields').style.display = m === 'phone' ? 'block' : 'none';
+  }
+
+  function loginMethod(m, btn) {
+    var tabs = document.querySelectorAll('#s-login .tab');
+    for (var i = 0; i < tabs.length; i++) tabs[i].classList.remove('active');
+    btn.classList.add('active');
+    document.getElementById('login-email-fields').style.display = m === 'email' ? 'block' : 'none';
+    document.getElementById('login-phone-fields').style.display = m === 'phone' ? 'block' : 'none';
+  }
+
+  function checkStrength(val) {
+    var emailFill = document.getElementById('str-fill');
+    var phoneFill = document.getElementById('str-fill-phone');
+    var score = 0;
+    if (val.length >= 8) score++;
+    if (/[A-Z]/.test(val)) score++;
+    if (/[0-9]/.test(val)) score++;
+    if (/[^A-Za-z0-9]/.test(val)) score++;
+    var colors = ['#E05252', '#D4A843', '#48A068', '#7EC8A0'];
+    var widths  = ['25%', '50%', '75%', '100%'];
+    var w = score ? widths[score - 1]  : '0%';
+    var c = score ? colors[score - 1] : 'transparent';
+    if (emailFill) { emailFill.style.width = w; emailFill.style.background = c; }
+    if (phoneFill) { phoneFill.style.width = w; phoneFill.style.background = c; }
+  }
+
+  function handleGoogle() {
+    showSuccess(activeRole || 'buyer', 'Google User');
+  }
+
+  function submitRegister() {
+    var btn  = document.getElementById('reg-btn');
+    var name = document.getElementById('fname').value || '';
+    btn.classList.add('loading');
+    setTimeout(function () {
+      btn.classList.remove('loading');
+      showSuccess(activeRole || 'farmer', name || 'Trader');
+    }, 1600);
+  }
+
+  function submitLogin() {
+    showSuccess(activeRole || 'farmer', 'Emeka');
+  }
+
+  function showSuccess(role, name) {
+    var ring  = document.getElementById('suc-ring');
+    var nameEl = document.getElementById('suc-name');
+    var body  = document.getElementById('suc-body');
+    var chips = document.getElementById('suc-chips');
+    var btn   = document.getElementById('suc-btn');
+
+    ring.className = 'suc-ring ' + role;
+    ring.textContent = role === 'farmer' ? '🐟' : '🛒';
+    nameEl.textContent = name ? ', ' + name + '!' : '!';
+
+    if (role === 'farmer') {
+      body.textContent = 'Your farmer account is ready. Start listing your harvest and connect with buyers across Nigeria — no middlemen, just fair trade.';
+      chips.innerHTML  = ['List Produce', 'Farm Cluster', 'Price Intel', 'Pre-Orders']
+        .map(function(t){ return '<span class="suc-chip">' + t + '</span>'; }).join('');
+      btn.className = 'proceed-btn farmer';
+    } else {
+      body.textContent = 'Your buyer account is ready. Browse fresh fish and snails directly from farms — with live freshness timers on every listing.';
+      chips.innerHTML  = ['Live Marketplace', 'Freshness Timer', 'Direct Farms', 'Fast Delivery']
+        .map(function(t){ return '<span class="suc-chip">' + t + '</span>'; }).join('');
+      btn.className = 'proceed-btn buyer';
+    }
+
+    goTo('s-success');
+  }
+
+  function goToDashboard() {
+    var role = activeRole || 'buyer';
+    window.location.href = './pages/' + role + '-dashboard.html';
+  }
+</script>
+</body>
+</html>
