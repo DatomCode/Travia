@@ -116,10 +116,16 @@
   }
 
   function initBuyerDashboard(setTab) {
+    const uiIcons = {
+      location: 'https://api.iconify.design/lucide:map-pin.svg?color=%23a7c2b4',
+      star: 'https://api.iconify.design/lucide:star.svg?color=%23efcb7d',
+      fresh: 'https://api.iconify.design/lucide:timer-reset.svg?color=%23d7ece2'
+    };
+
     const listings = [
       {
         id: 1,
-        emoji: '&#128031;',
+        photoUrl: 'https://images.pexels.com/photos/10112470/pexels-photo-10112470.jpeg?auto=compress&cs=tinysrgb&w=1200',
         type: 'fish',
         name: 'Catfish',
         quantity: 20,
@@ -134,7 +140,7 @@
       },
       {
         id: 2,
-        emoji: '&#128012;',
+        photoUrl: 'https://images.pexels.com/photos/33744463/pexels-photo-33744463.jpeg?auto=compress&cs=tinysrgb&w=1200',
         type: 'snails',
         name: 'Giant Snails',
         quantity: 80,
@@ -149,7 +155,7 @@
       },
       {
         id: 3,
-        emoji: '&#128031;',
+        photoUrl: 'https://images.pexels.com/photos/31636077/pexels-photo-31636077.jpeg?auto=compress&cs=tinysrgb&w=1200',
         type: 'fish',
         name: 'Tilapia',
         quantity: 30,
@@ -164,7 +170,7 @@
       },
       {
         id: 4,
-        emoji: '&#128031;',
+        photoUrl: 'https://images.pexels.com/photos/35443147/pexels-photo-35443147.jpeg?auto=compress&cs=tinysrgb&w=1200',
         type: 'fish',
         name: 'Mackerel',
         quantity: 15,
@@ -179,7 +185,7 @@
       },
       {
         id: 5,
-        emoji: '&#128012;',
+        photoUrl: 'https://images.pexels.com/photos/33744461/pexels-photo-33744461.jpeg?auto=compress&cs=tinysrgb&w=1200',
         type: 'snails',
         name: 'Medium Snails',
         quantity: 50,
@@ -194,7 +200,7 @@
       },
       {
         id: 6,
-        emoji: '&#128031;',
+        photoUrl: 'https://images.pexels.com/photos/5673667/pexels-photo-5673667.jpeg?auto=compress&cs=tinysrgb&w=1200',
         type: 'fish',
         name: 'Catfish Bulk',
         quantity: 50,
@@ -204,6 +210,141 @@
         location: 'Badagry, Lagos',
         rating: 4.8,
         harvestedAt: hoursAgo(4),
+        near: true,
+        clusterEligible: true
+      },
+      {
+        id: 7,
+        photoUrl: 'https://images.pexels.com/photos/30681053/pexels-photo-30681053.jpeg?auto=compress&cs=tinysrgb&w=1200',
+        type: 'fish',
+        name: 'Smoked Catfish',
+        quantity: 12,
+        unit: 'kg',
+        pricePerUnit: 5600,
+        farm: 'Ajah Smokehouse',
+        location: 'Ajah, Lagos',
+        rating: 4.7,
+        harvestedAt: hoursAgo(5),
+        near: true,
+        clusterEligible: false
+      },
+      {
+        id: 8,
+        photoUrl: 'https://images.pexels.com/photos/33744462/pexels-photo-33744462.jpeg?auto=compress&cs=tinysrgb&w=1200',
+        type: 'snails',
+        name: 'Jumbo Snails',
+        quantity: 120,
+        unit: 'pieces',
+        pricePerUnit: 920,
+        farm: 'Remo Snail Ranch',
+        location: 'Shagamu, Ogun',
+        rating: 4.9,
+        harvestedAt: hoursAgo(3),
+        near: false,
+        clusterEligible: true
+      },
+      {
+        id: 9,
+        photoUrl: 'https://images.pexels.com/photos/1974189/pexels-photo-1974189.jpeg?auto=compress&cs=tinysrgb&w=1200',
+        type: 'fish',
+        name: 'Croaker Fish',
+        quantity: 18,
+        unit: 'kg',
+        pricePerUnit: 4700,
+        farm: 'Eko Fisheries',
+        location: 'Victoria Island, Lagos',
+        rating: 4.8,
+        harvestedAt: hoursAgo(6),
+        near: true,
+        clusterEligible: false
+      },
+      {
+        id: 10,
+        photoUrl: 'https://images.pexels.com/photos/28354860/pexels-photo-28354860.jpeg?auto=compress&cs=tinysrgb&w=1200',
+        type: 'fish',
+        name: 'Frozen Tilapia',
+        quantity: 40,
+        unit: 'kg',
+        pricePerUnit: 3500,
+        farm: 'Delta Aqua',
+        location: 'Warri, Delta',
+        rating: 4.4,
+        harvestedAt: hoursAgo(12),
+        near: false,
+        clusterEligible: true
+      },
+      {
+        id: 11,
+        photoUrl: 'https://images.pexels.com/photos/33744464/pexels-photo-33744464.jpeg?auto=compress&cs=tinysrgb&w=1200',
+        type: 'snails',
+        name: 'White Snails',
+        quantity: 70,
+        unit: 'pieces',
+        pricePerUnit: 780,
+        farm: 'Abeokuta Snails',
+        location: 'Abeokuta, Ogun',
+        rating: 4.6,
+        harvestedAt: hoursAgo(7),
+        near: false,
+        clusterEligible: true
+      },
+      {
+        id: 12,
+        photoUrl: 'https://images.pexels.com/photos/3296278/pexels-photo-3296278.jpeg?auto=compress&cs=tinysrgb&w=1200',
+        type: 'fish',
+        name: 'Mudfish',
+        quantity: 22,
+        unit: 'kg',
+        pricePerUnit: 4000,
+        farm: 'Ojo Fishpoint',
+        location: 'Ojo, Lagos',
+        rating: 4.5,
+        harvestedAt: hoursAgo(9),
+        near: true,
+        clusterEligible: true
+      },
+      {
+        id: 13,
+        photoUrl: 'https://images.pexels.com/photos/33744465/pexels-photo-33744465.jpeg?auto=compress&cs=tinysrgb&w=1200',
+        type: 'snails',
+        name: 'Snail Meat Pack',
+        quantity: 45,
+        unit: 'pieces',
+        pricePerUnit: 700,
+        farm: 'Green Shell Farm',
+        location: 'Sango Ota, Ogun',
+        rating: 4.7,
+        harvestedAt: hoursAgo(4),
+        near: false,
+        clusterEligible: true
+      },
+      {
+        id: 14,
+        photoUrl: 'https://images.pexels.com/photos/28354861/pexels-photo-28354861.jpeg?auto=compress&cs=tinysrgb&w=1200',
+        type: 'fish',
+        name: 'Sea Bass',
+        quantity: 16,
+        unit: 'kg',
+        pricePerUnit: 5300,
+        farm: 'Mainland Seafood',
+        location: 'Yaba, Lagos',
+        rating: 4.8,
+        harvestedAt: hoursAgo(2),
+        near: true,
+        clusterEligible: false
+      },
+      {
+        id: 15,
+        photoUrl: 'https://images.pexels.com/photos/11286899/pexels-photo-11286899.jpeg?auto=compress&cs=tinysrgb&w=1200',
+        type: 'fish',
+        name: 'Live Catfish Premium',
+        quantity: 25,
+        unit: 'kg',
+        pricePerUnit: 4500,
+        farm: 'Ikeja Aqua',
+        location: 'Ikeja, Lagos',
+        rating: 4.9,
+        harvestedAt: hoursAgo(1),
         near: true,
         clusterEligible: true
       }
@@ -218,11 +359,14 @@
     const state = {
       filter: 'all',
       search: '',
+      page: 1,
       delivery: 'pickup',
       cart: []
     };
+    const listingsPerPage = 8;
 
     const listingGrid = document.getElementById('listingGrid');
+    const listingPagination = document.getElementById('listingPagination');
     const searchInput = document.getElementById('marketSearch');
     const filterButtons = Array.from(document.querySelectorAll('#marketFilters .chip'));
 
@@ -292,34 +436,74 @@
       return state.cart.some(function (item) { return item.id === id; });
     }
 
+    function renderPagination(totalPages) {
+      if (!listingPagination) return;
+
+      if (totalPages <= 1) {
+        listingPagination.innerHTML = '';
+        return;
+      }
+
+      let pageButtons = '';
+      for (let page = 1; page <= totalPages; page += 1) {
+        pageButtons += '<button class="page-btn ' + (page === state.page ? 'active' : '') + '" type="button" data-page="' + page + '">' + page + '</button>';
+      }
+
+      listingPagination.innerHTML = '' +
+        '<button class="page-btn" type="button" data-page="' + (state.page - 1) + '"' + (state.page === 1 ? ' disabled' : '') + '>Prev</button>' +
+        pageButtons +
+        '<button class="page-btn" type="button" data-page="' + (state.page + 1) + '"' + (state.page === totalPages ? ' disabled' : '') + '>Next</button>';
+
+      listingPagination.querySelectorAll('[data-page]').forEach(function (button) {
+        button.addEventListener('click', function () {
+          const nextPage = Number(button.dataset.page);
+          if (!nextPage || nextPage === state.page) return;
+
+          state.page = Math.max(1, Math.min(totalPages, nextPage));
+          renderListings();
+          listingGrid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+      });
+    }
+
     function renderListings() {
       if (!listingGrid) return;
 
       const cards = filteredListings();
       if (!cards.length) {
         listingGrid.innerHTML = '<div class="card"><p class="helper-text">No listings matched your filter.</p></div>';
+        if (listingPagination) listingPagination.innerHTML = '';
         return;
       }
 
-      listingGrid.innerHTML = cards.map(function (item) {
+      const totalPages = Math.max(1, Math.ceil(cards.length / listingsPerPage));
+      state.page = Math.min(state.page, totalPages);
+      const startIndex = (state.page - 1) * listingsPerPage;
+      const pageCards = cards.slice(startIndex, startIndex + listingsPerPage);
+
+      listingGrid.innerHTML = pageCards.map(function (item) {
         const freshHours = getFreshHours(item);
         const freshLabel = freshHours + 'hr' + (freshHours > 1 ? 's' : '') + ' fresh';
         const total = listTotalPrice(item);
         const unitLabel = item.unit === 'pieces' ? 'pc' : 'kg';
+        const typeLabel = item.type === 'fish' ? 'Fish' : 'Snails';
 
         return '' +
           '<article class="listing-card">' +
-            '<div class="listing-top">' +
-              '<div class="emoji">' + item.emoji + '</div>' +
-              '<span class="freshness ' + freshnessClass(freshHours) + '">&#9201; ' + freshLabel + '</span>' +
+            '<div class="listing-media">' +
+              '<img class="listing-photo" src="' + item.photoUrl + '" alt="' + item.name + '" loading="lazy">' +
+              '<span class="listing-type-chip">' + typeLabel + '</span>' +
+              '<span class="freshness ' + freshnessClass(freshHours) + '"><img class="freshness-icon" src="' + uiIcons.fresh + '" alt="">' + freshLabel + '</span>' +
             '</div>' +
-            '<div class="listing-name">' + item.name + ' - ' + item.quantity + (item.unit === 'pieces' ? 'pcs' : 'kg') + '</div>' +
-            '<div class="listing-meta">&#128205; ' + item.location + ' &middot; ' + item.farm + '<br>&#11088; ' + item.rating.toFixed(1) + ' verified</div>' +
-            '<div class="listing-bottom">' +
-              '<div class="listing-price">' + formatNaira(total) + '<br><small>' + formatNaira(item.pricePerUnit) + '/' + unitLabel + '</small></div>' +
-              '<button class="btn-sm ' + (inCart(item.id) ? 'in-cart' : '') + '" data-add-cart="' + item.id + '" type="button">' +
-                (inCart(item.id) ? 'In Cart' : 'Add to Cart') +
-              '</button>' +
+            '<div class="listing-content">' +
+              '<div class="listing-name">' + item.name + ' - ' + item.quantity + (item.unit === 'pieces' ? 'pcs' : 'kg') + '</div>' +
+              '<div class="listing-meta"><img class="inline-icon" src="' + uiIcons.location + '" alt=""> ' + item.location + ' &middot; ' + item.farm + '<br><img class="inline-icon" src="' + uiIcons.star + '" alt=""> ' + item.rating.toFixed(1) + ' verified</div>' +
+              '<div class="listing-bottom">' +
+                '<div class="listing-price">' + formatNaira(total) + '<br><small>' + formatNaira(item.pricePerUnit) + '/' + unitLabel + '</small></div>' +
+                '<button class="btn-sm ' + (inCart(item.id) ? 'in-cart' : '') + '" data-add-cart="' + item.id + '" type="button">' +
+                  (inCart(item.id) ? 'In Cart' : 'Add to Cart') +
+                '</button>' +
+              '</div>' +
             '</div>' +
           '</article>';
       }).join('');
@@ -330,6 +514,8 @@
           addToCart(id);
         });
       });
+
+      renderPagination(totalPages);
     }
 
     function openCart() {
@@ -357,7 +543,7 @@
           name: listing.name,
           detail: listing.quantity + (listing.unit === 'pieces' ? 'pcs' : 'kg'),
           farm: listing.farm,
-          emoji: listing.emoji,
+          photoUrl: listing.photoUrl,
           price: listTotalPrice(listing),
           clusterEligible: listing.clusterEligible,
           qty: 1
@@ -410,7 +596,7 @@
           return '' +
             '<div class="cart-item">' +
               '<div>' +
-                '<div class="list-name">' + item.emoji + ' ' + item.name + ' - ' + item.detail + '</div>' +
+                '<div class="list-name cart-list-name"><img class="cart-item-thumb" src="' + item.photoUrl + '" alt=""><span>' + item.name + ' - ' + item.detail + '</span></div>' +
                 '<div class="list-meta">' + item.farm + '</div>' +
                 '<div class="qty-row">' +
                   '<button class="qty-btn" data-qty="-1" data-id="' + item.id + '" type="button">-</button>' +
@@ -457,6 +643,7 @@
     filterButtons.forEach(function (button) {
       button.addEventListener('click', function () {
         state.filter = button.dataset.filter || 'all';
+        state.page = 1;
         filterButtons.forEach(function (item) {
           item.classList.toggle('active', item === button);
         });
@@ -467,6 +654,7 @@
     if (searchInput) {
       searchInput.addEventListener('input', function () {
         state.search = searchInput.value || '';
+        state.page = 1;
         renderListings();
       });
     }

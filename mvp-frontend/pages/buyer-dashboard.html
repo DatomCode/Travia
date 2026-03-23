@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -14,7 +14,9 @@
       <div class="brand">Travia<span>.</span></div>
 
       <div class="profile-card">
-        <div class="avatar buyer">&#128105;&#8205;&#127859;</div>
+        <div class="avatar buyer">
+          <img src="https://api.iconify.design/lucide:user-round.svg?color=%23ffffff" alt="">
+        </div>
         <div>
           <div class="profile-name">Chidi Nwosu</div>
           <span class="role-chip">Buyer</span>
@@ -23,20 +25,43 @@
 
       <div class="nav-group-title">Marketplace</div>
       <nav class="nav-list">
-        <button class="nav-item active" data-tab="market" data-title="Buyer Marketplace">&#128722; Marketplace</button>
-        <button class="nav-item" data-tab="orders" data-title="My Orders">&#128230; My Orders <span class="nav-badge">2</span></button>
-        <button class="nav-item" data-tab="preorders" data-title="Pre-Orders">&#128467;&#65039; Pre-Orders</button>
-        <button class="nav-item" data-tab="favorites" data-title="Favourite Farms">&#10084;&#65039; Favourite Farms</button>
+        <button class="nav-item active" data-tab="market" data-title="Buyer Marketplace">
+          <img class="nav-icon" src="https://api.iconify.design/lucide:store.svg?color=%23c9ddd3" alt="">
+          <span>Marketplace</span>
+        </button>
+        <button class="nav-item" data-tab="orders" data-title="My Orders">
+          <img class="nav-icon" src="https://api.iconify.design/lucide:package-check.svg?color=%23c9ddd3" alt="">
+          <span>My Orders</span>
+          <span class="nav-badge">2</span>
+        </button>
+        <button class="nav-item" data-tab="preorders" data-title="Pre-Orders">
+          <img class="nav-icon" src="https://api.iconify.design/lucide:calendar-clock.svg?color=%23c9ddd3" alt="">
+          <span>Pre-Orders</span>
+        </button>
+        <button class="nav-item" data-tab="favorites" data-title="Favourite Farms">
+          <img class="nav-icon" src="https://api.iconify.design/lucide:heart.svg?color=%23c9ddd3" alt="">
+          <span>Favourite Farms</span>
+        </button>
       </nav>
 
       <div class="nav-group-title">Account</div>
       <nav class="nav-list">
-        <button class="nav-item" data-tab="profile" data-title="Buyer Profile">&#128100; My Profile</button>
-        <button class="nav-item" data-open-cart>&#128722; My Cart <span class="nav-badge" id="cartNavCount">0</span></button>
+        <button class="nav-item" data-tab="profile" data-title="Buyer Profile">
+          <img class="nav-icon" src="https://api.iconify.design/lucide:user-round-cog.svg?color=%23c9ddd3" alt="">
+          <span>My Profile</span>
+        </button>
+        <button class="nav-item" data-open-cart>
+          <img class="nav-icon" src="https://api.iconify.design/lucide:shopping-cart.svg?color=%23c9ddd3" alt="">
+          <span>My Cart</span>
+          <span class="nav-badge" id="cartNavCount">0</span>
+        </button>
       </nav>
 
       <div class="sidebar-foot">
-        <button class="signout" type="button">&#128682; Sign Out</button>
+        <button class="signout" type="button">
+          <img class="signout-icon" src="https://api.iconify.design/lucide:log-out.svg?color=%239ec0af" alt="">
+          <span>Sign Out</span>
+        </button>
       </div>
     </aside>
 
@@ -52,11 +77,11 @@
 
         <div class="topbar-actions">
           <button class="icon-btn" type="button" aria-label="Notifications">
-            &#128276;
+            <img src="https://api.iconify.design/lucide:bell.svg?color=%23d1e2da" alt="">
             <span class="icon-dot"></span>
           </button>
           <button class="icon-btn cart" type="button" data-open-cart aria-label="Open cart">
-            &#128722;
+            <img src="https://api.iconify.design/lucide:shopping-bag.svg?color=%23f7e9e1" alt="">
             <span class="icon-count" id="cartTopCount">0</span>
           </button>
           <button class="btn btn-e" type="button" data-tab-trigger="preorders">Pre-Order</button>
@@ -68,21 +93,72 @@
           <h2 class="section-title">Marketplace</h2>
           <p class="helper-text">Freshness timer, verified farms, and transparent logistics pricing.</p>
 
+          <article class="market-hero">
+            <div class="market-hero-grid">
+              <div>
+                <p class="market-hero-tag">Curated For Buyers</p>
+                <h3 class="market-hero-title">Direct farm supply with freshness and logistics in one checkout.</h3>
+                <p class="market-hero-note">Order verified catfish and snails with fast delivery windows and transparent pricing.</p>
+              </div>
+              <img class="market-hero-image" src="https://images.pexels.com/photos/5673667/pexels-photo-5673667.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Fresh seafood market">
+            </div>
+          </article>
+
+          <div class="buyer-insights">
+            <article class="insight-card">
+              <div class="insight-head">
+                <img class="insight-icon" src="https://api.iconify.design/lucide:truck.svg?color=%23f6b18e" alt="">
+                <span class="insight-label">Fastest Delivery</span>
+              </div>
+              <div class="insight-value">2 hrs average</div>
+            </article>
+            <article class="insight-card">
+              <div class="insight-head">
+                <img class="insight-icon" src="https://api.iconify.design/lucide:shield-check.svg?color=%2399e4bb" alt="">
+                <span class="insight-label">Verified Sellers</span>
+              </div>
+              <div class="insight-value">97% trust score</div>
+            </article>
+            <article class="insight-card">
+              <div class="insight-head">
+                <img class="insight-icon" src="https://api.iconify.design/lucide:wallet.svg?color=%23f4d28c" alt="">
+                <span class="insight-label">Smart Spending</span>
+              </div>
+              <div class="insight-value">Save up to 18%</div>
+            </article>
+          </div>
+
           <div class="search-wrap" style="margin-top: 0.8rem;">
-            <span>&#128269;</span>
+            <img class="search-icon" src="https://api.iconify.design/lucide:search.svg?color=%23a7c2b4" alt="">
             <input id="marketSearch" type="search" placeholder="Search fish, snails, location, or farm name">
           </div>
 
           <div class="filter-row" id="marketFilters">
             <button class="chip active" type="button" data-filter="all">All</button>
-            <button class="chip" type="button" data-filter="fish">&#128031; Fish</button>
-            <button class="chip" type="button" data-filter="snails">&#128012; Snails</button>
-            <button class="chip" type="button" data-filter="near">&#128205; Near Me</button>
-            <button class="chip" type="button" data-filter="freshest">&#9201; Freshest</button>
-            <button class="chip" type="button" data-filter="top">&#11088; Top Rated</button>
+            <button class="chip" type="button" data-filter="fish">
+              <img class="chip-icon" src="https://api.iconify.design/mdi:fish.svg?color=%23b8d4c6" alt="">
+              <span>Fish</span>
+            </button>
+            <button class="chip" type="button" data-filter="snails">
+              <img class="chip-icon" src="https://api.iconify.design/game-icons:snail.svg?color=%23b8d4c6" alt="">
+              <span>Snails</span>
+            </button>
+            <button class="chip" type="button" data-filter="near">
+              <img class="chip-icon" src="https://api.iconify.design/lucide:map-pin.svg?color=%23b8d4c6" alt="">
+              <span>Near Me</span>
+            </button>
+            <button class="chip" type="button" data-filter="freshest">
+              <img class="chip-icon" src="https://api.iconify.design/lucide:timer.svg?color=%23b8d4c6" alt="">
+              <span>Freshest</span>
+            </button>
+            <button class="chip" type="button" data-filter="top">
+              <img class="chip-icon" src="https://api.iconify.design/lucide:star.svg?color=%23b8d4c6" alt="">
+              <span>Top Rated</span>
+            </button>
           </div>
 
           <div class="listing-grid" id="listingGrid"></div>
+          <div class="pagination-wrap" id="listingPagination" aria-label="Marketplace pagination"></div>
         </section>
 
         <section class="tab-panel" id="tab-orders">
@@ -148,13 +224,23 @@
           <div class="listing-grid">
             <article class="listing-card">
               <div class="listing-name">Emeka's Fish Farm</div>
-              <div class="listing-meta">&#128205; Ikorodu &middot; &#11088; 4.8 &middot; 3 active listings</div>
+              <div class="listing-meta">
+                <img class="inline-icon" src="https://api.iconify.design/lucide:map-pin.svg?color=%23a7c2b4" alt=""> Ikorodu
+                &middot;
+                <img class="inline-icon" src="https://api.iconify.design/lucide:star.svg?color=%23f0ca7a" alt=""> 4.8
+                &middot; 3 active listings
+              </div>
               <button class="btn-sm" type="button" data-toast="Opening farm profile">View Farm</button>
             </article>
 
             <article class="listing-card">
               <div class="listing-name">Ade Snail Farm</div>
-              <div class="listing-meta">&#128205; Ikorodu &middot; &#11088; 4.9 &middot; 2 active listings</div>
+              <div class="listing-meta">
+                <img class="inline-icon" src="https://api.iconify.design/lucide:map-pin.svg?color=%23a7c2b4" alt=""> Ikorodu
+                &middot;
+                <img class="inline-icon" src="https://api.iconify.design/lucide:star.svg?color=%23f0ca7a" alt=""> 4.9
+                &middot; 2 active listings
+              </div>
               <button class="btn-sm" type="button" data-toast="Opening farm profile">View Farm</button>
             </article>
           </div>
