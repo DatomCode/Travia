@@ -76,7 +76,7 @@ box-shadow: 0 4px 15px rgba(232, 106, 51, 0.3);
 display: none;
 }
 .phone {
-width: 320px; height: 640px;
+width: 320px; height: 450px;
 background: #0a1f16;
 border-radius: 44px;
 border: 8px solid #1a3328;
@@ -285,13 +285,12 @@ margin-top: 60px;
 display: flex;
 align-items: center;
 gap: 60px;
-opacity: 0;
 transform: translateY(40px);
 transition: all 0.8s ease-out;
 }
 
 /* Scroll Reveal Trigger Class */
-.feature-row.reveal-visible {
+.feature-row.active {
 opacity: 1;
 transform: translateY(0);
 }
@@ -399,7 +398,7 @@ color: var(--forest);
 border-color: var(--mint);
 }
 .audience-section  {
-margin-top: 100px;
+margin-top: 150px;
 }
 
 .audience-grid {
@@ -618,7 +617,7 @@ animation-play-state: paused;
 @media (min-width: 992px) {
 .hero-grid { grid-template-columns: 1.2fr 0.8fr; }
 .nav-links { display: flex; }
-.phone { width: 340px; height: 680px; }
+.phone { width: 340px; height: 500px; }
 }
 
 @media (max-width: 768px) {
