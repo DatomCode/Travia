@@ -69,3 +69,103 @@
             document.querySelectorAll('.select-options').forEach(el => el.classList.remove('show'));
         }
     }
+function switchContact(type) {
+    const emailWrap = document.getElementById('email-input-wrap');
+    const phoneWrap = document.getElementById('phone-input-wrap');
+    const emailTab = document.getElementById('tab-email');
+    const phoneTab = document.getElementById('tab-phone');
+
+    if (type === 'email') {
+        emailWrap.style.display = 'block';
+        phoneWrap.style.display = 'none';
+        emailTab.style.background = 'rgba(255,255,255,0.1)';
+        emailTab.style.color = 'white';
+        phoneTab.style.background = 'transparent';
+        phoneTab.style.color = 'rgba(245,238,216,0.4)';
+    } else {
+        emailWrap.style.display = 'none';
+        phoneWrap.style.display = 'block';
+        phoneTab.style.background = 'rgba(255,255,255,0.1)';
+        phoneTab.style.color = 'white';
+        emailTab.style.background = 'transparent';
+        emailTab.style.color = 'rgba(245,238,216,0.4)';
+    }
+}
+
+function validateAndContinue() {
+    const name = document.getElementById('fullName').value;
+    const email = document.getElementById('userEmail').value;
+    const phone = document.getElementById('userPhone').value;
+    
+    // Basic check: Name must exist, and EITHER email or phone must have a value
+    if (!name) {
+        alert("Please enter your full name.");
+        return;
+    }
+    
+    if (!email && !phone) {
+        alert("Please provide either an email address or a phone number.");
+        return;
+    }
+
+    nextStep('step-details');
+}
+function showToast(message, type = 'error') {
+    const container = document.getElementById('toast-wrapper');
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    
+    // Choose icon based on type
+    const icon = type === 'success' ? 'check-circle' : (type === 'warning' ? 'alert-triangle' : 'x-circle');
+    
+    toast.innerHTML = `
+        <i data-lucide="${icon}" size="18"></i>
+        <span>${message}</span>
+    `;
+    
+    container.appendChild(toast);
+    lucide.createIcons();
+
+    setTimeout(() => {
+        toast.classList.add('fade-out');
+        setTimeout(() => toast.remove(), 300);
+    }, 4000);
+}
+
+// Update your validation function to use this:
+function validateAndContinue() {
+    const name = document.getElementById('fullName').value;
+    const email = document.getElementById('userEmail').value;
+    const phone = document.getElementById('userPhone').value;
+    
+    if (!name) {
+        showToast("Please enter your full name", "error");
+        return;
+    }
+    
+    if (!email && !phone) {
+        showToast("Provide an email or phone number", "warning");
+        return;
+    }
+
+    nextStep('step-details');
+}
+    function handleReset() {
+        const email = document.getElementById('resetEmail').value;
+        if (!email) {
+            showToast("Please enter your email address", "error");
+            return;
+        }
+
+        // Simulate API call
+        document.getElementById('reset-form-container').style.display = 'none';
+        document.getElementById('reset-success').style.display = 'block';
+        document.getElementById('sent-to').textContent = email;
+        
+        showToast("Reset link sent successfully!", "success");
+        lucide.createIcons();
+    }
+function handleGoogleSignIn() {
+    console.log("Google Sign-In Triggered");
+    // Integrate Google Auth logic here
+}
