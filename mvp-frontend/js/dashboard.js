@@ -13,6 +13,133 @@
     return Date.now() - (hours * 60 * 60 * 1000);
   }
 
+  const SHARED_MARKETPLACE_KEY = 'travia_shared_marketplace_listings_v1';
+  const FARMER_DISPLAY_NAME = "Emeka's Fish & Snail Farm";
+
+  function escapeHtml(value) {
+    return String(value == null ? '' : value)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
+  function inferListingType(name, unit, declaredType) {
+    const explicitType = (declaredType || '').toLowerCase();
+    if (explicitType === 'fish' || explicitType === 'snails') {
+      return explicitType;
+    }
+
+    const loweredName = (name || '').toLowerCase();
+    if (loweredName.includes('snail') || unit === 'pieces') {
+      return 'snails';
+    }
+    return 'fish';
+  }
+
+  function defaultListingPhoto(name) {
+    const loweredName = (name || '').toLowerCase();
+    if (loweredName.includes('snail')) {
+      return 'https://images.pexels.com/photos/33744462/pexels-photo-33744462.jpeg?auto=compress&cs=tinysrgb&w=1200';
+    }
+    if (loweredName.includes('tilapia')) {
+      return 'https://images.pexels.com/photos/31636077/pexels-photo-31636077.jpeg?auto=compress&cs=tinysrgb&w=1200';
+    }
+    if (loweredName.includes('mackerel')) {
+      return 'https://images.pexels.com/photos/35443147/pexels-photo-35443147.jpeg?auto=compress&cs=tinysrgb&w=1200';
+    }
+    return 'https://images.pexels.com/photos/10112470/pexels-photo-10112470.jpeg?auto=compress&cs=tinysrgb&w=1200';
+  }
+
+  function normalizeMarketplaceListing(item) {
+    if (!item || typeof item !== 'object') return null;
+
+    const name = String(item.name || '').trim();
+    if (!name) return null;
+
+    const quantity = Math.max(1, Number(item.quantity) || 1);
+    const unit = item.unit === 'pieces' ? 'pieces' : 'kg';
+    const pricePerUnit = Math.max(1, Number(item.pricePerUnit) || 1);
+    const harvestedAt = Number(item.harvestedAt) || Date.now();
+    const location = String(item.location || 'Lagos').trim() || 'Lagos';
+    const description = String(item.description || '').trim();
+    const farm = String(item.farm || FARMER_DISPLAY_NAME).trim() || FARMER_DISPLAY_NAME;
+    const type = inferListingType(name, unit, item.type);
+    const normalizedPhoto = String(item.photoUrl || '').trim() || defaultListingPhoto(name);
+    const rating = Math.max(3.5, Math.min(5, Number(item.rating) || 4.8));
+    const loweredLocation = location.toLowerCase();
+    const near = typeof item.near === 'boolean'
+      ? item.near
+      : loweredLocation.includes('lagos') || loweredLocation.includes('ikorodu') || loweredLocation.includes('epe');
+
+    return {
+      id: Number(item.id) || (Date.now() + Math.floor(Math.random() * 1000)),
+      photoUrl: normalizedPhoto,
+      type: type,
+      name: name,
+      quantity: quantity,
+      unit: unit,
+      pricePerUnit: pricePerUnit,
+      farm: farm,
+      location: location,
+      rating: rating,
+      harvestedAt: harvestedAt,
+      near: near,
+      clusterEligible: item.clusterEligible !== false,
+      description: description
+    };
+  }
+
+  function loadSharedMarketplaceListings() {
+    if (typeof window === 'undefined' || !window.localStorage) return [];
+
+    try {
+      const raw = window.localStorage.getItem(SHARED_MARKETPLACE_KEY);
+      if (!raw) return [];
+
+      const parsed = JSON.parse(raw);
+      if (!Array.isArray(parsed)) return [];
+
+      return parsed.map(normalizeMarketplaceListing).filter(Boolean);
+    } catch (error) {
+      return [];
+    }
+  }
+
+  function saveSharedMarketplaceListings(listings) {
+    if (typeof window === 'undefined' || !window.localStorage) return;
+
+    try {
+      const safeListings = (Array.isArray(listings) ? listings : [])
+        .map(normalizeMarketplaceListing)
+        .filter(Boolean)
+        .slice(0, 12);
+
+      window.localStorage.setItem(SHARED_MARKETPLACE_KEY, JSON.stringify(safeListings));
+    } catch (error) {
+      return;
+    }
+  }
+
+  function readImageAsDataUrl(file) {
+    return new Promise(function (resolve, reject) {
+      if (!file) {
+        reject(new Error('No file selected'));
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = function () {
+        resolve(String(reader.result || ''));
+      };
+      reader.onerror = function () {
+        reject(new Error('Unable to read file'));
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
   let toastTimer = null;
 
   function showToast(message) {
@@ -350,6 +477,13 @@
       }
     ];
 
+    const sharedListings = loadSharedMarketplaceListings();
+    if (sharedListings.length) {
+      sharedListings.slice().reverse().forEach(function (item) {
+        listings.unshift(item);
+      });
+    }
+
     const deliveryFees = {
       pickup: 0,
       kwik: 1500,
@@ -360,8 +494,42 @@
       filter: 'all',
       search: '',
       page: 1,
-      delivery: 'pickup',
-      cart: []
+      cart: [],
+      activeProductId: null,
+      detailBackTab: 'market',
+      checkout: {
+        delivery: 'pickup',
+        payment: 'paystack',
+        location: ''
+      },
+      orders: [
+        {
+          id: 'ORD-2401',
+          listingId: 1,
+          itemName: 'Catfish',
+          quantityLabel: '10kg',
+          farm: "Emeka's Farm",
+          photoUrl: 'https://images.pexels.com/photos/10112470/pexels-photo-10112470.jpeg?auto=compress&cs=tinysrgb&w=1200',
+          amount: 42000,
+          deliveryMethod: 'Kwik Delivery',
+          eta: '24hrs minimum',
+          dateLabel: 'Today',
+          status: 'In Transit'
+        },
+        {
+          id: 'ORD-2400',
+          listingId: 2,
+          itemName: 'Giant Snails',
+          quantityLabel: '30pcs',
+          farm: 'Ade Snail Farm',
+          photoUrl: 'https://images.pexels.com/photos/33744463/pexels-photo-33744463.jpeg?auto=compress&cs=tinysrgb&w=1200',
+          amount: 25500,
+          deliveryMethod: 'Self Pickup',
+          eta: '24hrs minimum',
+          dateLabel: 'Yesterday',
+          status: 'Delivered'
+        }
+      ]
     };
     const listingsPerPage = 8;
 
@@ -369,24 +537,70 @@
     const listingPagination = document.getElementById('listingPagination');
     const searchInput = document.getElementById('marketSearch');
     const filterButtons = Array.from(document.querySelectorAll('#marketFilters .chip'));
+    const buyerOrderRows = document.getElementById('buyerOrderRows');
+    const profileShortcut = document.querySelector('.profile-shortcut');
+    const profileEditBtn = document.querySelector('[data-profile-edit]');
+    const buyerFullNameInput = document.getElementById('buyerFullName');
+
+    const detailPhoto = document.getElementById('detailPhoto');
+    const detailName = document.getElementById('detailName');
+    const detailMeta = document.getElementById('detailMeta');
+    const detailDescription = document.getElementById('detailDescription');
+    const detailPrice = document.getElementById('detailPrice');
+    const detailRating = document.getElementById('detailRating');
+    const detailReviews = document.getElementById('detailReviews');
+    const detailBackBtn = document.getElementById('detailBackBtn');
+    const detailAddToCartBtn = document.getElementById('detailAddToCartBtn');
 
     const cartOverlay = document.getElementById('cartOverlay');
     const cartDrawer = document.getElementById('cartDrawer');
     const cartItems = document.getElementById('cartItems');
     const cartEmpty = document.getElementById('cartEmpty');
     const cartFoot = document.getElementById('cartFoot');
-    const deliveryBlock = document.getElementById('deliveryBlock');
     const cartCountBadge = document.getElementById('cartCountBadge');
     const cartTopCount = document.getElementById('cartTopCount');
     const cartNavCount = document.getElementById('cartNavCount');
 
     const cartSubtotal = document.getElementById('cartSubtotal');
-    const cartDelivery = document.getElementById('cartDelivery');
-    const cartService = document.getElementById('cartService');
-    const cartTotal = document.getElementById('cartTotal');
-
     const checkoutBtn = document.getElementById('checkoutBtn');
     const clearCartBtn = document.getElementById('clearCartBtn');
+
+    const orderModal = document.getElementById('orderModal');
+    const orderDeliveryMethod = document.getElementById('orderDeliveryMethod');
+    const orderPaymentMethod = document.getElementById('orderPaymentMethod');
+    const orderDeliveryLocation = document.getElementById('orderDeliveryLocation');
+    const orderSubtotal = document.getElementById('orderSubtotal');
+    const orderDeliveryFee = document.getElementById('orderDeliveryFee');
+    const orderTotal = document.getElementById('orderTotal');
+    const confirmOrderBtn = document.getElementById('confirmOrderBtn');
+
+    const descriptionLibrary = {
+      fish: 'Freshly harvested and quality-checked for restaurant-grade supply.',
+      snails: 'Healthy, sorted snails ready for immediate prep and commercial use.'
+    };
+
+    function defaultDescriptionFor(listing) {
+      if (listing.description) return listing.description;
+      return listing.type === 'snails' ? descriptionLibrary.snails : descriptionLibrary.fish;
+    }
+
+    function defaultReviewsFor(listing) {
+      const name = listing.name || 'Product';
+      return [
+        { author: 'Chef Adebayo', rating: 5, comment: name + ' arrived very fresh and clean.' },
+        { author: 'Mimi Kitchen', rating: 4.8, comment: 'Reliable quality and accurate weights.' },
+        { author: 'Hotel Supply Team', rating: 4.7, comment: 'Packaging and handover were professional.' }
+      ];
+    }
+
+    listings.forEach(function (listing) {
+      if (!listing.description) {
+        listing.description = defaultDescriptionFor(listing);
+      }
+      if (!Array.isArray(listing.reviews)) {
+        listing.reviews = defaultReviewsFor(listing);
+      }
+    });
 
     function getFreshHours(listing) {
       return Math.max(1, Math.floor((Date.now() - listing.harvestedAt) / (60 * 60 * 1000)));
@@ -400,6 +614,35 @@
 
     function listTotalPrice(listing) {
       return listing.quantity * listing.pricePerUnit;
+    }
+
+    function cartSubtotalValue() {
+      return state.cart.reduce(function (sum, item) {
+        return sum + item.price;
+      }, 0);
+    }
+
+    function deliveryLabel(method) {
+      if (method === 'kwik') return 'Kwik Delivery';
+      if (method === 'cluster') return 'Farm Cluster';
+      return 'Self Pickup';
+    }
+
+    function statusBadge(status) {
+      if (status === 'Delivered') return '<span class="badge badge-done">Delivered</span>';
+      if (status === 'In Transit') return '<span class="badge badge-transit">In Transit</span>';
+      if (status === 'Pending') return '<span class="badge badge-transit">Pending</span>';
+      return '<span class="badge badge-done">' + escapeHtml(status) + '</span>';
+    }
+
+    function getListingById(id) {
+      return listings.find(function (item) { return item.id === id; }) || null;
+    }
+
+    function listingReviews(listing) {
+      return Array.isArray(listing.reviews) && listing.reviews.length
+        ? listing.reviews
+        : defaultReviewsFor(listing);
     }
 
     function filteredListings() {
@@ -424,7 +667,7 @@
 
       if (searchValue) {
         output = output.filter(function (item) {
-          const haystack = [item.name, item.farm, item.location, item.type].join(' ').toLowerCase();
+          const haystack = [item.name, item.farm, item.location, item.type, item.description || ''].join(' ').toLowerCase();
           return haystack.includes(searchValue);
         });
       }
@@ -434,6 +677,85 @@
 
     function inCart(id) {
       return state.cart.some(function (item) { return item.id === id; });
+    }
+
+    function renderProductDetail(productId) {
+      const listing = getListingById(productId);
+      if (!listing) return;
+
+      state.activeProductId = listing.id;
+
+      if (detailPhoto) {
+        detailPhoto.src = listing.photoUrl;
+        detailPhoto.alt = listing.name;
+      }
+      if (detailName) {
+        detailName.textContent = listing.name + ' - ' + listing.quantity + (listing.unit === 'pieces' ? 'pcs' : 'kg');
+      }
+      if (detailMeta) {
+        detailMeta.textContent = listing.farm + ' | ' + listing.location;
+      }
+      if (detailDescription) {
+        detailDescription.textContent = listing.description || defaultDescriptionFor(listing);
+      }
+      if (detailPrice) {
+        detailPrice.textContent = formatNaira(listTotalPrice(listing)) + ' total (' + formatNaira(listing.pricePerUnit) + '/' + (listing.unit === 'pieces' ? 'pc' : 'kg') + ')';
+      }
+      if (detailRating) {
+        detailRating.textContent = 'Rating: ' + listing.rating.toFixed(1) + '/5';
+      }
+      if (detailReviews) {
+        detailReviews.innerHTML = listingReviews(listing).map(function (review) {
+          return '' +
+            '<article class="review-item">' +
+              '<div class="review-head"><strong>' + escapeHtml(review.author) + '</strong><span>' + Number(review.rating).toFixed(1) + '/5</span></div>' +
+              '<p class="review-body">' + escapeHtml(review.comment) + '</p>' +
+            '</article>';
+        }).join('');
+      }
+      if (detailAddToCartBtn) {
+        detailAddToCartBtn.textContent = inCart(listing.id) ? 'Added to Cart' : 'Add to Cart';
+        detailAddToCartBtn.classList.toggle('btn-ghost', inCart(listing.id));
+        detailAddToCartBtn.classList.toggle('btn-e', !inCart(listing.id));
+      }
+    }
+
+    function openProductDetail(productId, backTab) {
+      if (!productId || !setTab) return;
+      state.detailBackTab = backTab || 'market';
+      renderProductDetail(productId);
+      setTab('product-detail');
+
+      const topbarTitle = document.getElementById('topbarTitle');
+      if (topbarTitle) {
+        topbarTitle.textContent = 'Product Detail';
+      }
+    }
+
+    function renderOrderHistory() {
+      if (!buyerOrderRows) return;
+
+      buyerOrderRows.innerHTML = state.orders.map(function (order) {
+        return '' +
+          '<tr>' +
+            '<td>' +
+              '<button class="order-product-link" type="button" data-order-product="' + order.listingId + '">' +
+                '<img class="order-thumb" src="' + escapeHtml(order.photoUrl) + '" alt="' + escapeHtml(order.itemName) + '">' +
+                '<span>' + escapeHtml(order.itemName) + ' (' + escapeHtml(order.quantityLabel) + ')</span>' +
+              '</button>' +
+            '</td>' +
+            '<td>' + escapeHtml(order.dateLabel) + ' | ' + escapeHtml(order.farm) + '</td>' +
+            '<td>' + escapeHtml(order.deliveryMethod) + ' | ETA ' + escapeHtml(order.eta) + '</td>' +
+            '<td class="money">' + formatNaira(order.amount) + '</td>' +
+            '<td>' + statusBadge(order.status) + '</td>' +
+          '</tr>';
+      }).join('');
+
+      buyerOrderRows.querySelectorAll('[data-order-product]').forEach(function (button) {
+        button.addEventListener('click', function () {
+          openProductDetail(Number(button.dataset.orderProduct), 'orders');
+        });
+      });
     }
 
     function renderPagination(totalPages) {
@@ -487,17 +809,28 @@
         const total = listTotalPrice(item);
         const unitLabel = item.unit === 'pieces' ? 'pc' : 'kg';
         const typeLabel = item.type === 'fish' ? 'Fish' : 'Snails';
+        const safeName = escapeHtml(item.name);
+        const safeLocation = escapeHtml(item.location);
+        const safeFarm = escapeHtml(item.farm);
+        const safePhotoUrl = escapeHtml(item.photoUrl);
+        const safeDescription = escapeHtml(item.description || '');
+        const descriptionHtml = safeDescription ? '<div class="listing-description">' + safeDescription + '</div>' : '';
 
         return '' +
           '<article class="listing-card">' +
-            '<div class="listing-media">' +
-              '<img class="listing-photo" src="' + item.photoUrl + '" alt="' + item.name + '" loading="lazy">' +
-              '<span class="listing-type-chip">' + typeLabel + '</span>' +
-              '<span class="freshness ' + freshnessClass(freshHours) + '"><img class="freshness-icon" src="' + uiIcons.fresh + '" alt="">' + freshLabel + '</span>' +
-            '</div>' +
+            '<button class="listing-link" type="button" data-open-product="' + item.id + '">' +
+              '<div class="listing-media">' +
+                '<img class="listing-photo" src="' + safePhotoUrl + '" alt="' + safeName + '" loading="lazy">' +
+                '<span class="listing-type-chip">' + typeLabel + '</span>' +
+                '<span class="freshness ' + freshnessClass(freshHours) + '"><img class="freshness-icon" src="' + uiIcons.fresh + '" alt="">' + freshLabel + '</span>' +
+              '</div>' +
+            '</button>' +
             '<div class="listing-content">' +
-              '<div class="listing-name">' + item.name + ' - ' + item.quantity + (item.unit === 'pieces' ? 'pcs' : 'kg') + '</div>' +
-              '<div class="listing-meta"><img class="inline-icon" src="' + uiIcons.location + '" alt=""> ' + item.location + ' &middot; ' + item.farm + '<br><img class="inline-icon" src="' + uiIcons.star + '" alt=""> ' + item.rating.toFixed(1) + ' verified</div>' +
+              '<button class="listing-link listing-name-link" type="button" data-open-product="' + item.id + '">' +
+                '<span class="listing-name">' + safeName + ' - ' + item.quantity + (item.unit === 'pieces' ? 'pcs' : 'kg') + '</span>' +
+              '</button>' +
+              '<div class="listing-meta"><img class="inline-icon" src="' + uiIcons.location + '" alt=""> ' + safeLocation + ' &middot; ' + safeFarm + '<br><img class="inline-icon" src="' + uiIcons.star + '" alt=""> ' + item.rating.toFixed(1) + ' verified</div>' +
+              descriptionHtml +
               '<div class="listing-bottom">' +
                 '<div class="listing-price">' + formatNaira(total) + '<br><small>' + formatNaira(item.pricePerUnit) + '/' + unitLabel + '</small></div>' +
                 '<button class="btn-sm ' + (inCart(item.id) ? 'in-cart' : '') + '" data-add-cart="' + item.id + '" type="button">' +
@@ -512,6 +845,12 @@
         button.addEventListener('click', function () {
           const id = Number(button.dataset.addCart);
           addToCart(id);
+        });
+      });
+
+      listingGrid.querySelectorAll('[data-open-product]').forEach(function (button) {
+        button.addEventListener('click', function () {
+          openProductDetail(Number(button.dataset.openProduct), 'market');
         });
       });
 
@@ -531,57 +870,40 @@
     }
 
     function addToCart(id) {
-      const listing = listings.find(function (item) { return item.id === id; });
+      const listing = getListingById(id);
       if (!listing) return;
 
-      const existing = state.cart.find(function (item) { return item.id === id; });
-      if (existing) {
-        existing.qty += 1;
-      } else {
-        state.cart.push({
-          id: listing.id,
-          name: listing.name,
-          detail: listing.quantity + (listing.unit === 'pieces' ? 'pcs' : 'kg'),
-          farm: listing.farm,
-          photoUrl: listing.photoUrl,
-          price: listTotalPrice(listing),
-          clusterEligible: listing.clusterEligible,
-          qty: 1
-        });
+      if (inCart(id)) {
+        showToast(listing.name + ' is already in cart');
+        openCart();
+        return;
       }
+
+      state.cart.push({
+        id: listing.id,
+        name: listing.name,
+        detail: listing.quantity + (listing.unit === 'pieces' ? 'pcs' : 'kg'),
+        farm: listing.farm,
+        photoUrl: listing.photoUrl,
+        price: listTotalPrice(listing)
+      });
 
       updateCart();
       renderListings();
+      renderProductDetail(state.activeProductId);
       openCart();
       showToast(listing.name + ' added to cart');
     }
 
-    function changeQty(id, delta) {
-      const item = state.cart.find(function (entry) { return entry.id === id; });
-      if (!item) return;
-
-      item.qty += delta;
-      if (item.qty <= 0) {
-        state.cart = state.cart.filter(function (entry) { return entry.id !== id; });
-      }
-
+    function removeFromCart(id) {
+      state.cart = state.cart.filter(function (item) { return item.id !== id; });
       updateCart();
       renderListings();
-    }
-
-    function setDelivery(method) {
-      state.delivery = method;
-      document.querySelectorAll('.delivery-btn').forEach(function (button) {
-        button.classList.toggle('active', button.dataset.delivery === method);
-      });
-      updateCart();
+      renderProductDetail(state.activeProductId);
     }
 
     function updateCart() {
-      const totalItems = state.cart.reduce(function (sum, item) {
-        return sum + item.qty;
-      }, 0);
-
+      const totalItems = state.cart.length;
       if (cartTopCount) cartTopCount.textContent = String(totalItems);
       if (cartNavCount) cartNavCount.textContent = String(totalItems);
       if (cartCountBadge) cartCountBadge.textContent = totalItems + ' item' + (totalItems === 1 ? '' : 's');
@@ -589,55 +911,110 @@
       const isEmpty = state.cart.length === 0;
       if (cartEmpty) cartEmpty.style.display = isEmpty ? 'block' : 'none';
       if (cartFoot) cartFoot.style.display = isEmpty ? 'none' : 'block';
-      if (deliveryBlock) deliveryBlock.style.display = isEmpty ? 'none' : 'block';
 
       if (cartItems) {
         cartItems.innerHTML = state.cart.map(function (item) {
           return '' +
             '<div class="cart-item">' +
               '<div>' +
-                '<div class="list-name cart-list-name"><img class="cart-item-thumb" src="' + item.photoUrl + '" alt=""><span>' + item.name + ' - ' + item.detail + '</span></div>' +
-                '<div class="list-meta">' + item.farm + '</div>' +
-                '<div class="qty-row">' +
-                  '<button class="qty-btn" data-qty="-1" data-id="' + item.id + '" type="button">-</button>' +
-                  '<span class="money">' + item.qty + '</span>' +
-                  '<button class="qty-btn" data-qty="1" data-id="' + item.id + '" type="button">+</button>' +
-                '</div>' +
+                '<div class="list-name cart-list-name"><img class="cart-item-thumb" src="' + escapeHtml(item.photoUrl) + '" alt=""><span>' + escapeHtml(item.name) + ' - ' + escapeHtml(item.detail) + '</span></div>' +
+                '<div class="list-meta">' + escapeHtml(item.farm) + '</div>' +
               '</div>' +
               '<div class="value-col">' +
-                '<div class="value-main">' + formatNaira(item.price * item.qty) + '</div>' +
+                '<div class="value-main">' + formatNaira(item.price) + '</div>' +
+                '<button class="link-btn" data-cart-view="' + item.id + '" type="button">View</button>' +
                 '<button class="link-btn" data-remove="' + item.id + '" type="button">Remove</button>' +
               '</div>' +
             '</div>';
         }).join('');
 
-        cartItems.querySelectorAll('[data-qty]').forEach(function (button) {
+        cartItems.querySelectorAll('[data-remove]').forEach(function (button) {
           button.addEventListener('click', function () {
-            const id = Number(button.dataset.id);
-            const delta = Number(button.dataset.qty);
-            changeQty(id, delta);
+            removeFromCart(Number(button.dataset.remove));
           });
         });
 
-        cartItems.querySelectorAll('[data-remove]').forEach(function (button) {
+        cartItems.querySelectorAll('[data-cart-view]').forEach(function (button) {
           button.addEventListener('click', function () {
-            changeQty(Number(button.dataset.remove), -999);
+            closeCart();
+            openProductDetail(Number(button.dataset.cartView), 'market');
           });
         });
       }
 
-      const subtotal = state.cart.reduce(function (sum, item) {
-        return sum + (item.price * item.qty);
-      }, 0);
+      if (cartSubtotal) cartSubtotal.textContent = formatNaira(cartSubtotalValue());
+      renderOrderSummary();
+    }
 
-      const deliveryFee = deliveryFees[state.delivery] || 0;
-      const serviceFee = Math.round(subtotal * 0.04);
-      const total = subtotal + deliveryFee + serviceFee;
+    function openOrderModal() {
+      if (!state.cart.length) {
+        showToast('Your cart is empty');
+        return;
+      }
 
+      closeCart();
+      if (orderDeliveryMethod) orderDeliveryMethod.value = state.checkout.delivery;
+      if (orderPaymentMethod) orderPaymentMethod.value = state.checkout.payment;
+      if (orderDeliveryLocation) orderDeliveryLocation.value = state.checkout.location;
+      renderOrderSummary();
+      if (orderModal) orderModal.classList.add('open');
+    }
+
+    function closeOrderModal() {
+      if (orderModal) orderModal.classList.remove('open');
+    }
+
+    function renderOrderSummary() {
+      const subtotal = cartSubtotalValue();
+      const deliveryFee = deliveryFees[state.checkout.delivery] || 0;
+      const total = subtotal + deliveryFee;
+
+      if (orderSubtotal) orderSubtotal.textContent = formatNaira(subtotal);
+      if (orderDeliveryFee) orderDeliveryFee.textContent = deliveryFee === 0 ? 'Free' : formatNaira(deliveryFee);
+      if (orderTotal) orderTotal.textContent = formatNaira(total);
       if (cartSubtotal) cartSubtotal.textContent = formatNaira(subtotal);
-      if (cartDelivery) cartDelivery.textContent = deliveryFee === 0 ? 'Free' : formatNaira(deliveryFee);
-      if (cartService) cartService.textContent = formatNaira(serviceFee);
-      if (cartTotal) cartTotal.textContent = formatNaira(total);
+    }
+
+    function placeOrder() {
+      if (!state.cart.length) {
+        showToast('Your cart is empty');
+        return;
+      }
+
+      if (orderDeliveryMethod) state.checkout.delivery = orderDeliveryMethod.value || 'pickup';
+      if (orderPaymentMethod) state.checkout.payment = orderPaymentMethod.value || 'paystack';
+      if (orderDeliveryLocation) state.checkout.location = (orderDeliveryLocation.value || '').trim();
+
+      if (state.checkout.delivery !== 'pickup' && !state.checkout.location) {
+        showToast('Enter delivery location to continue');
+        return;
+      }
+
+      const today = new Date().toISOString().slice(0, 10);
+      const currentDelivery = deliveryLabel(state.checkout.delivery);
+
+      state.cart.slice().reverse().forEach(function (item, index) {
+        state.orders.unshift({
+          id: 'ORD-' + String(Date.now() + index).slice(-6),
+          listingId: item.id,
+          itemName: item.name,
+          quantityLabel: item.detail,
+          farm: item.farm,
+          photoUrl: item.photoUrl,
+          amount: item.price,
+          deliveryMethod: currentDelivery,
+          eta: '24hrs minimum',
+          dateLabel: today,
+          status: 'Pending'
+        });
+      });
+
+      state.cart = [];
+      updateCart();
+      renderListings();
+      renderOrderHistory();
+      closeOrderModal();
+      showToast('Order placed successfully');
     }
 
     filterButtons.forEach(function (button) {
@@ -667,32 +1044,53 @@
       button.addEventListener('click', closeCart);
     });
 
-    document.querySelectorAll('.delivery-btn').forEach(function (button) {
-      button.addEventListener('click', function () {
-        setDelivery(button.dataset.delivery || 'pickup');
-      });
+    document.querySelectorAll('[data-close-order]').forEach(function (button) {
+      button.addEventListener('click', closeOrderModal);
     });
 
-    if (checkoutBtn) {
-      checkoutBtn.addEventListener('click', function () {
-        if (!state.cart.length) {
-          showToast('Your cart is empty');
-          return;
+    if (orderModal) {
+      orderModal.addEventListener('click', function (event) {
+        if (event.target === orderModal) {
+          closeOrderModal();
         }
-
-        const subtotal = state.cart.reduce(function (sum, item) {
-          return sum + (item.price * item.qty);
-        }, 0);
-        const fee = deliveryFees[state.delivery] || 0;
-        const service = Math.round(subtotal * 0.04);
-        const total = subtotal + fee + service;
-
-        state.cart = [];
-        updateCart();
-        renderListings();
-        closeCart();
-        showToast('Order placed successfully: ' + formatNaira(total));
       });
+    }
+
+    if (detailBackBtn) {
+      detailBackBtn.addEventListener('click', function () {
+        if (setTab) {
+          setTab(state.detailBackTab || 'market');
+        }
+      });
+    }
+
+    if (detailAddToCartBtn) {
+      detailAddToCartBtn.addEventListener('click', function () {
+        if (!state.activeProductId) return;
+        addToCart(state.activeProductId);
+      });
+    }
+
+    if (profileShortcut) {
+      profileShortcut.addEventListener('click', function () {
+        if (setTab) setTab('profile');
+      });
+    }
+
+    if (profileEditBtn) {
+      profileEditBtn.addEventListener('click', function () {
+        const profileEditor = document.getElementById('buyerProfileEditor');
+        if (profileEditor) {
+          profileEditor.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+        if (buyerFullNameInput) {
+          buyerFullNameInput.focus();
+        }
+      });
+    }
+
+    if (checkoutBtn) {
+      checkoutBtn.addEventListener('click', openOrderModal);
     }
 
     if (clearCartBtn) {
@@ -702,6 +1100,29 @@
         renderListings();
         showToast('Cart cleared');
       });
+    }
+
+    if (orderDeliveryMethod) {
+      orderDeliveryMethod.addEventListener('change', function () {
+        state.checkout.delivery = orderDeliveryMethod.value || 'pickup';
+        renderOrderSummary();
+      });
+    }
+
+    if (orderPaymentMethod) {
+      orderPaymentMethod.addEventListener('change', function () {
+        state.checkout.payment = orderPaymentMethod.value || 'paystack';
+      });
+    }
+
+    if (orderDeliveryLocation) {
+      orderDeliveryLocation.addEventListener('input', function () {
+        state.checkout.location = orderDeliveryLocation.value || '';
+      });
+    }
+
+    if (confirmOrderBtn) {
+      confirmOrderBtn.addEventListener('click', placeOrder);
     }
 
     if (setTab) {
@@ -714,13 +1135,32 @@
     }
 
     renderListings();
+    renderOrderHistory();
     updateCart();
     setInterval(renderListings, 60000);
   }
 
   function initFarmerDashboard() {
+    const sharedListingIds = new Set();
+    const storedListings = loadSharedMarketplaceListings().map(function (item) {
+      sharedListingIds.add(item.id);
+      return {
+        id: item.id,
+        name: item.name,
+        quantity: item.quantity,
+        unit: item.unit,
+        pricePerUnit: item.pricePerUnit,
+        harvestedAt: item.harvestedAt,
+        location: item.location,
+        remainingPercent: 100,
+        photoUrl: item.photoUrl,
+        description: item.description || '',
+        type: item.type
+      };
+    });
+
     const state = {
-      listings: [
+      listings: storedListings.concat([
         {
           id: 101,
           name: 'Catfish',
@@ -729,7 +1169,10 @@
           pricePerUnit: 4200,
           harvestedAt: hoursAgo(3),
           location: 'Lagos Island',
-          remainingPercent: 90
+          remainingPercent: 90,
+          photoUrl: defaultListingPhoto('Catfish'),
+          description: 'Live catfish, medium-to-large size. Harvested this morning.',
+          type: 'fish'
         },
         {
           id: 102,
@@ -739,7 +1182,10 @@
           pricePerUnit: 850,
           harvestedAt: hoursAgo(2),
           location: 'Ikorodu',
-          remainingPercent: 95
+          remainingPercent: 95,
+          photoUrl: defaultListingPhoto('Giant Snails'),
+          description: 'Healthy giant snails, sorted and ready for immediate pickup.',
+          type: 'snails'
         },
         {
           id: 103,
@@ -749,29 +1195,68 @@
           pricePerUnit: 3800,
           harvestedAt: hoursAgo(11),
           location: 'Epe',
-          remainingPercent: 45
+          remainingPercent: 45,
+          photoUrl: defaultListingPhoto('Tilapia'),
+          description: 'Fresh tilapia batch, cleaned and packed in iced crates.',
+          type: 'fish'
         }
-      ],
+      ]),
       wallet: {
         available: 182000,
         escrow: 30000,
         month: 182000,
         total: 540000
       },
+      walletHistory: [
+        { date: '2026-03-26', reference: 'SALE-92841', type: 'Sale Income', amount: 42000, status: 'Settled' },
+        { date: '2026-03-25', reference: 'WD-11908', type: 'Withdrawal', amount: -30000, status: 'Success' },
+        { date: '2026-03-24', reference: 'SALE-92733', type: 'Sale Income', amount: 30400, status: 'Settled' },
+        { date: '2026-03-23', reference: 'WD-11702', type: 'Withdrawal', amount: -15000, status: 'Success' }
+      ],
+      orders: [
+        { date: 'Today 9:30am', product: '10kg Catfish', buyer: 'Mama Chidi Restaurant', fulfilment: 'Farm Cluster', amount: 42000, status: 'Done' },
+        { date: 'Yesterday', product: '8kg Tilapia', buyer: 'Hotel Eko', fulfilment: 'Kwik Delivery', amount: 30400, status: 'In Transit' },
+        { date: '2026-03-25', product: '100pcs Snails', buyer: 'Mama Cass', fulfilment: 'Self Pickup', amount: 85000, status: 'Done' },
+        { date: '2026-03-24', product: '15kg Catfish', buyer: 'Urban Bowl', fulfilment: 'Farm Cluster', amount: 63000, status: 'Done' }
+      ],
       payoutHistory: [
         { date: '2026-03-12', amount: 45000, status: 'Success' },
         { date: '2026-03-11', amount: 12000, status: 'Processing' },
         { date: '2026-03-10', amount: 9000, status: 'Pending' }
       ],
-      verifiedAccount: null
+      notifications: [
+        { id: 1, title: 'New order received', message: 'Mama Chidi Restaurant placed an order for 10kg catfish.', time: '8m ago', read: false },
+        { id: 2, title: 'Payout update', message: 'Your withdrawal of ' + formatNaira(45000) + ' was completed.', time: '2h ago', read: false },
+        { id: 3, title: 'Listing reminder', message: 'Tilapia listing is nearing freshness threshold.', time: 'Yesterday', read: true }
+      ],
+      verifiedAccount: null,
+      notificationsOpen: false
     };
 
     const listingRows = document.getElementById('farmerListingRows');
     const overviewPreview = document.getElementById('overviewListingPreview');
+    const recentOrdersRows = document.getElementById('recentOrdersRows');
+    const orderHistoryRows = document.getElementById('orderHistoryRows');
+    const walletHistoryRows = document.getElementById('walletHistoryRows');
+
+    const notificationBtn = document.getElementById('notificationBtn');
+    const notificationDot = document.getElementById('notificationDot');
+    const notificationPopover = document.getElementById('notificationPopover');
+    const notificationList = document.getElementById('notificationList');
+    const notificationMarkReadBtn = document.getElementById('notificationMarkReadBtn');
 
     const listingModal = document.getElementById('listingModal');
     const listingForm = document.getElementById('listingForm');
+    const listingProduct = document.getElementById('listingProduct');
+    const listingQuantity = document.getElementById('listingQuantity');
+    const listingUnit = document.getElementById('listingUnit');
+    const listingPrice = document.getElementById('listingPrice');
+    const listingHarvest = document.getElementById('listingHarvest');
+    const listingLocation = document.getElementById('listingLocation');
+    const listingDescription = document.getElementById('listingDescription');
+    const listingImage = document.getElementById('listingImage');
 
+    const accountHolderInput = document.getElementById('accountHolderInput');
     const bankSearch = document.getElementById('bankSearch');
     const bankList = document.getElementById('bankList');
     const nubanInput = document.getElementById('nubanInput');
@@ -794,14 +1279,73 @@
     ];
 
     function statusBadge(status) {
-      if (status === 'Success') return '<span class="badge badge-done">Success</span>';
-      if (status === 'Processing') return '<span class="badge badge-transit">Processing</span>';
-      return '<span class="badge badge-transit">Pending</span>';
+      if (status === 'Success' || status === 'Settled' || status === 'Done') return '<span class="badge badge-done">' + escapeHtml(status) + '</span>';
+      if (status === 'Processing' || status === 'In Transit') return '<span class="badge badge-transit">' + escapeHtml(status) + '</span>';
+      return '<span class="badge badge-transit">' + escapeHtml(status) + '</span>';
+    }
+
+    function walletTypeBadge(type) {
+      if (type === 'Withdrawal') return '<span class="tx-type tx-out">Withdrawal</span>';
+      return '<span class="tx-type tx-in">Sale Income</span>';
     }
 
     function listingStatus(item) {
       const hoursFresh = Math.max(1, Math.floor((Date.now() - item.harvestedAt) / (60 * 60 * 1000)));
       return hoursFresh > 10 ? '<span class="badge badge-transit">Expiring</span>' : '<span class="badge badge-done">Active</span>';
+    }
+
+    function fulfilmentBadge(fulfilment) {
+      if (fulfilment === 'Farm Cluster') return '<span class="badge badge-done">Farm Cluster</span>';
+      if (fulfilment === 'Kwik Delivery') return '<span class="badge badge-transit">Kwik Delivery</span>';
+      return '<span class="badge badge-transit">Self Pickup</span>';
+    }
+
+    function persistSharedListings() {
+      const sharedOnly = state.listings
+        .filter(function (item) { return sharedListingIds.has(item.id); })
+        .map(function (item) {
+          return normalizeMarketplaceListing({
+            id: item.id,
+            name: item.name,
+            quantity: item.quantity,
+            unit: item.unit,
+            pricePerUnit: item.pricePerUnit,
+            harvestedAt: item.harvestedAt,
+            location: item.location,
+            farm: FARMER_DISPLAY_NAME,
+            photoUrl: item.photoUrl,
+            type: item.type,
+            description: item.description,
+            rating: 4.8,
+            clusterEligible: true
+          });
+        })
+        .filter(Boolean);
+
+      saveSharedMarketplaceListings(sharedOnly);
+    }
+
+    function listingRowTemplate(item) {
+      const harvestedHours = Math.max(1, Math.floor((Date.now() - item.harvestedAt) / (60 * 60 * 1000)));
+      const safeName = escapeHtml(item.name);
+      const safeLocation = escapeHtml(item.location);
+      const safeDescription = escapeHtml(item.description || 'No description provided.');
+      const safePhoto = escapeHtml(item.photoUrl || defaultListingPhoto(item.name));
+
+      return '' +
+        '<div class="list-row">' +
+          '<div>' +
+            '<div class="list-name listing-row-title"><img class="listing-thumb" src="' + safePhoto + '" alt="' + safeName + '"><span>' + safeName + ' - ' + item.quantity + (item.unit === 'pieces' ? 'pcs' : 'kg') + '</span></div>' +
+            '<div class="list-meta">Harvested ' + harvestedHours + 'hrs ago &middot; ' + safeLocation + '</div>' +
+            '<div class="list-meta listing-description-row">' + safeDescription + '</div>' +
+            '<div class="progress-track"><div class="progress-fill" style="width:' + item.remainingPercent + '%"></div></div>' +
+          '</div>' +
+          '<div class="value-col">' +
+            '<div class="value-main">' + formatNaira(item.pricePerUnit) + '/' + (item.unit === 'pieces' ? 'pc' : 'kg') + '</div>' +
+            '<div class="value-sub">Stock ' + item.remainingPercent + '%</div>' +
+            listingStatus(item) +
+          '</div>' +
+        '</div>';
     }
 
     function renderListings() {
@@ -810,24 +1354,11 @@
         return sum + (item.pricePerUnit * item.quantity);
       }, 0);
 
-      const rowsHtml = state.listings.map(function (item) {
-        return '' +
-          '<div class="list-row">' +
-            '<div>' +
-              '<div class="list-name">' + item.name + ' - ' + item.quantity + (item.unit === 'pieces' ? 'pcs' : 'kg') + '</div>' +
-              '<div class="list-meta">Harvested ' + Math.max(1, Math.floor((Date.now() - item.harvestedAt) / (60 * 60 * 1000))) + 'hrs ago &middot; ' + item.location + '</div>' +
-              '<div class="progress-track"><div class="progress-fill" style="width:' + item.remainingPercent + '%"></div></div>' +
-            '</div>' +
-            '<div class="value-col">' +
-              '<div class="value-main">' + formatNaira(item.pricePerUnit) + '/' + (item.unit === 'pieces' ? 'pc' : 'kg') + '</div>' +
-              '<div class="value-sub">Stock ' + item.remainingPercent + '%</div>' +
-              listingStatus(item) +
-            '</div>' +
-          '</div>';
-      }).join('');
+      const rowsHtml = state.listings.map(listingRowTemplate).join('');
+      const previewRows = state.listings.slice(0, 3).map(listingRowTemplate).join('');
 
       if (listingRows) listingRows.innerHTML = rowsHtml;
-      if (overviewPreview) overviewPreview.innerHTML = rowsHtml;
+      if (overviewPreview) overviewPreview.innerHTML = previewRows;
 
       const statActiveListings = document.getElementById('statActiveListings');
       const activeListingsBadge = document.getElementById('activeListingsBadge');
@@ -836,6 +1367,42 @@
 
       const statMonthRevenue = document.getElementById('statMonthRevenue');
       if (statMonthRevenue) statMonthRevenue.textContent = formatNaira(totalMonth);
+    }
+
+    function renderRecentOrders() {
+      if (!recentOrdersRows) return;
+
+      const statOrderCount = document.getElementById('statOrderCount');
+      if (statOrderCount) statOrderCount.textContent = String(state.orders.length);
+
+      recentOrdersRows.innerHTML = state.orders.slice(0, 2).map(function (order) {
+        return '' +
+          '<div class="list-row">' +
+            '<div>' +
+              '<div class="list-name">' + escapeHtml(order.product) + ' &middot; ' + escapeHtml(order.buyer) + '</div>' +
+              '<div class="list-meta">' + escapeHtml(order.date) + ' &middot; ' + escapeHtml(order.fulfilment) + '</div>' +
+            '</div>' +
+            '<div class="value-col">' +
+              '<div class="value-main">+' + formatNaira(order.amount) + '</div>' +
+              statusBadge(order.status) +
+            '</div>' +
+          '</div>';
+      }).join('');
+    }
+
+    function renderOrderHistory() {
+      if (!orderHistoryRows) return;
+
+      orderHistoryRows.innerHTML = state.orders.map(function (order) {
+        return '' +
+          '<tr>' +
+            '<td>' + escapeHtml(order.date) + '</td>' +
+            '<td>' + escapeHtml(order.product) + ' &middot; ' + escapeHtml(order.buyer) + '</td>' +
+            '<td>' + fulfilmentBadge(order.fulfilment) + '</td>' +
+            '<td class="money">+' + formatNaira(order.amount) + '</td>' +
+            '<td>' + statusBadge(order.status) + '</td>' +
+          '</tr>';
+      }).join('');
     }
 
     function renderWallet() {
@@ -863,11 +1430,68 @@
       payoutHistoryRows.innerHTML = state.payoutHistory.map(function (entry) {
         return '' +
           '<tr>' +
-            '<td>' + entry.date + '</td>' +
+            '<td>' + escapeHtml(entry.date) + '</td>' +
             '<td class="money">' + formatNaira(entry.amount) + '</td>' +
             '<td>' + statusBadge(entry.status) + '</td>' +
           '</tr>';
       }).join('');
+    }
+
+    function renderWalletHistory() {
+      if (!walletHistoryRows) return;
+
+      walletHistoryRows.innerHTML = state.walletHistory.map(function (entry) {
+        const amountLabel = entry.amount < 0 ? '-' + formatNaira(Math.abs(entry.amount)) : '+' + formatNaira(entry.amount);
+        const amountClass = entry.amount < 0 ? 'money tx-amount-out' : 'money tx-amount-in';
+
+        return '' +
+          '<tr>' +
+            '<td>' + escapeHtml(entry.date) + '</td>' +
+            '<td>' + escapeHtml(entry.reference) + '</td>' +
+            '<td>' + walletTypeBadge(entry.type) + '</td>' +
+            '<td class="' + amountClass + '">' + amountLabel + '</td>' +
+            '<td>' + statusBadge(entry.status) + '</td>' +
+          '</tr>';
+      }).join('');
+    }
+
+    function setNotificationsOpen(isOpen) {
+      state.notificationsOpen = Boolean(isOpen);
+      if (notificationPopover) {
+        notificationPopover.classList.toggle('open', state.notificationsOpen);
+      }
+      if (notificationBtn) {
+        notificationBtn.setAttribute('aria-expanded', state.notificationsOpen ? 'true' : 'false');
+      }
+    }
+
+    function renderNotifications() {
+      if (!notificationList) return;
+
+      if (!state.notifications.length) {
+        notificationList.innerHTML = '<p class="helper-text">No notifications yet.</p>';
+      } else {
+        notificationList.innerHTML = state.notifications.map(function (item) {
+          return '' +
+            '<article class="notice-item ' + (item.read ? '' : 'unread') + '">' +
+              '<div class="notice-title">' + escapeHtml(item.title) + '</div>' +
+              '<div class="notice-body">' + escapeHtml(item.message) + '</div>' +
+              '<div class="notice-time">' + escapeHtml(item.time) + '</div>' +
+            '</article>';
+        }).join('');
+      }
+
+      const hasUnread = state.notifications.some(function (item) { return !item.read; });
+      if (notificationDot) {
+        notificationDot.style.display = hasUnread ? 'block' : 'none';
+      }
+    }
+
+    function markNotificationsRead() {
+      state.notifications = state.notifications.map(function (item) {
+        return Object.assign({}, item, { read: true });
+      });
+      renderNotifications();
     }
 
     function openListingModal() {
@@ -881,12 +1505,20 @@
     function verifyAccount() {
       if (!bankSearch || !nubanInput || !accountNameResult) return;
 
+      const accountHolderName = accountHolderInput ? accountHolderInput.value.trim() : '';
       const selectedBank = banks.find(function (bank) {
         return bank.toLowerCase() === bankSearch.value.trim().toLowerCase();
       });
 
       const nuban = (nubanInput.value || '').replace(/\D/g, '').slice(0, 10);
       nubanInput.value = nuban;
+
+      if (!accountHolderName || accountHolderName.length < 3) {
+        state.verifiedAccount = null;
+        accountNameResult.className = 'verify-status pending';
+        accountNameResult.textContent = 'Enter the bank account holder name first.';
+        return;
+      }
 
       if (!selectedBank) {
         state.verifiedAccount = null;
@@ -919,11 +1551,12 @@
       state.verifiedAccount = {
         bank: selectedBank,
         nuban: nuban,
-        name: name
+        accountName: name,
+        accountHolderName: accountHolderName
       };
 
       accountNameResult.className = 'verify-status success';
-      accountNameResult.textContent = 'Verified: ' + name + ' (' + selectedBank + ')';
+      accountNameResult.textContent = 'Verified: ' + name + ' (' + selectedBank + ') | Holder: ' + accountHolderName;
     }
 
     function requestPayout() {
@@ -945,14 +1578,26 @@
       }
 
       state.wallet.available -= amount;
+      const today = new Date().toISOString().slice(0, 10);
+      const payoutRef = 'WD-' + String(Date.now()).slice(-6);
+
       state.payoutHistory.unshift({
-        date: new Date().toISOString().slice(0, 10),
+        date: today,
         amount: amount,
+        status: 'Pending'
+      });
+
+      state.walletHistory.unshift({
+        date: today,
+        reference: payoutRef,
+        type: 'Withdrawal',
+        amount: -amount,
         status: 'Pending'
       });
 
       if (payoutAmount) payoutAmount.value = '';
       renderWallet();
+      renderWalletHistory();
       renderPayoutHistory();
       showToast('Payout request submitted');
     }
@@ -961,6 +1606,35 @@
       bankList.innerHTML = banks.map(function (bank) {
         return '<option value="' + bank + '"></option>';
       }).join('');
+    }
+
+    if (notificationBtn) {
+      notificationBtn.addEventListener('click', function (event) {
+        event.stopPropagation();
+        setNotificationsOpen(!state.notificationsOpen);
+      });
+    }
+
+    if (notificationMarkReadBtn) {
+      notificationMarkReadBtn.addEventListener('click', function () {
+        markNotificationsRead();
+      });
+    }
+
+    document.addEventListener('click', function (event) {
+      if (!state.notificationsOpen || !notificationPopover || !notificationBtn) return;
+      if (notificationPopover.contains(event.target) || notificationBtn.contains(event.target)) return;
+      setNotificationsOpen(false);
+    });
+
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape') {
+        setNotificationsOpen(false);
+      }
+    });
+
+    if (accountHolderInput) {
+      accountHolderInput.addEventListener('input', verifyAccount);
     }
 
     if (bankSearch) {
@@ -992,17 +1666,47 @@
     }
 
     if (listingForm) {
-      listingForm.addEventListener('submit', function (event) {
+      listingForm.addEventListener('submit', async function (event) {
         event.preventDefault();
 
-        const product = document.getElementById('listingProduct').value;
-        const quantity = Number(document.getElementById('listingQuantity').value);
-        const unit = document.getElementById('listingUnit').value;
-        const price = Number(document.getElementById('listingPrice').value);
-        const harvest = document.getElementById('listingHarvest').value;
-        const location = document.getElementById('listingLocation').value;
+        const product = listingProduct ? listingProduct.value : '';
+        const quantity = Number(listingQuantity ? listingQuantity.value : 0);
+        const unit = listingUnit ? listingUnit.value : 'kg';
+        const price = Number(listingPrice ? listingPrice.value : 0);
+        const harvest = listingHarvest ? listingHarvest.value : '';
+        const location = listingLocation ? listingLocation.value.trim() : '';
+        const description = listingDescription ? listingDescription.value.trim() : '';
+        const imageFile = listingImage && listingImage.files ? listingImage.files[0] : null;
 
-        state.listings.unshift({
+        if (!description) {
+          showToast('Add a short product description');
+          return;
+        }
+
+        if (!imageFile) {
+          showToast('Upload a product image');
+          return;
+        }
+
+        if (!imageFile.type || imageFile.type.indexOf('image/') !== 0) {
+          showToast('Only image files are allowed');
+          return;
+        }
+
+        if (imageFile.size > (2 * 1024 * 1024)) {
+          showToast('Image should be 2MB or less');
+          return;
+        }
+
+        let imageDataUrl = '';
+        try {
+          imageDataUrl = await readImageAsDataUrl(imageFile);
+        } catch (error) {
+          showToast('Image upload failed. Please try again.');
+          return;
+        }
+
+        const normalized = normalizeMarketplaceListing({
           id: Date.now(),
           name: product,
           quantity: quantity,
@@ -1010,19 +1714,59 @@
           pricePerUnit: price,
           harvestedAt: harvest ? new Date(harvest).getTime() : Date.now(),
           location: location,
-          remainingPercent: 100
+          farm: FARMER_DISPLAY_NAME,
+          photoUrl: imageDataUrl,
+          description: description,
+          rating: 4.8,
+          clusterEligible: true
+        });
+
+        if (!normalized) {
+          showToast('Listing could not be created');
+          return;
+        }
+
+        const farmerListing = {
+          id: normalized.id,
+          name: normalized.name,
+          quantity: normalized.quantity,
+          unit: normalized.unit,
+          pricePerUnit: normalized.pricePerUnit,
+          harvestedAt: normalized.harvestedAt,
+          location: normalized.location,
+          remainingPercent: 100,
+          photoUrl: normalized.photoUrl,
+          description: normalized.description,
+          type: normalized.type
+        };
+
+        state.listings.unshift(farmerListing);
+        sharedListingIds.add(farmerListing.id);
+        persistSharedListings();
+
+        state.notifications.unshift({
+          id: Date.now(),
+          title: 'Listing published',
+          message: farmerListing.name + ' is now live in buyer marketplace.',
+          time: 'Just now',
+          read: false
         });
 
         listingForm.reset();
         closeListingModal();
         renderListings();
-        showToast('Listing published and freshness tracking started');
+        renderNotifications();
+        showToast('Listing published and now visible to buyers');
       });
     }
 
     renderListings();
+    renderRecentOrders();
+    renderOrderHistory();
     renderWallet();
+    renderWalletHistory();
     renderPayoutHistory();
+    renderNotifications();
     verifyAccount();
   }
 

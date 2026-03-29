@@ -46,13 +46,17 @@
           <img class="nav-icon" src="https://api.iconify.design/lucide:calendar-check-2.svg?color=%23c9ddd3" alt="">
           <span>Pre-Orders</span>
         </button>
+        <button class="nav-item" data-tab="orders" data-title="Order History">
+          <img class="nav-icon" src="https://api.iconify.design/lucide:receipt-text.svg?color=%23c9ddd3" alt="">
+          <span>Orders</span>
+        </button>
       </nav>
 
       <div class="nav-group-title">Finance</div>
       <nav class="nav-list">
-        <button class="nav-item" data-tab="earnings" data-title="Earnings Wallet">
+        <button class="nav-item" data-tab="wallet" data-title="Wallet">
           <img class="nav-icon" src="https://api.iconify.design/lucide:wallet.svg?color=%23c9ddd3" alt="">
-          <span>Earnings</span>
+          <span>Wallet</span>
         </button>
         <button class="nav-item" data-tab="payout" data-title="Payout Requests">
           <img class="nav-icon" src="https://api.iconify.design/lucide:landmark.svg?color=%23c9ddd3" alt="">
@@ -83,10 +87,19 @@
         </div>
 
         <div class="topbar-actions">
-          <button class="icon-btn" type="button" aria-label="Notifications">
-            <img src="https://api.iconify.design/lucide:bell.svg?color=%23d1e2da" alt="">
-            <span class="icon-dot"></span>
-          </button>
+          <div class="notification-wrap">
+            <button class="icon-btn" type="button" id="notificationBtn" data-notification-toggle aria-label="Notifications" aria-controls="notificationPopover" aria-expanded="false">
+              <img src="https://api.iconify.design/lucide:bell.svg?color=%23d1e2da" alt="">
+              <span class="icon-dot" id="notificationDot"></span>
+            </button>
+            <div class="notification-popover" id="notificationPopover" data-notification-popover>
+              <div class="notification-head">
+                <h3 class="notification-title">Notifications</h3>
+                <button class="link-btn" type="button" id="notificationMarkReadBtn">Mark all as read</button>
+              </div>
+              <div class="notification-list" id="notificationList"></div>
+            </div>
+          </div>
           <button class="btn btn-g" type="button" data-open-listing>+ Add Listing</button>
         </div>
       </header>
@@ -129,30 +142,9 @@
               <article class="card">
                 <div class="card-head">
                   <h2 class="card-title">Recent Orders</h2>
+                  <button class="link-btn" type="button" data-tab-trigger="orders">View More</button>
                 </div>
-                <div class="list-stack">
-                  <div class="list-row">
-                    <div>
-                      <div class="list-name">10kg Catfish &middot; Mama Chidi Restaurant</div>
-                      <div class="list-meta">Today 9:30am &middot; Farm Cluster</div>
-                    </div>
-                    <div class="value-col">
-                      <div class="value-main">+&#8358;42,000</div>
-                      <span class="badge badge-done">Done</span>
-                    </div>
-                  </div>
-
-                  <div class="list-row">
-                    <div>
-                      <div class="list-name">8kg Tilapia &middot; Hotel Eko</div>
-                      <div class="list-meta">Yesterday &middot; Kwik Delivery</div>
-                    </div>
-                    <div class="value-col">
-                      <div class="value-main">+&#8358;30,400</div>
-                      <span class="badge badge-transit">In Transit</span>
-                    </div>
-                  </div>
-                </div>
+                <div class="list-stack" id="recentOrdersRows"></div>
               </article>
             </div>
 
@@ -275,8 +267,29 @@
           </article>
         </section>
 
-        <section class="tab-panel" id="tab-earnings">
-          <h2 class="section-title">Earnings Wallet</h2>
+        <section class="tab-panel" id="tab-orders">
+          <div class="card-head" style="margin-bottom: 0.7rem;">
+            <h2 class="section-title" style="margin: 0;">Order History</h2>
+            <span class="card-meta">Complete sales timeline</span>
+          </div>
+          <article class="card">
+            <table class="simple-table">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Order</th>
+                  <th>Fulfilment</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="orderHistoryRows"></tbody>
+            </table>
+          </article>
+        </section>
+
+        <section class="tab-panel" id="tab-wallet">
+          <h2 class="section-title">Wallet</h2>
           <div class="stat-grid">
             <article class="stat-card">
               <div class="stat-label">Available</div>
@@ -299,6 +312,25 @@
               <div class="stat-change">Since onboarding</div>
             </article>
           </div>
+
+          <article class="card">
+            <div class="card-head">
+              <h3 class="card-title">Transaction History</h3>
+              <span class="card-meta">Withdrawals and sales income</span>
+            </div>
+            <table class="simple-table">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Reference</th>
+                  <th>Type</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="walletHistoryRows"></tbody>
+            </table>
+          </article>
         </section>
 
         <section class="tab-panel" id="tab-payout">
@@ -307,6 +339,11 @@
             <article class="card">
               <div class="card-head">
                 <h3 class="card-title">Bank Verification</h3>
+              </div>
+
+              <div class="field">
+                <label for="accountHolderInput">Bank Account Holder Name</label>
+                <input id="accountHolderInput" type="text" placeholder="e.g. Emeka Okafor" autocomplete="name">
               </div>
 
               <div class="field">
@@ -452,6 +489,16 @@
         <div class="field">
           <label for="listingLocation">Pickup Location (State/LGA)</label>
           <input id="listingLocation" type="text" placeholder="e.g. Ikorodu, Lagos" required>
+        </div>
+
+        <div class="field">
+          <label for="listingDescription">Product Description</label>
+          <textarea id="listingDescription" rows="3" placeholder="Highlight freshness, size, processing method, or special quality." required></textarea>
+        </div>
+
+        <div class="field">
+          <label for="listingImage">Product Image</label>
+          <input id="listingImage" type="file" accept="image/*" required>
         </div>
 
         <button class="btn btn-g" type="submit">Publish Listing</button>

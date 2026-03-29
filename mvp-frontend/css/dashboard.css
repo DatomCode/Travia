@@ -49,7 +49,8 @@
 }
 
 .app-shell {
-  min-height: 100vh;`r`n  margin: 0;
+  min-height: 100vh;
+  margin: 0;
   display: grid;
   grid-template-columns: 270px minmax(0, 1fr);
 }
@@ -87,6 +88,12 @@
   border-radius: 0.8rem;
   border: 1px solid rgba(184, 224, 200, 0.16);
   background: rgba(30, 74, 48, 0.65);
+}
+
+.profile-shortcut {
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
 }
 
 .avatar {
@@ -288,6 +295,10 @@
   gap: 0.55rem;
 }
 
+.notification-wrap {
+  position: relative;
+}
+
 .icon-btn {
   width: 2.2rem;
   height: 2.2rem;
@@ -324,6 +335,76 @@
   height: 0.38rem;
   border-radius: 50%;
   background: var(--ember);
+}
+
+.notification-popover {
+  position: absolute;
+  top: calc(100% + 0.45rem);
+  right: 0;
+  width: min(340px, 88vw);
+  max-height: 360px;
+  overflow: auto;
+  border: 1px solid rgba(184, 224, 200, 0.18);
+  border-radius: 0.8rem;
+  background: rgba(14, 34, 24, 0.98);
+  box-shadow: var(--shadow-lg);
+  padding: 0.72rem;
+  display: none;
+  z-index: 90;
+}
+
+.notification-popover.open {
+  display: block;
+}
+
+.notification-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  margin-bottom: 0.6rem;
+}
+
+.notification-title {
+  margin: 0;
+  font-size: 0.92rem;
+  color: var(--white);
+}
+
+.notification-list {
+  display: grid;
+  gap: 0.48rem;
+}
+
+.notice-item {
+  border: 1px solid rgba(184, 224, 200, 0.12);
+  border-radius: 0.68rem;
+  padding: 0.55rem 0.58rem;
+  background: rgba(30, 74, 48, 0.4);
+}
+
+.notice-item.unread {
+  border-color: rgba(72, 160, 104, 0.45);
+  background: rgba(30, 74, 48, 0.6);
+}
+
+.notice-title {
+  color: var(--white);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.notice-body {
+  margin-top: 0.2rem;
+  color: var(--mist);
+  font-size: 0.72rem;
+  line-height: 1.45;
+}
+
+.notice-time {
+  margin-top: 0.26rem;
+  color: var(--sage);
+  font-size: 0.66rem;
 }
 
 .icon-count {
@@ -577,6 +658,92 @@
   grid-template-columns: 1fr 1fr;
 }
 
+.buyer-profile-card {
+  border-color: rgba(184, 224, 200, 0.2);
+  background: linear-gradient(145deg, rgba(23, 55, 37, 0.95), rgba(15, 40, 28, 0.95));
+}
+
+.buyer-profile-main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.95rem;
+  flex-wrap: wrap;
+}
+
+.buyer-profile-identity {
+  display: flex;
+  align-items: center;
+  gap: 0.95rem;
+  min-width: 0;
+}
+
+.buyer-profile-photo {
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(240, 202, 122, 0.6);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.32);
+  flex-shrink: 0;
+}
+
+.buyer-profile-name {
+  margin: 0;
+}
+
+.buyer-profile-role {
+  margin-top: 0.2rem;
+  color: #ffd6c2;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.buyer-profile-note {
+  margin-top: 0.2rem;
+  color: var(--sage);
+  font-size: 0.74rem;
+  max-width: 42ch;
+}
+
+.buyer-profile-edit-btn {
+  width: auto;
+}
+
+.buyer-profile-grid {
+  margin-top: 0.9rem;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.6rem;
+}
+
+.buyer-profile-item {
+  border: 1px solid rgba(184, 224, 200, 0.16);
+  background: rgba(30, 74, 48, 0.5);
+  border-radius: 0.75rem;
+  padding: 0.62rem 0.68rem;
+  display: grid;
+  gap: 0.16rem;
+}
+
+.buyer-profile-label {
+  color: var(--sage);
+  font-size: 0.63rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.buyer-profile-value {
+  color: var(--white);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.profile-editor-card {
+  margin-top: 0.8rem;
+}
+
 .section-title {
   margin-bottom: 0.7rem;
   color: var(--white);
@@ -821,6 +988,19 @@
   gap: 0.54rem;
 }
 
+.listing-link {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  text-align: left;
+}
+
+.listing-name-link {
+  display: block;
+}
+
 .freshness {
   border-radius: var(--radius-pill);
   padding: 0.2rem 0.52rem;
@@ -868,6 +1048,93 @@
   color: var(--sage);
   font-size: 0.72rem;
   line-height: 1.45;
+}
+
+.listing-description {
+  color: var(--mist);
+  font-size: 0.71rem;
+  line-height: 1.45;
+}
+
+.product-detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.9rem;
+}
+
+.product-detail-photo {
+  width: 100%;
+  border-radius: 0.9rem;
+  border: 1px solid rgba(184, 224, 200, 0.15);
+  object-fit: cover;
+  max-height: 20rem;
+}
+
+.detail-description {
+  color: var(--mist);
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+
+.detail-price {
+  font-family: 'DM Mono', monospace;
+  color: var(--role-accent);
+  font-size: 0.9rem;
+}
+
+.detail-rating {
+  color: var(--gold);
+  font-size: 0.76rem;
+  font-weight: 700;
+}
+
+.review-stack {
+  display: grid;
+  gap: 0.62rem;
+}
+
+.review-item {
+  border: 1px solid rgba(184, 224, 200, 0.14);
+  border-radius: 0.7rem;
+  padding: 0.62rem 0.68rem;
+  background: rgba(30, 74, 48, 0.42);
+}
+
+.review-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  color: var(--white);
+  font-size: 0.75rem;
+}
+
+.review-body {
+  margin-top: 0.32rem;
+  color: var(--mist);
+  font-size: 0.73rem;
+  line-height: 1.45;
+}
+
+.listing-row-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.listing-thumb {
+  width: 2.1rem;
+  height: 2.1rem;
+  border-radius: 0.46rem;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 1px solid rgba(184, 224, 200, 0.24);
+}
+
+.listing-description-row {
+  margin-top: 0.18rem;
+  color: var(--mist);
+  font-size: 0.7rem;
 }
 
 .inline-icon {
@@ -1005,6 +1272,52 @@
 
 .simple-table td {
   color: var(--mist);
+}
+
+.order-product-link {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  color: var(--mist);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-align: left;
+}
+
+.order-thumb {
+  width: 2.1rem;
+  height: 2.1rem;
+  border-radius: 0.45rem;
+  object-fit: cover;
+  border: 1px solid rgba(184, 224, 200, 0.2);
+}
+
+.tx-type {
+  display: inline-flex;
+  align-items: center;
+  border-radius: var(--radius-pill);
+  padding: 0.16rem 0.52rem;
+  font-size: 0.63rem;
+  font-weight: 700;
+}
+
+.tx-in {
+  background: rgba(72, 160, 104, 0.2);
+  color: var(--mint);
+}
+
+.tx-out {
+  background: rgba(200, 97, 42, 0.18);
+  color: #ffbf9f;
+}
+
+.tx-amount-in {
+  color: var(--mint);
+}
+
+.tx-amount-out {
+  color: #ffbf9f;
 }
 
 .field {
@@ -1341,9 +1654,19 @@
   .listing-grid,
   .buyer-insights,
   .split-two,
+  .buyer-profile-grid,
+  .product-detail-grid,
   .inline-fields,
   .delivery-grid {
     grid-template-columns: 1fr;
+  }
+
+  .buyer-profile-main {
+    align-items: flex-start;
+  }
+
+  .buyer-profile-identity {
+    width: 100%;
   }
 
   .topbar-title {
@@ -1364,6 +1687,11 @@
 
   .topbar-actions .btn {
     width: auto;
+  }
+
+  .notification-popover {
+    right: -0.9rem;
+    width: min(92vw, 340px);
   }
 }
 

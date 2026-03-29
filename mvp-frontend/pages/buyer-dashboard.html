@@ -13,7 +13,7 @@
     <aside class="sidebar" id="sidebar">
       <div class="brand">Travia<span>.</span></div>
 
-      <div class="profile-card">
+      <button class="profile-card profile-shortcut" type="button" data-tab-trigger="profile" aria-label="Open buyer profile">
         <div class="avatar buyer">
           <img src="https://api.iconify.design/lucide:user-round.svg?color=%23ffffff" alt="">
         </div>
@@ -21,7 +21,7 @@
           <div class="profile-name">Chidi Nwosu</div>
           <span class="role-chip">Buyer</span>
         </div>
-      </div>
+      </button>
 
       <div class="nav-group-title">Marketplace</div>
       <nav class="nav-list">
@@ -110,7 +110,7 @@
                 <img class="insight-icon" src="https://api.iconify.design/lucide:truck.svg?color=%23f6b18e" alt="">
                 <span class="insight-label">Fastest Delivery</span>
               </div>
-              <div class="insight-value">2 hrs average</div>
+              <div class="insight-value">24 hrs minimum</div>
             </article>
             <article class="insight-card">
               <div class="insight-head">
@@ -161,32 +161,50 @@
           <div class="pagination-wrap" id="listingPagination" aria-label="Marketplace pagination"></div>
         </section>
 
+        <section class="tab-panel" id="tab-product-detail">
+          <div class="card-head" style="margin-bottom: 0.7rem;">
+            <h2 class="section-title" style="margin: 0;">Product Detail</h2>
+            <button class="link-btn" type="button" id="detailBackBtn">Back</button>
+          </div>
+
+          <article class="card">
+            <div class="product-detail-grid">
+              <img class="product-detail-photo" id="detailPhoto" src="" alt="Product image">
+              <div>
+                <h3 class="card-title" id="detailName">Product name</h3>
+                <p class="helper-text" id="detailMeta" style="margin-top: 0.3rem;"></p>
+                <p class="detail-description" id="detailDescription" style="margin-top: 0.7rem;"></p>
+                <div class="detail-price" id="detailPrice" style="margin-top: 0.7rem;"></div>
+                <div class="detail-rating" id="detailRating" style="margin-top: 0.35rem;"></div>
+                <button class="btn btn-e" type="button" id="detailAddToCartBtn" style="margin-top: 0.7rem;">Add to Cart</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-head">
+              <h3 class="card-title">Customer Reviews</h3>
+            </div>
+            <div class="review-stack" id="detailReviews"></div>
+          </article>
+        </section>
+
         <section class="tab-panel" id="tab-orders">
           <h2 class="section-title">My Orders</h2>
           <div class="card">
-            <div class="list-stack">
-              <div class="list-row">
-                <div>
-                  <div class="list-name">10kg Catfish from Emeka's Farm</div>
-                  <div class="list-meta">Today &middot; Kwik Delivery &middot; ETA 2hrs</div>
-                </div>
-                <div class="value-col">
-                  <div class="value-main">&#8358;42,000</div>
-                  <span class="badge badge-transit">In Transit</span>
-                </div>
-              </div>
-
-              <div class="list-row">
-                <div>
-                  <div class="list-name">30pcs Giant Snails from Ade Farm</div>
-                  <div class="list-meta">Yesterday &middot; Self Pickup</div>
-                </div>
-                <div class="value-col">
-                  <div class="value-main">&#8358;25,500</div>
-                  <span class="badge badge-done">Delivered</span>
-                </div>
-              </div>
-            </div>
+            <p class="helper-text" style="margin-bottom: 0.6rem;">Minimum delivery commitment is now 24 hours.</p>
+            <table class="simple-table">
+              <thead>
+                <tr>
+                  <th>Product</th>
+                  <th>Order</th>
+                  <th>Delivery</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="buyerOrderRows"></tbody>
+            </table>
           </div>
         </section>
 
@@ -248,63 +266,86 @@
 
         <section class="tab-panel" id="tab-profile">
           <h2 class="section-title">My Profile</h2>
-          <div class="split-two">
-            <article class="card">
-              <div class="card-head">
-                <h3 class="card-title">Buyer Details</h3>
-              </div>
-              <div class="list-stack">
-                <div class="list-row">
-                  <div class="list-name">Business Name</div>
-                  <div class="value-main">Mama Chidi Restaurant</div>
-                </div>
-                <div class="list-row">
-                  <div class="list-name">Buyer Type</div>
-                  <div class="value-main">Restaurant</div>
-                </div>
-                <div class="list-row">
-                  <div class="list-name">Location</div>
-                  <div class="value-main">Lagos Island</div>
-                </div>
-                <div class="list-row">
-                  <div class="list-name">Verification</div>
-                  <span class="badge badge-done">Verified Buyer</span>
+          <article class="card buyer-profile-card">
+            <div class="buyer-profile-main">
+              <div class="buyer-profile-identity">
+                <img class="buyer-profile-photo" src="https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Profile picture of Chidi Nwosu">
+                <div>
+                  <h3 class="card-title buyer-profile-name">Chidi Nwosu</h3>
+                  <p class="buyer-profile-role">Owner, Mama Chidi Restaurant</p>
+                  <p class="buyer-profile-note">Verified buyer sourcing fresh fish and snails for daily restaurant service.</p>
                 </div>
               </div>
-            </article>
+              <button class="btn btn-e buyer-profile-edit-btn" type="button" data-profile-edit>Edit Profile</button>
+            </div>
 
-            <article class="card">
-              <div class="card-head">
-                <h3 class="card-title">Edit Preferences</h3>
+            <div class="buyer-profile-grid">
+              <div class="buyer-profile-item">
+                <span class="buyer-profile-label">Business Name</span>
+                <span class="buyer-profile-value">Mama Chidi Restaurant</span>
               </div>
+              <div class="buyer-profile-item">
+                <span class="buyer-profile-label">Buyer Type</span>
+                <span class="buyer-profile-value">Restaurant</span>
+              </div>
+              <div class="buyer-profile-item">
+                <span class="buyer-profile-label">Location</span>
+                <span class="buyer-profile-value">Lagos Island, Lagos</span>
+              </div>
+              <div class="buyer-profile-item">
+                <span class="buyer-profile-label">Delivery Preference</span>
+                <span class="buyer-profile-value">Either works</span>
+              </div>
+              <div class="buyer-profile-item">
+                <span class="buyer-profile-label">Verification</span>
+                <span class="badge badge-done">Verified Buyer</span>
+              </div>
+            </div>
+          </article>
 
+          <article class="card profile-editor-card" id="buyerProfileEditor">
+            <div class="card-head">
+              <h3 class="card-title">Edit Profile</h3>
+              <span class="card-meta">Update your buyer details</span>
+            </div>
+
+            <div class="inline-fields">
               <div class="field">
-                <label for="buyerType">Buyer Type</label>
-                <select id="buyerType">
-                  <option>Restaurant</option>
-                  <option>Hotel</option>
-                  <option>Retailer</option>
-                  <option>Exporter</option>
-                </select>
+                <label for="buyerFullName">Full Name</label>
+                <input id="buyerFullName" type="text" value="Chidi Nwosu">
               </div>
-
               <div class="field">
-                <label for="buyerArea">Area</label>
-                <input id="buyerArea" type="text" value="Lagos Island, Lagos">
+                <label for="buyerBusiness">Business Name</label>
+                <input id="buyerBusiness" type="text" value="Mama Chidi Restaurant">
               </div>
+            </div>
 
-              <div class="field">
-                <label for="buyerDelivery">Delivery Preference</label>
-                <select id="buyerDelivery">
-                  <option>Either works</option>
-                  <option>Self Pickup</option>
-                  <option>Door Delivery</option>
-                </select>
-              </div>
+            <div class="field">
+              <label for="buyerType">Buyer Type</label>
+              <select id="buyerType">
+                <option>Restaurant</option>
+                <option>Hotel</option>
+                <option>Retailer</option>
+                <option>Exporter</option>
+              </select>
+            </div>
 
-              <button class="btn btn-e" type="button" data-toast="Buyer profile saved">Save Changes</button>
-            </article>
-          </div>
+            <div class="field">
+              <label for="buyerArea">Area</label>
+              <input id="buyerArea" type="text" value="Lagos Island, Lagos">
+            </div>
+
+            <div class="field">
+              <label for="buyerDelivery">Delivery Preference</label>
+              <select id="buyerDelivery">
+                <option>Either works</option>
+                <option>Self Pickup</option>
+                <option>Door Delivery</option>
+              </select>
+            </div>
+
+            <button class="btn btn-e" type="button" data-toast="Buyer profile saved">Save Changes</button>
+          </article>
         </section>
       </div>
     </main>
@@ -323,27 +364,56 @@
     <div class="drawer-scroll">
       <div class="empty-state" id="cartEmpty">Your cart is empty. Add fresh produce from the marketplace.</div>
       <div id="cartItems"></div>
-
-      <div id="deliveryBlock" style="display: none;">
-        <p class="helper-text" style="margin-top: 0.7rem;">Delivery Method</p>
-        <div class="delivery-grid" id="deliveryOptions">
-          <button class="delivery-btn active" type="button" data-delivery="pickup">Self Pickup<br>Free</button>
-          <button class="delivery-btn" type="button" data-delivery="kwik">Kwik Delivery<br>&#8358;1,500</button>
-          <button class="delivery-btn" type="button" data-delivery="cluster">Farm Cluster<br>&#8358;600</button>
-        </div>
-      </div>
     </div>
 
     <div class="drawer-foot" id="cartFoot" style="display: none;">
       <div class="amount-row"><span>Subtotal</span><strong id="cartSubtotal">&#8358;0</strong></div>
-      <div class="amount-row"><span>Delivery</span><strong id="cartDelivery">Free</strong></div>
-      <div class="amount-row"><span>Travia fee (4%)</span><strong id="cartService">&#8358;0</strong></div>
-      <div class="amount-row amount-total"><span>Total</span><strong id="cartTotal">&#8358;0</strong></div>
-
-      <button class="btn btn-e" id="checkoutBtn" type="button">Pay with Paystack</button>
+      <button class="btn btn-e" id="checkoutBtn" type="button">Proceed to Order</button>
       <button class="btn btn-ghost" id="clearCartBtn" type="button" style="margin-top: 0.5rem;">Clear Cart</button>
     </div>
   </aside>
+
+  <div class="modal-overlay" id="orderModal">
+    <div class="modal-card">
+      <div class="modal-head">
+        <h2 class="card-title">Proceed to Order</h2>
+        <button class="modal-close" type="button" data-close-order>&times;</button>
+      </div>
+
+      <p class="helper-text" style="margin-bottom: 0.8rem;">Minimum delivery time: 24 hours.</p>
+
+      <div class="field">
+        <label for="orderDeliveryMethod">Delivery Method</label>
+        <select id="orderDeliveryMethod">
+          <option value="pickup">Self Pickup (Free)</option>
+          <option value="kwik">Kwik Delivery (&#8358;1,500)</option>
+          <option value="cluster">Farm Cluster (&#8358;600)</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="orderPaymentMethod">Payment Method</label>
+        <select id="orderPaymentMethod">
+          <option value="paystack">Paystack</option>
+          <option value="bank-transfer">Bank Transfer</option>
+          <option value="wallet">Travia Wallet</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="orderDeliveryLocation">Delivery Location</label>
+        <input id="orderDeliveryLocation" type="text" placeholder="e.g. Lagos Island, Lagos">
+      </div>
+
+      <article class="card" style="padding: 0.8rem; margin-bottom: 0.8rem;">
+        <div class="amount-row"><span>Items Subtotal</span><strong id="orderSubtotal">&#8358;0</strong></div>
+        <div class="amount-row"><span>Delivery Fee</span><strong id="orderDeliveryFee">Free</strong></div>
+        <div class="amount-row amount-total"><span>Total</span><strong id="orderTotal">&#8358;0</strong></div>
+      </article>
+
+      <button class="btn btn-e" type="button" id="confirmOrderBtn">Place Order</button>
+    </div>
+  </div>
 
   <div class="toast" id="toast"></div>
 </body>
