@@ -1,0 +1,363 @@
+﻿<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Travia Marketplace - Farmer Orders</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="farmers-theme.js"></script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8faf9; color: #191c1c; }
+        .font-manrope { font-family: 'Manrope', sans-serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface">
+<!-- TopAppBar -->
+<header class="fixed top-0 right-0 left-0 lg:left-64 z-40 bg-slate-50/80 dark:bg-emerald-950/80 backdrop-blur-md flex justify-between items-center px-4 md:px-8 h-20 shadow-sm dark:shadow-none" data-farmer-topbar data-title="Orders" data-cta-href="my_listing.html" data-cta-label="+ Add Listing" data-show-menu="true"></header>
+<div class="flex min-h-screen pt-20">
+<!-- NavigationDrawer -->
+<aside class="fixed left-0 top-0 w-64 h-full bg-white dark:bg-emerald-950 border-r border-surface-container py-6 z-[70] lg:z-50 flex flex-col transition-transform duration-300 ease-in-out" id="mobile-drawer" data-farmer-sidebar></aside>
+<!-- Main Content Area -->
+<main class="flex-1 lg:ml-72 p-6 md:p-10 max-w-7xl mx-auto w-full">
+<header class="mb-10">
+<h2 class="text-4xl font-extrabold font-manrope text-primary tracking-tight mb-2">Order Management</h2>
+<p class="text-on-surface-variant font-body">Track and manage your agricultural commerce flow.</p>
+</header>
+<!-- Stats Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-[0_12px_32px_-4px_rgba(15,61,46,0.04)] flex flex-col justify-between">
+<span class="text-on-surface-variant font-label text-xs uppercase tracking-widest font-bold">Active Orders</span>
+<div class="mt-4 flex items-baseline gap-2">
+<span class="text-3xl font-extrabold font-manrope text-primary">12</span>
+<span class="text-primary-container font-medium text-sm">+2 from yesterday</span>
+</div>
+</div>
+<div class="bg-primary-container p-6 rounded-xl shadow-[0_12px_32px_-4px_rgba(15,61,46,0.1)] text-emerald-50">
+<span class="text-emerald-100/70 font-label text-xs uppercase tracking-widest font-bold">Revenue This Month</span>
+<div class="mt-4 flex items-baseline gap-2">
+<span class="text-3xl font-extrabold font-manrope">$4,280.00</span>
+<span class="text-primary-fixed-dim font-medium text-sm">â†‘ 14%</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-[0_12px_32px_-4px_rgba(15,61,46,0.04)] flex flex-col justify-between">
+<span class="text-on-surface-variant font-label text-xs uppercase tracking-widest font-bold">Fulfillment Rate</span>
+<div class="mt-4 flex items-baseline gap-2">
+<span class="text-3xl font-extrabold font-manrope text-primary">98.4%</span>
+<span class="text-tertiary-fixed-dim font-medium text-sm">Top Rated</span>
+</div>
+</div>
+</div>
+<!-- Orders Table Section -->
+<section class="bg-surface-container-low rounded-2xl overflow-hidden">
+<div class="px-6 py-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div class="flex gap-2" data-orders-filters>
+<button class="px-4 py-2 bg-primary-fixed text-primary font-bold text-sm rounded-full transition-all" data-filter="all">All Orders</button>
+<button class="px-4 py-2 text-on-surface-variant font-semibold text-sm rounded-full hover:bg-surface-container-high transition-all" data-filter="pending">Pending</button>
+<button class="px-4 py-2 text-on-surface-variant font-semibold text-sm rounded-full hover:bg-surface-container-high transition-all" data-filter="shipped">Shipped</button>
+</div>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-lg">search</span>
+<input class="pl-10 pr-4 py-2 bg-surface-container-lowest border-none rounded-xl text-sm focus:ring-2 focus:ring-primary-fixed w-full md:w-64" data-orders-search placeholder="Search orders or buyers..." type="text"/>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-high/50 text-on-surface-variant font-label text-[10px] uppercase tracking-widest font-bold">
+<th class="px-6 py-4">Product Details</th>
+<th class="px-6 py-4">Buyer Name</th>
+<th class="px-6 py-4">Order Date</th>
+<th class="px-6 py-4 text-right">Total Amount</th>
+<th class="px-6 py-4">Status</th>
+<th class="px-6 py-4 text-center">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/10" data-orders-tbody>
+<!-- Order Row 1 -->
+<tr class="hover:bg-surface-container-lowest transition-colors group">
+<td class="px-6 py-5">
+<div class="flex items-center gap-4">
+<div class="w-14 h-14 rounded-lg bg-primary-fixed overflow-hidden flex-shrink-0">
+<img alt="Fresh Organic Tomatoes" class="w-full h-full object-cover" data-alt="Close up of vibrant red heirloom tomatoes in a rustic wooden crate with soft natural lighting and water droplets" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA62Z173O6iPchBAH6sB43qNTy8ZB5HtCGEOnSZbE8z-jH4x37IxkjuQ6hFb1B-lFnQOAXtqsXfQ8pYQQqFUh1_ZnLnh50JBFJzmOzajDCt7mkVKDcSmoYVrtRy_OIHEy9DN27bV_59xQbbqqnSJlKc22MuKRDJg4Qkn3X5rme1hgP-IvToJgOeJ8hfVqIoEcSKRE9tbxwn_0eMgGPhVyMzJnIRqf6cJkKI8HVJGL8fSOgXx3Y-6U8DhjauuX4VzyPMA6ZAG4WrSRk"/>
+</div>
+<div>
+<p class="font-bold text-primary text-sm">Fresh Organic Tomatoes</p>
+<p class="text-on-surface-variant text-xs font-medium">Batch #TRV-8902</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-5 font-medium text-on-surface text-sm">Eleanor Shellstrop</td>
+<td class="px-6 py-5 font-body text-on-surface-variant text-sm">Oct 24, 2023</td>
+<td class="px-6 py-5 text-right font-manrope font-bold text-primary">$124.50</td>
+<td class="px-6 py-5">
+<span class="inline-flex items-center px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-tertiary-fixed text-on-tertiary-fixed">Pending</span>
+</td>
+<td class="px-6 py-5 text-center">
+<button class="p-2 text-outline hover:text-primary transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Order Row 2 -->
+<tr class="hover:bg-surface-container-lowest transition-colors group">
+<td class="px-6 py-5">
+<div class="flex items-center gap-4">
+<div class="w-14 h-14 rounded-lg bg-primary-fixed overflow-hidden flex-shrink-0">
+<img alt="Fresh Tilapia Fish" class="w-full h-full object-cover" data-alt="Top down view of fresh whole tilapia fish on a bed of ice in a premium seafood market display with cool blue tones" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDmNUVkoxspu1EoqoFXhWLvkMj6BKpvURDnvXoZYT9JtehI1cFlj-kN3jX4uZhOIUOpITrp3UvrScW3USjQq-SxuorwEHs8t5lqruLZAKM3RxMDCqw-AQoHs0CNW7nvmaFmKyK4T9wuFVfs5wMx-B-oAdrRFIyc4Vt59yo5os66-XPXwoV7l_xf-MfmRygbeXyjA1ut6EKviGUKfsBKxkQ4KLUM0XF3_W0OMxk573NfRzYhej0AP6ynlBAmL-uJdSFQZlhtZSaS2sQ"/>
+</div>
+<div>
+<p class="font-bold text-primary text-sm">Farm-Raised Tilapia</p>
+<p class="text-on-surface-variant text-xs font-medium">Batch #TRV-7712</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-5 font-medium text-on-surface text-sm">Michael Realman</td>
+<td class="px-6 py-5 font-body text-on-surface-variant text-sm">Oct 23, 2023</td>
+<td class="px-6 py-5 text-right font-manrope font-bold text-primary">$450.00</td>
+<td class="px-6 py-5">
+<span class="inline-flex items-center px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-secondary-container text-on-secondary-container">Confirmed</span>
+</td>
+<td class="px-6 py-5 text-center">
+<button class="p-2 text-outline hover:text-primary transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Order Row 3 -->
+<tr class="hover:bg-surface-container-lowest transition-colors group">
+<td class="px-6 py-5">
+<div class="flex items-center gap-4">
+<div class="w-14 h-14 rounded-lg bg-primary-fixed overflow-hidden flex-shrink-0">
+<img alt="Raw Honey Jars" class="w-full h-full object-cover" data-alt="Macro shot of artisan honey jars with golden nectar reflecting warm sunlight on a rustic wooden table" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDQg3PWrWnq4rQSeNdiGSn0Mo8kLbdBICctKgPdd7wzchtLZb7uUoTxNxxnlkqHtQ9HXcwT4XSK9xTTwdYvMsjpD3_6c7Ly-mhHkQvQTH2jGRlZiLkqPC0_3cC1dd6kDP3redq8u_nV7vVIktKOu8wxFyWpoomExWuq9glf9ImCyWy-5VLxBlpBLOQZWHeyNH3hpJyFNOrzLmpynd5nhd4Duq4PdKQzWmP9-YfBzL8aTWC8kTBGEO39oyvpbJuFlHL6lRuyh2TftRw"/>
+</div>
+<div>
+<p class="font-bold text-primary text-sm">Artisan Wildflower Honey</p>
+<p class="text-on-surface-variant text-xs font-medium">Batch #TRV-1022</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-5 font-medium text-on-surface text-sm">Tahani Al-Jamil</td>
+<td class="px-6 py-5 font-body text-on-surface-variant text-sm">Oct 21, 2023</td>
+<td class="px-6 py-5 text-right font-manrope font-bold text-primary">$85.20</td>
+<td class="px-6 py-5">
+<span class="inline-flex items-center px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-primary-fixed text-on-primary-fixed-variant">Shipped</span>
+</td>
+<td class="px-6 py-5 text-center">
+<button class="p-2 text-outline hover:text-primary transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Order Row 4 -->
+<tr class="hover:bg-surface-container-lowest transition-colors group">
+<td class="px-6 py-5">
+<div class="flex items-center gap-4">
+<div class="w-14 h-14 rounded-lg bg-primary-fixed overflow-hidden flex-shrink-0 opacity-60">
+<img alt="Organic Bell Peppers" class="w-full h-full object-cover" data-alt="Display of bright yellow, green and red bell peppers with glossy skins and soft studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAu4S2wxsxt4whm1sKlPmBa13rMU3914wIoQMr798wJi5UZmKY4C6fDuI3rXKarnL-Sus_dkfbGwOeIsxLRmGU8rhhR4HrqvXVScC2VzjwjUshhIp9EkEMg0a62xM4QE_jP-YLEmXdu73KFvnNsw6vQmYhU83jbxo3SCdx5oJ5UX6o8VZ7tjzyuEz5sV9H9SgK03njhDp_-43KcOqUpdBrnnaGDCM85oR3qTG_gV6hE49cqAtvXMBsNSsTuvFnJUtt8vCh0t4JTwFc"/>
+</div>
+<div>
+<p class="font-bold text-on-surface-variant text-sm">Organic Bell Peppers</p>
+<p class="text-on-surface-variant/60 text-xs font-medium">Batch #TRV-6651</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-5 font-medium text-on-surface/70 text-sm">Chidi Anagonye</td>
+<td class="px-6 py-5 font-body text-on-surface-variant/70 text-sm">Oct 18, 2023</td>
+<td class="px-6 py-5 text-right font-manrope font-bold text-on-surface-variant/70">$62.00</td>
+<td class="px-6 py-5">
+<span class="inline-flex items-center px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-surface-container-high text-on-surface-variant">Delivered</span>
+</td>
+<td class="px-6 py-5 text-center">
+<button class="p-2 text-outline hover:text-primary transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="px-6 py-6 bg-surface-container-high/20 border-t border-outline-variant/10 flex items-center justify-between">
+<p class="text-xs font-medium text-on-surface-variant font-label" data-orders-summary>Showing 1-10 of 42 orders</p>
+<div class="flex items-center gap-2" data-orders-pagination>
+<button class="p-1 rounded hover:bg-surface-container-high disabled:opacity-30" data-page-prev disabled="">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<div class="flex items-center gap-1" data-page-numbers></div>
+<button class="p-1 rounded hover:bg-surface-container-high disabled:opacity-30" data-page-next>
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+</section>
+</main>
+</div>
+    <script src="farmers-shell.js"></script>
+<script>
+        (function () {
+            const tbody = document.querySelector('[data-orders-tbody]');
+            const filtersRoot = document.querySelector('[data-orders-filters]');
+            const searchInput = document.querySelector('[data-orders-search]');
+            const summary = document.querySelector('[data-orders-summary]');
+            const pageNumbers = document.querySelector('[data-page-numbers]');
+            const prevButton = document.querySelector('[data-page-prev]');
+            const nextButton = document.querySelector('[data-page-next]');
+
+            if (!tbody || !filtersRoot || !searchInput || !summary || !pageNumbers || !prevButton || !nextButton) {
+                return;
+            }
+
+            const rowsPerPage = 3;
+            const filterButtons = Array.from(filtersRoot.querySelectorAll('[data-filter]'));
+            const initialRows = Array.from(tbody.querySelectorAll('tr'));
+
+            const statusGroupMap = {
+                pending: 'pending',
+                shipped: 'shipped',
+                confirmed: 'shipped',
+                delivered: 'shipped'
+            };
+
+            const rowsData = initialRows.map(function (row) {
+                const product = (row.querySelector('td:nth-child(1) p') || {}).textContent || '';
+                const buyer = (row.querySelector('td:nth-child(2)') || {}).textContent || '';
+                const date = (row.querySelector('td:nth-child(3)') || {}).textContent || '';
+                const amount = (row.querySelector('td:nth-child(4)') || {}).textContent || '';
+                const statusText = (row.querySelector('td:nth-child(5) span') || {}).textContent || '';
+                const normalizedStatus = statusText.trim().toLowerCase();
+
+                return {
+                    row: row.cloneNode(true),
+                    searchText: [product, buyer, date, amount, statusText].join(' ').toLowerCase(),
+                    filterStatus: statusGroupMap[normalizedStatus] || normalizedStatus
+                };
+            });
+
+            const state = {
+                filter: 'all',
+                query: '',
+                page: 1
+            };
+
+            function setFilterUi() {
+                filterButtons.forEach(function (button) {
+                    const isActive = button.getAttribute('data-filter') === state.filter;
+                    button.classList.toggle('bg-primary-fixed', isActive);
+                    button.classList.toggle('text-primary', isActive);
+                    button.classList.toggle('font-bold', isActive);
+                    button.classList.toggle('text-on-surface-variant', !isActive);
+                    button.classList.toggle('font-semibold', !isActive);
+                    button.classList.toggle('hover:bg-surface-container-high', !isActive);
+                });
+            }
+
+            function getFilteredRows() {
+                return rowsData.filter(function (item) {
+                    const filterMatch = state.filter === 'all' || item.filterStatus === state.filter;
+                    const searchMatch = !state.query || item.searchText.includes(state.query);
+                    return filterMatch && searchMatch;
+                });
+            }
+
+            function renderPageNumbers(totalPages) {
+                pageNumbers.innerHTML = '';
+
+                for (let page = 1; page <= totalPages; page += 1) {
+                    const btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.textContent = String(page);
+                    btn.className = 'p-1 rounded text-xs font-medium w-6 h-6 flex items-center justify-center transition-all';
+
+                    if (page === state.page) {
+                        btn.classList.add('bg-primary', 'text-on-primary', 'font-bold');
+                    } else {
+                        btn.classList.add('hover:bg-surface-container-high');
+                    }
+
+                    btn.addEventListener('click', function () {
+                        state.page = page;
+                        render();
+                    });
+
+                    pageNumbers.appendChild(btn);
+                }
+            }
+
+            function render() {
+                const filteredRows = getFilteredRows();
+                const totalRows = filteredRows.length;
+                const totalPages = Math.max(1, Math.ceil(totalRows / rowsPerPage));
+
+                if (state.page > totalPages) {
+                    state.page = totalPages;
+                }
+
+                const startIndex = (state.page - 1) * rowsPerPage;
+                const endIndex = Math.min(startIndex + rowsPerPage, totalRows);
+                const visibleRows = filteredRows.slice(startIndex, endIndex);
+
+                tbody.innerHTML = '';
+
+                if (!visibleRows.length) {
+                    const emptyRow = document.createElement('tr');
+                    emptyRow.innerHTML = '<td class="px-6 py-10 text-center text-sm text-on-surface-variant" colspan="6">No orders found for this filter.</td>';
+                    tbody.appendChild(emptyRow);
+                    summary.textContent = 'Showing 0 of 0 orders';
+                } else {
+                    visibleRows.forEach(function (item) {
+                        tbody.appendChild(item.row.cloneNode(true));
+                    });
+                    summary.textContent = 'Showing ' + (startIndex + 1) + '-' + endIndex + ' of ' + totalRows + ' orders';
+                }
+
+                prevButton.disabled = state.page <= 1;
+                nextButton.disabled = state.page >= totalPages || totalRows === 0;
+                renderPageNumbers(totalPages);
+                setFilterUi();
+            }
+
+            filterButtons.forEach(function (button) {
+                button.addEventListener('click', function () {
+                    state.filter = button.getAttribute('data-filter') || 'all';
+                    state.page = 1;
+                    render();
+                });
+            });
+
+            searchInput.addEventListener('input', function () {
+                state.query = searchInput.value.trim().toLowerCase();
+                state.page = 1;
+                render();
+            });
+
+            prevButton.addEventListener('click', function () {
+                if (state.page > 1) {
+                    state.page -= 1;
+                    render();
+                }
+            });
+
+            nextButton.addEventListener('click', function () {
+                const totalRows = getFilteredRows().length;
+                const totalPages = Math.max(1, Math.ceil(totalRows / rowsPerPage));
+                if (state.page < totalPages) {
+                    state.page += 1;
+                    render();
+                }
+            });
+
+            render();
+        })();
+    </script>
+</body></html>
+
+

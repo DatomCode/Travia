@@ -1,0 +1,315 @@
+﻿<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Travia Farmer Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="farmers-theme.js"></script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .font-headline { font-family: 'Manrope', sans-serif; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+
+    #mobile-drawer-overlay { display: none; }
+    #mobile-drawer-overlay.active { display: block; }
+    #mobile-drawer {
+      transform: translateX(-100%);
+      transition: transform 0.3s ease-in-out;
+    }
+    #mobile-drawer.active { transform: translateX(0); }
+    @media (min-width: 1024px) {
+      #mobile-drawer { transform: translateX(0); }
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface min-h-screen">
+<!-- Mobile Drawer Overlay -->
+<div class="fixed inset-0 bg-black/50 z-[60] lg:hidden" id="mobile-drawer-overlay" onclick="toggleDrawer()"></div>
+<!-- Navigation Drawer -->
+<aside class="fixed left-0 top-0 w-64 h-full bg-white dark:bg-emerald-950 border-r border-surface-container py-6 z-[70] lg:z-50 flex flex-col transition-transform duration-300 ease-in-out" id="mobile-drawer" data-farmer-sidebar></aside>
+<!-- Main Canvas -->
+<main class="lg:ml-64 min-h-screen">
+<!-- Top App Bar -->
+<header class="fixed top-0 right-0 left-0 lg:left-64 z-40 bg-slate-50/80 dark:bg-emerald-950/80 backdrop-blur-md flex justify-between items-center px-4 md:px-8 h-20 shadow-sm dark:shadow-none" data-farmer-topbar data-title="Dashboard" data-cta-href="my_listing.html" data-cta-label="+ Add Listing" data-show-menu="true"></header>
+<!-- Content Area -->
+<section class="pt-28 pb-12 px-4 md:px-8">
+<!-- Bento Stats Grid -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border-0 flex flex-col justify-between">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-primary-fixed rounded-lg">
+<span class="material-symbols-outlined text-primary" data-icon="payments">payments</span>
+</div>
+<span class="text-xs font-bold text-primary px-2 py-1 bg-primary-fixed rounded-full flex items-center gap-1">+12.4%</span>
+</div>
+<div>
+<p class="text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">Total Revenue</p>
+<h3 class="text-2xl font-black text-primary font-headline">₦2,840,000</h3>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border-0">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-secondary-fixed rounded-lg">
+<span class="material-symbols-outlined text-secondary" data-icon="shopping_bag">shopping_bag</span>
+</div>
+<span class="text-xs font-bold text-primary px-2 py-1 bg-primary-fixed rounded-full flex items-center gap-1">+8</span>
+</div>
+<div>
+<p class="text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">Orders Count</p>
+<h3 class="text-2xl font-black text-primary font-headline">142</h3>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border-0">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-tertiary-fixed rounded-lg">
+<span class="material-symbols-outlined text-on-tertiary-fixed-variant" data-icon="list_alt">list_alt</span>
+</div>
+</div>
+<div>
+<p class="text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">Active Listings</p>
+<h3 class="text-2xl font-black text-primary font-headline">18</h3>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border-0">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-primary-fixed-dim rounded-lg">
+<span class="material-symbols-outlined text-on-primary-fixed-variant" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</div>
+<div>
+<p class="text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">Rating</p>
+<h3 class="text-2xl font-black text-primary font-headline">4.92<span class="text-sm font-medium text-slate-400">/5</span></h3>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Main Content Left (8 cols) -->
+<div class="lg:col-span-8 space-y-8">
+<!-- Wallet & Price Intelligence Summary -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Wallet Summary -->
+<div class="bg-primary-container text-on-primary-fixed p-8 rounded-2xl relative overflow-hidden flex flex-col justify-between">
+<div class="relative z-10">
+<div class="flex justify-between items-start mb-6">
+<span class="material-symbols-outlined text-primary-fixed opacity-60 text-3xl" data-icon="account_balance_wallet">account_balance_wallet</span>
+<span class="text-xs font-bold bg-white/10 px-3 py-1 rounded-full uppercase tracking-widest backdrop-blur-sm">Wallet Balance</span>
+</div>
+<h4 class="text-4xl font-black mb-2 text-white">₦842,500.00</h4>
+<div class="flex items-center gap-4 text-primary-fixed/80">
+<p class="text-sm font-medium">Escrow: <span class="text-white">₦120,000</span></p>
+<span class="w-1 h-1 rounded-full bg-primary-fixed/30"></span>
+<p class="text-sm font-medium">Available: <span class="text-white">₦722,500</span></p>
+</div>
+</div>
+<div class="mt-8 flex gap-3 relative z-10">
+<a class="flex-1 inline-flex items-center justify-center bg-primary-fixed text-primary font-bold py-3 rounded-xl hover:bg-white transition-colors" href="payout.html">Withdraw</a>
+<a class="inline-flex items-center justify-center p-3 bg-white/10 rounded-xl hover:bg-white/20 transition-colors" href="payout.html">
+<span class="material-symbols-outlined text-white" data-icon="history">history</span>
+</a>
+</div>
+<!-- Decorative Organic Shape -->
+<div class="absolute -right-16 -bottom-16 w-64 h-64 bg-primary rounded-full opacity-40 blur-3xl"></div>
+</div>
+<!-- Price Intelligence Snippet -->
+<div class="bg-surface-container-low p-8 rounded-2xl">
+<div class="flex items-center justify-between mb-6">
+<h4 class="font-bold text-primary font-headline">Price Intelligence</h4>
+<span class="material-symbols-outlined text-primary" data-icon="trending_up">trending_up</span>
+</div>
+<div class="space-y-4">
+<div class="flex items-center justify-between p-3 bg-white rounded-xl shadow-sm">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-tertiary-fixed rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-on-tertiary-fixed-variant" data-icon="set_meal">set_meal</span>
+</div>
+<div>
+<p class="text-xs font-bold text-primary">Catfish (Lg)</p>
+<p class="text-[10px] text-slate-400">Current Market</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-xs font-bold text-primary">₦2,400/kg</p>
+<span class="text-[10px] text-primary bg-primary-fixed px-2 py-0.5 rounded-full">+₦200 Profit</span>
+</div>
+</div>
+<div class="flex items-center justify-between p-3 bg-white rounded-xl shadow-sm">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-secondary-fixed rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-on-secondary-fixed-variant" data-icon="grass">grass</span>
+</div>
+<div>
+<p class="text-xs font-bold text-primary">Dried Snails</p>
+<p class="text-[10px] text-slate-400">Current Market</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-xs font-bold text-primary">₦8,500/kg</p>
+<span class="text-[10px] text-on-tertiary-fixed-variant bg-tertiary-fixed px-2 py-0.5 rounded-full">Fair Value</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Recent Orders Table -->
+<div class="bg-surface-container-lowest rounded-2xl shadow-sm overflow-hidden">
+<div class="p-6 flex items-center justify-between border-b border-surface-container">
+<h4 class="font-bold text-primary font-headline">Recent Orders</h4>
+<a class="text-xs font-bold text-primary underline" href="#">View All</a>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead class="bg-surface-container-low text-[10px] uppercase tracking-wider font-bold text-slate-500">
+<tr>
+<th class="px-6 py-4">Product / Order ID</th>
+<th class="px-6 py-4">Date</th>
+<th class="px-6 py-4">Status</th>
+<th class="px-6 py-4 text-right">Amount</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container">
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="px-6 py-4">
+<div class="flex flex-col">
+<span class="text-sm font-bold text-primary">Fresh Tilapia Cluster</span>
+<span class="text-[10px] text-slate-400">#TRV-9421-FB</span>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-slate-600">Oct 24, 2023</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 bg-primary-fixed text-on-primary-fixed-variant text-[10px] font-bold rounded-full">Confirmed</span>
+</td>
+<td class="px-6 py-4 text-right text-sm font-bold text-primary">₦45,000</td>
+</tr>
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="px-6 py-4">
+<div class="flex flex-col">
+<span class="text-sm font-bold text-primary">Organic Smoked Snails</span>
+<span class="text-[10px] text-slate-400">#TRV-8820-SN</span>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-slate-600">Oct 23, 2023</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 bg-tertiary-fixed text-on-tertiary-fixed-variant text-[10px] font-bold rounded-full">Pending</span>
+</td>
+<td class="px-6 py-4 text-right text-sm font-bold text-primary">₦12,800</td>
+</tr>
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="px-6 py-4">
+<div class="flex flex-col">
+<span class="text-sm font-bold text-primary">Jumbo African Catfish</span>
+<span class="text-[10px] text-slate-400">#TRV-7312-CF</span>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-slate-600">Oct 22, 2023</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 bg-primary-fixed text-on-primary-fixed-variant text-[10px] font-bold rounded-full">Confirmed</span>
+</td>
+<td class="px-6 py-4 text-right text-sm font-bold text-primary">₦82,500</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<!-- Right Column (4 cols) -->
+<div class="lg:col-span-4 space-y-8">
+<!-- Inventory Snapshot -->
+<div class="bg-surface-container-lowest rounded-2xl shadow-sm p-6">
+<div class="flex items-center justify-between mb-6">
+<h4 class="font-bold text-primary font-headline">Inventory Snapshot</h4>
+<span class="material-symbols-outlined text-slate-400" data-icon="more_vert">more_vert</span>
+</div>
+<div class="space-y-6">
+<div class="flex items-start gap-4">
+<img alt="Catfish" class="w-16 h-16 rounded-xl object-cover" data-alt="Close up of fresh raw catfish fillets on a crushed ice bed with a few sprigs of dill in a high-end market setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCyjG2rAq4nNL_GeHUMEy7C4kCW01Ho0dEZ10isntVBJ5sRMdt-IqKBmjeaS-Vt4kaVG_cw2hxTU9q1p_IVfjlA3bybITuDxB-TLwW_uSkuoBKB3PcxHivwA2kw8rnOAvsbipfwMM8TZON7DQmTt6tP1z9CjeZuzk-RWlVjqfaqzETCIZN5oGFRWKOnoHKZfMrU9YMs0lQlghWDy8PG74_nzgmVqk-BAmd7zw6Uy0JMzDZGAN-nY2V42NYgUNruKUc5wwkwaWSJEKY"/>
+<div class="flex-1">
+<div class="flex justify-between mb-1">
+<span class="text-sm font-bold text-primary">Catfish Lg</span>
+<span class="text-xs font-bold text-primary">420kg</span>
+</div>
+<div class="w-full bg-surface-container h-1.5 rounded-full overflow-hidden mb-2">
+<div class="bg-primary h-full w-[85%]"></div>
+</div>
+<span class="px-2 py-0.5 bg-primary-fixed text-[10px] font-bold text-on-primary-fixed-variant rounded">In Stock</span>
+</div>
+</div>
+<div class="flex items-start gap-4">
+<img alt="Snails" class="w-16 h-16 rounded-xl object-cover" data-alt="Handcrafted basket filled with large cleaned giant African land snails ready for processing, warm natural lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBoI90YuR-AubjZEg1poF_qKm7Bx9v_0XtYBWCvyT8jIkCChpt_roKypTw0C9YZWeOKWmyyIQbS8SSRb21inyuDq3Hji1_lrvTvG7Qd_QeR818rBdoOBRo9E1tpHKW8pJjkpSLPX_AyzIrk2dwbSsGXi-o4YP6BzP0jtb7dv2zfmaETfgs3PrNqrXt98W3H5IRgUhLhCq2E3eqPoQ04Pt9gsudL5MtZL-HwL9RnIPHCEtaM1-ie_doZycs_WFslz9RpTw6YZMifOxQ"/>
+<div class="flex-1">
+<div class="flex justify-between mb-1">
+<span class="text-sm font-bold text-primary">Giant Snails</span>
+<span class="text-xs font-bold text-primary">12kg</span>
+</div>
+<div class="w-full bg-surface-container h-1.5 rounded-full overflow-hidden mb-2">
+<div class="bg-tertiary-fixed-dim h-full w-[15%]"></div>
+</div>
+<span class="px-2 py-0.5 bg-tertiary-fixed text-[10px] font-bold text-on-tertiary-fixed-variant rounded">Low Stock</span>
+</div>
+</div>
+<div class="flex items-start gap-4">
+<img alt="Tilapia" class="w-16 h-16 rounded-xl object-cover" data-alt="Overhead view of several fresh whole tilapia fish resting on large green banana leaves, vibrant natural colors" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDIQz6skgvZF8XLebm61ftVcpibHPEZzuQiTQK9eoewcfDpegnOUnabrXt-te0YwVFe05frVtLDhAoApVF9uF3nWvLA3vGqy2H7ekK4GU4YYP-j96AtzHJWS-OUrTAMZnNkXjKD2DT9rDDZ5-NfDDaZbpb6oyrSTJERq7Clmai77LcPW3UPLFmeTp6L4hue3ARWhGi_0jxYK0ud-SCLJkXqMwhpW8jHTdoyl_SX5uDqGnZ8Z2A1PM9MvHjrdDUsWTvGJWa8tG3XXy0"/>
+<div class="flex-1">
+<div class="flex justify-between mb-1">
+<span class="text-sm font-bold text-primary">Red Tilapia</span>
+<span class="text-xs font-bold text-primary">1,200kg</span>
+</div>
+<div class="w-full bg-surface-container h-1.5 rounded-full overflow-hidden mb-2">
+<div class="bg-primary h-full w-[100%]"></div>
+</div>
+<span class="px-2 py-0.5 bg-primary-fixed text-[10px] font-bold text-on-primary-fixed-variant rounded">In Stock</span>
+</div>
+</div>
+</div>
+<button class="w-full mt-8 border-2 border-surface-container-highest py-3 rounded-xl text-sm font-bold text-primary hover:bg-surface-container transition-all">
+                            Manage Inventory
+                        </button>
+</div>
+<!-- Featured Harvest Preview Card -->
+<div class="relative group rounded-2xl overflow-hidden shadow-lg h-64">
+<img alt="Farm Harvest" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Vast lush green agricultural fields at dawn with mist rising and a golden sun breaking through the horizon, ethereal farm morning" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAov3kuFZYEWaZpViIF2IRC2TstmlLp8KxYZeTZ1kXOgPRXKuOdqltTWub_aV66drcRsQ2TOsWgLO-sdAt9T-rtC0LkjtNAEy4JlpBNgGadGTP6up5vM5a55Hb3Y_AOu4ggFOoBz5NG4xW8prUhsiXmmZaFsUGDtGBsQTzMphfSspZxCbUEd-WD3ZmxF2e6VaacTqNFkerwwEnBaH3K0dfNdlqv4xmfgDWkmvZzJJiwGTljYm_L_CqGyhmHrgLR6thE4CvBmqOf-qk"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/90 to-transparent flex flex-col justify-end p-6">
+<span class="text-[10px] font-bold text-primary-fixed uppercase tracking-widest mb-2">Upcoming Harvest</span>
+<h4 class="text-xl font-bold text-white mb-4">Farm Cluster: Unit 04-A Catfish Cycle</h4>
+<div class="flex items-center justify-between">
+<span class="text-white/80 text-xs">Ready in 14 Days</span>
+<button class="bg-tertiary-fixed text-on-tertiary-fixed-variant text-xs font-bold px-4 py-2 rounded-lg">Pre-list Now</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<script>
+    function toggleDrawer() {
+        const drawer = document.getElementById('mobile-drawer');
+        const overlay = document.getElementById('mobile-drawer-overlay');
+        const isActive = drawer.classList.contains('active');
+
+        if (isActive) {
+            drawer.classList.remove('active');
+            overlay.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        } else {
+            drawer.classList.add('active');
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+    }
+</script>
+    <script src="farmers-shell.js"></script>
+</body></html>
+
+
+

@@ -1,0 +1,284 @@
+﻿<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Travia Farmer Dashboard - Farm Clusters</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="farmers-theme.js"></script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8faf9; color: #191c1c; min-height: max(884px, 100dvh); }
+        h1, h2, h3, h4 { font-family: 'Manrope', sans-serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        
+        /* Mobile Drawer logic */
+        #mobile-drawer-overlay { display: none; }
+        #mobile-drawer-overlay.active { display: block; }
+        #mobile-drawer {
+            transform: translateX(-100%);
+            transition: transform 0.3s ease-in-out;
+        }
+        #mobile-drawer.active { transform: translateX(0); }
+        @media (min-width: 1024px) {
+            #mobile-drawer { transform: translateX(0); }
+        }
+    </style>
+</head>
+<body class="bg-surface">
+<!-- Mobile Drawer Overlay -->
+<div class="fixed inset-0 bg-black/50 z-[60] lg:hidden" id="mobile-drawer-overlay" onclick="toggleDrawer()"></div>
+<!-- Navigation Drawer -->
+<aside class="h-screen w-64 fixed left-0 top-0 border-r-0 bg-white dark:bg-emerald-950 flex flex-col py-6 z-[70] lg:z-50" id="mobile-drawer" data-farmer-sidebar></aside>
+<!-- Main Content -->
+<main class="lg:ml-64 min-h-screen">
+<!-- Top App Bar -->
+<header class="fixed top-0 right-0 left-0 lg:left-64 z-40 bg-slate-50/80 backdrop-blur-md flex justify-between items-center px-4 md:px-8 h-20 shadow-sm" data-farmer-topbar data-title="Farm Cluster" data-cta-href="my_listing.html" data-cta-label="+ Add Listing" data-show-menu="true"></header>
+<div class="pt-28 px-4 md:px-8 pb-12 max-w-7xl mx-auto">
+<!-- Hero Stats / Summary Section -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-outline-variant/10">
+<p class="text-xs font-bold text-primary/60 uppercase tracking-widest mb-1">Market Position</p>
+<h3 class="text-2xl font-black text-primary">+12.4%</h3>
+<p class="text-sm text-secondary mt-2">Above average local market rates this week</p>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-outline-variant/10">
+<p class="text-xs font-bold text-primary/60 uppercase tracking-widest mb-1">Active Clusters</p>
+<h3 class="text-2xl font-black text-primary">04</h3>
+<p class="text-sm text-secondary mt-2">Participating in Ogun &amp; Lagos networks</p>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-outline-variant/10">
+<p class="text-xs font-bold text-primary/60 uppercase tracking-widest mb-1">Estimated Savings</p>
+<h3 class="text-2xl font-black text-primary">₦42,500</h3>
+<p class="text-sm text-secondary mt-2">Saved through logistics aggregation</p>
+</div>
+</section>
+<!-- Farm Clusters Section -->
+<section class="mb-12">
+<div class="flex flex-col sm:flex-row sm:items-end justify-between mb-6 gap-4">
+<div>
+<h2 class="text-3xl font-black text-primary tracking-tight">Active Farm Clusters</h2>
+<p class="text-secondary font-medium mt-1">Join a logistics batch to reduce delivery costs by up to 30%.</p>
+</div>
+<a class="text-primary font-bold flex items-center gap-2 hover:underline" href="price_intelligence.html">
+                        Open Price Intelligence <span class="material-symbols-outlined">arrow_forward</span>
+</a>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+<!-- Cluster Card 1 -->
+<div class="group relative overflow-hidden bg-surface-container rounded-xl flex flex-col md:flex-row min-h-[220px]">
+<div class="w-full md:w-2/5 relative">
+<img alt="Fish Farm" class="w-full h-full object-cover" data-alt="vibrant overhead shot of a commercial catfish pond with swirling water and active fish during feeding time" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAp1W6if-QGvpkXiF_pESuDo438ohdBqNGmLAnVho1HCCCtOkWQd7Si1rJpCGRPVoVO9G-7E8x_TwXo9V4FXql0TTLnwWm2TGAUAZ3_PTdtKm-Vcw2uJ3SZE9lvq278XCBcw0TZ_kaOkPVoUOyhYsP5CFh3VF7Bf1uuX_IkMJ5_mHOwIM7PZcbkPr7JmCtczfgV13TOqWGarLq3jpaLQ2VesPPEr_8eBe8aEuYreV4OFWTV0Mb9ujLAiziFYvK1fkfJ3DrvlOUnuQg"/>
+<div class="absolute top-4 left-4 bg-primary text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-tighter">Live Batch</div>
+</div>
+<div class="p-6 flex-1 flex flex-col justify-between">
+<div>
+<h3 class="text-xl font-bold text-primary">Ogun Waterside Catfish</h3>
+<div class="flex items-center gap-4 mt-2">
+<div class="flex items-center gap-1 text-secondary text-sm">
+<span class="material-symbols-outlined text-sm">groups</span> 12 Farmers
+                                    </div>
+<div class="flex items-center gap-1 text-secondary text-sm">
+<span class="material-symbols-outlined text-sm">schedule</span> Oct 24
+                                    </div>
+</div>
+<div class="mt-4 inline-flex items-center gap-2 bg-primary-fixed/50 px-3 py-1.5 rounded-lg">
+<span class="text-xs font-bold text-primary">Est. Savings:</span>
+<span class="text-sm font-black text-primary">₦12,400</span>
+</div>
+</div>
+<div class="flex gap-3 mt-6">
+<button class="flex-1 bg-primary text-white py-2 rounded-lg font-bold text-sm hover:opacity-90 transition-all" data-cluster-join-btn data-cluster-name="Ogun Waterside Catfish" type="button">Join Batch</button>
+<button class="px-3 border border-outline-variant rounded-lg text-primary hover:bg-white transition-all" data-cluster-invite-btn data-cluster-name="Ogun Waterside Catfish" type="button">
+<span class="material-symbols-outlined text-xl">person_add</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Cluster Card 2 -->
+<div class="group relative overflow-hidden bg-surface-container rounded-xl flex flex-col md:flex-row min-h-[220px]">
+<div class="w-full md:w-2/5 relative">
+<img alt="Snails" class="w-full h-full object-cover" data-alt="close-up of giant African land snails on fresh green leaves with soft morning dew and natural light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB5Fev7D9Bn6JybbgoM9BGWn0-BdhRjQcZwWDpvsHtFAmdOLsajGyhupqRxQ2i1ys-8PMs0BPz14OQZzL60ju7Eyv2quTRgQtOyoFUgcMMOys46sP_yrAggp_nlbRT4DH3oa-BfYQE9DZPxQqvO75PrqhmT9Vb6ToAVsULI-RoNryo8WmNeYnC17p_vOatofixe1-hsiJc9iAo-4igC4k9D1lI8LoxvLbyJd4s8Olzm2MGn8CgxxsaGJxiROZBouAtiriJ63FuroR8"/>
+<div class="absolute top-4 left-4 bg-tertiary-container text-tertiary-fixed text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-tighter">Filling Fast</div>
+</div>
+<div class="p-6 flex-1 flex flex-col justify-between">
+<div>
+<h3 class="text-xl font-bold text-primary">Ikorodu Snail Network</h3>
+<div class="flex items-center gap-4 mt-2">
+<div class="flex items-center gap-1 text-secondary text-sm">
+<span class="material-symbols-outlined text-sm">groups</span> 08 Farmers
+                                    </div>
+<div class="flex items-center gap-1 text-secondary text-sm">
+<span class="material-symbols-outlined text-sm">schedule</span> Oct 28
+                                    </div>
+</div>
+<div class="mt-4 inline-flex items-center gap-2 bg-primary-fixed/50 px-3 py-1.5 rounded-lg">
+<span class="text-xs font-bold text-primary">Est. Savings:</span>
+<span class="text-sm font-black text-primary">₦8,900</span>
+</div>
+</div>
+<div class="flex gap-3 mt-6">
+<button class="flex-1 bg-primary text-white py-2 rounded-lg font-bold text-sm hover:opacity-90 transition-all" data-cluster-join-btn data-cluster-name="Ikorodu Snail Network" type="button">Join Batch</button>
+<button class="px-3 border border-outline-variant rounded-lg text-primary hover:bg-white transition-all" data-cluster-invite-btn data-cluster-name="Ikorodu Snail Network" type="button">
+<span class="material-symbols-outlined text-xl">person_add</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- Contextual FAB -->
+<button class="fixed bottom-8 right-8 w-16 h-16 bg-primary text-white rounded-full shadow-2xl flex items-center justify-center hover:scale-105 transition-transform z-50" data-cluster-fab-btn type="button">
+<span class="material-symbols-outlined text-3xl">add</span>
+</button>
+<div class="hidden fixed inset-0 z-[90] bg-black/40 backdrop-blur-sm items-center justify-center p-4" data-join-modal-overlay>
+<div class="w-full max-w-md bg-surface-container-lowest rounded-2xl shadow-[0_24px_48px_-12px_rgba(15,61,46,0.3)] border border-outline-variant/20 p-6">
+<h3 class="text-xl font-black text-primary mb-2">Join Cluster</h3>
+<p class="text-sm text-secondary mb-6" data-join-modal-message>Confirm cluster enrollment.</p>
+<div class="flex gap-3">
+<button class="flex-1 py-2.5 rounded-lg bg-surface-container-high text-on-surface-variant font-bold hover:bg-surface-container transition-colors" data-join-modal-cancel type="button">Cancel</button>
+<button class="flex-1 py-2.5 rounded-lg bg-primary text-white font-bold hover:opacity-90 transition-opacity" data-join-modal-confirm type="button">Confirm Join</button>
+</div>
+</div>
+</div>
+<div class="fixed top-4 right-4 z-[95] space-y-3 pointer-events-none" data-cluster-toast-stack></div>
+<script>
+        function toggleDrawer() {
+            const drawer = document.getElementById('mobile-drawer');
+            const overlay = document.getElementById('mobile-drawer-overlay');
+            const isActive = drawer.classList.contains('active');
+            
+            if (isActive) {
+                drawer.classList.remove('active');
+                overlay.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            } else {
+                drawer.classList.add('active');
+                overlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        (function () {
+            const joinButtons = Array.from(document.querySelectorAll('[data-cluster-join-btn]'));
+            const inviteButtons = Array.from(document.querySelectorAll('[data-cluster-invite-btn]'));
+            const fabButton = document.querySelector('[data-cluster-fab-btn]');
+            const toastStack = document.querySelector('[data-cluster-toast-stack]');
+            const modalOverlay = document.querySelector('[data-join-modal-overlay]');
+            const modalMessage = document.querySelector('[data-join-modal-message]');
+            const modalCancel = document.querySelector('[data-join-modal-cancel]');
+            const modalConfirm = document.querySelector('[data-join-modal-confirm]');
+
+            if (!toastStack || !modalOverlay || !modalMessage || !modalCancel || !modalConfirm) return;
+
+            let activeJoinButton = null;
+            let activeClusterName = '';
+
+            function showToast(message, type) {
+                const toast = document.createElement('div');
+                const base = 'rounded-lg px-4 py-3 text-sm font-bold shadow-lg transition-all duration-200';
+                const variant = type === 'warning'
+                    ? 'bg-[#7b2f2f] text-[#fff6f6]'
+                    : 'bg-[#0f3d2e] text-[#f6fff9]';
+
+                toast.className = base + ' ' + variant;
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateY(-8px)';
+                toast.textContent = message;
+                toastStack.appendChild(toast);
+
+                requestAnimationFrame(function () {
+                    toast.style.opacity = '1';
+                    toast.style.transform = 'translateY(0)';
+                });
+
+                setTimeout(function () {
+                    toast.style.opacity = '0';
+                    toast.style.transform = 'translateY(-8px)';
+                    setTimeout(function () {
+                        toast.remove();
+                    }, 220);
+                }, 2300);
+            }
+
+            function openJoinModal(clusterName, sourceButton) {
+                activeJoinButton = sourceButton;
+                activeClusterName = clusterName;
+                modalMessage.textContent = 'Join "' + clusterName + '" and start receiving coordinated logistics and pricing updates?';
+                modalOverlay.classList.remove('hidden');
+                modalOverlay.classList.add('flex');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeJoinModal() {
+                modalOverlay.classList.add('hidden');
+                modalOverlay.classList.remove('flex');
+                document.body.style.overflow = 'auto';
+            }
+
+            joinButtons.forEach(function (button) {
+                button.addEventListener('click', function () {
+                    const clusterName = button.getAttribute('data-cluster-name') || 'this cluster';
+                    openJoinModal(clusterName, button);
+                });
+            });
+
+            inviteButtons.forEach(function (button) {
+                button.addEventListener('click', async function () {
+                    const clusterName = button.getAttribute('data-cluster-name') || 'cluster';
+                    const inviteText = 'Join me on Travia cluster: ' + clusterName + ' - farmers/price_cluster.html';
+
+                    try {
+                        if (navigator.clipboard && navigator.clipboard.writeText) {
+                            await navigator.clipboard.writeText(inviteText);
+                        }
+                        showToast('Invite link copied for ' + clusterName + '.');
+                    } catch (error) {
+                        showToast('Invite created for ' + clusterName + '.', 'warning');
+                    }
+                });
+            });
+
+            modalCancel.addEventListener('click', function () {
+                closeJoinModal();
+                showToast('Join request cancelled.', 'warning');
+            });
+
+            modalOverlay.addEventListener('click', function (event) {
+                if (event.target === modalOverlay) {
+                    closeJoinModal();
+                }
+            });
+
+            modalConfirm.addEventListener('click', function () {
+                if (activeJoinButton) {
+                    activeJoinButton.disabled = true;
+                    activeJoinButton.textContent = 'Joined';
+                    activeJoinButton.classList.add('opacity-70', 'cursor-not-allowed');
+                }
+
+                closeJoinModal();
+                showToast('Joined ' + activeClusterName + ' successfully.');
+            });
+
+            if (fabButton) {
+                fabButton.addEventListener('click', function () {
+                    showToast('Opening listing creator...');
+                    setTimeout(function () {
+                        window.location.href = 'my_listing.html';
+                    }, 350);
+                });
+            }
+        })();
+    </script>
+    <script src="farmers-shell.js"></script>
+</body></html>
+
+
+
+
+

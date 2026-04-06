@@ -169,3 +169,16 @@ function handleGoogleSignIn() {
     console.log("Google Sign-In Triggered");
     // Integrate Google Auth logic here
 }
+
+function handleFinalSignup() {
+    const destination = userRole === 'buyer'
+        ? './pages/buyers-dashboard/buyers-dashboard.html'
+        : './pages/farmers-dashboard/farmers-dashboard.html';
+
+    window.location.href = destination;
+}
+
+const finalBtn = document.getElementById('final-btn');
+if (finalBtn) {
+    finalBtn.addEventListener('click', handleFinalSignup);
+}

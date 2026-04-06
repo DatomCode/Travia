@@ -1,0 +1,358 @@
+﻿<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Travia Farmer Dashboard - Price Intelligence</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="farmers-theme.js"></script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8faf9; color: #191c1c; min-height: max(884px, 100dvh); }
+        h1, h2, h3, h4 { font-family: 'Manrope', sans-serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+
+        #mobile-drawer-overlay { display: none; }
+        #mobile-drawer-overlay.active { display: block; }
+        #mobile-drawer {
+            transform: translateX(-100%);
+            transition: transform 0.3s ease-in-out;
+        }
+        #mobile-drawer.active { transform: translateX(0); }
+        @media (min-width: 1024px) {
+            #mobile-drawer { transform: translateX(0); }
+        }
+    </style>
+</head>
+<body class="bg-surface">
+<!-- Mobile Drawer Overlay -->
+<div class="fixed inset-0 bg-black/50 z-[60] lg:hidden" id="mobile-drawer-overlay" onclick="toggleDrawer()"></div>
+
+<!-- Navigation Drawer -->
+<aside class="fixed left-0 top-0 w-64 h-full bg-white dark:bg-emerald-950 border-r border-surface-container py-6 z-[70] lg:z-50 flex flex-col transition-transform duration-300 ease-in-out" id="mobile-drawer" data-farmer-sidebar></aside>
+
+<!-- Main Content -->
+<main class="lg:ml-64 min-h-screen">
+<header class="fixed top-0 right-0 left-0 lg:left-64 z-40 bg-slate-50/80 dark:bg-emerald-950/80 backdrop-blur-md flex justify-between items-center px-4 md:px-8 h-20 shadow-sm dark:shadow-none" data-farmer-topbar data-title="Price Intelligence" data-cta-href="my_listing.html" data-cta-label="+ Add Listing" data-show-menu="true" data-topbar-size="compact"></header>
+
+<div class="pt-28 px-4 md:px-8 pb-12 max-w-7xl mx-auto">
+<section class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 mb-10">
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-outline-variant/10">
+<p class="text-xs font-bold text-primary/60 uppercase tracking-widest mb-1">Avg Margin</p>
+<h3 class="text-3xl font-black text-primary">+13.8%</h3>
+<p class="text-sm text-secondary mt-2">Across top 6 active products</p>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-outline-variant/10">
+<p class="text-xs font-bold text-primary/60 uppercase tracking-widest mb-1">Best Demand Window</p>
+<h3 class="text-3xl font-black text-primary">Fri - Sun</h3>
+<p class="text-sm text-secondary mt-2">Most buyer activity in Lagos hub</p>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-outline-variant/10">
+<p class="text-xs font-bold text-primary/60 uppercase tracking-widest mb-1">Products Watched</p>
+<h3 class="text-3xl font-black text-primary">18</h3>
+<p class="text-sm text-secondary mt-2">10 high-volume, 8 seasonal</p>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-outline-variant/10">
+<p class="text-xs font-bold text-primary/60 uppercase tracking-widest mb-1">Alerts Triggered</p>
+<h3 class="text-3xl font-black text-primary">4</h3>
+<p class="text-sm text-secondary mt-2">2 increase opportunities today</p>
+</div>
+</section>
+
+<section class="grid grid-cols-1 xl:grid-cols-12 gap-8 mb-12">
+<div class="xl:col-span-8 bg-surface-container-lowest rounded-2xl p-8 border border-outline-variant/10 shadow-sm">
+<div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6">
+<div>
+<h2 class="text-2xl font-black text-primary tracking-tight">Live Price Benchmark</h2>
+<p class="text-secondary font-medium mt-1">Compare your current rates with market averages and trend velocity.</p>
+</div>
+<div class="flex gap-2">
+<span class="px-4 py-1.5 bg-surface-container-high rounded-full text-xs font-bold text-primary">Lagos Hub</span>
+<span class="px-4 py-1.5 bg-white border border-outline-variant/30 rounded-full text-xs font-bold text-slate-400">Ogun Hub</span>
+</div>
+</div>
+<div class="overflow-x-auto lg:overflow-hidden">
+<table class="w-full text-left min-w-[740px] lg:min-w-full border-collapse">
+<thead>
+<tr class="bg-surface-container-low">
+<th class="px-6 py-4 text-xs font-bold text-primary/60 uppercase tracking-widest">Product</th>
+<th class="px-6 py-4 text-xs font-bold text-primary/60 uppercase tracking-widest">Your Rate</th>
+<th class="px-6 py-4 text-xs font-bold text-primary/60 uppercase tracking-widest">Market Avg</th>
+<th class="px-6 py-4 text-xs font-bold text-primary/60 uppercase tracking-widest">7-Day Trend</th>
+<th class="px-6 py-4 text-xs font-bold text-primary/60 uppercase tracking-widest text-right">Suggested Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container">
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="px-6 py-5 font-bold text-primary">Point-and-Kill Catfish</td>
+<td class="px-6 py-5 font-semibold text-primary">&#8358;2,450 /kg</td>
+<td class="px-6 py-5 text-secondary">&#8358;2,100 /kg</td>
+<td class="px-6 py-5"><span class="inline-flex items-center gap-1 text-xs font-bold bg-primary-fixed text-on-primary-fixed-variant px-3 py-1 rounded-full"><span class="material-symbols-outlined text-[14px]">trending_up</span>+16.7%</span></td>
+<td class="px-6 py-5 text-right"><button class="text-xs font-bold text-primary hover:underline" data-price-action-btn data-action-label="Hold Price" data-product-name="Point-and-Kill Catfish" type="button">Hold Price</button></td>
+</tr>
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="px-6 py-5 font-bold text-primary">Jumbo AAA Snails</td>
+<td class="px-6 py-5 font-semibold text-primary">&#8358;18,200 /dozen</td>
+<td class="px-6 py-5 text-secondary">&#8358;16,500 /dozen</td>
+<td class="px-6 py-5"><span class="inline-flex items-center gap-1 text-xs font-bold bg-primary-fixed text-on-primary-fixed-variant px-3 py-1 rounded-full"><span class="material-symbols-outlined text-[14px]">trending_up</span>+10.3%</span></td>
+<td class="px-6 py-5 text-right"><button class="text-xs font-bold text-primary hover:underline" data-price-action-btn data-action-label="Raise +3%" data-product-name="Jumbo AAA Snails" type="button">Raise +3%</button></td>
+</tr>
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="px-6 py-5 font-bold text-primary">Fresh Tilapia</td>
+<td class="px-6 py-5 font-semibold text-primary">&#8358;1,950 /kg</td>
+<td class="px-6 py-5 text-secondary">&#8358;1,750 /kg</td>
+<td class="px-6 py-5"><span class="inline-flex items-center gap-1 text-xs font-bold bg-primary-fixed text-on-primary-fixed-variant px-3 py-1 rounded-full"><span class="material-symbols-outlined text-[14px]">trending_up</span>+11.4%</span></td>
+<td class="px-6 py-5 text-right"><button class="text-xs font-bold text-primary hover:underline" data-price-action-btn data-action-label="Bundle Offer" data-product-name="Fresh Tilapia" type="button">Bundle Offer</button></td>
+</tr>
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="px-6 py-5 font-bold text-primary">Smoked Catfish Pack</td>
+<td class="px-6 py-5 font-semibold text-primary">&#8358;7,200 /pack</td>
+<td class="px-6 py-5 text-secondary">&#8358;7,450 /pack</td>
+<td class="px-6 py-5"><span class="inline-flex items-center gap-1 text-xs font-bold bg-tertiary-fixed text-on-tertiary-fixed-variant px-3 py-1 rounded-full"><span class="material-symbols-outlined text-[14px]">trending_down</span>-3.4%</span></td>
+<td class="px-6 py-5 text-right"><button class="text-xs font-bold text-primary hover:underline" data-price-action-btn data-action-label="Reduce -2%" data-product-name="Smoked Catfish Pack" type="button">Reduce -2%</button></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="mt-6 flex flex-wrap gap-3">
+<button class="bg-primary text-white px-5 py-2.5 rounded-lg text-sm font-bold hover:opacity-90 transition-all" data-apply-pricing-btn type="button">Apply Suggested Pricing</button>
+<button class="bg-surface-container-high px-5 py-2.5 rounded-lg text-sm font-bold text-primary hover:bg-surface-container transition-all" data-export-report-btn type="button">Export Weekly Report</button>
+</div>
+</div>
+
+<div class="xl:col-span-4 space-y-6">
+<div class="bg-surface-container-lowest rounded-2xl p-6 border border-outline-variant/10 shadow-sm">
+<h3 class="text-lg font-black text-primary mb-4">Hot Market Alerts</h3>
+<div class="space-y-4">
+<div class="p-4 rounded-xl bg-primary-fixed/40">
+<p class="text-xs font-bold text-primary/70 uppercase tracking-widest">Opportunity</p>
+<p class="font-bold text-primary mt-1">Catfish demand spikes in Lekki</p>
+<p class="text-xs text-secondary mt-1">Expected uplift: +7% in 48 hours</p>
+</div>
+<div class="p-4 rounded-xl bg-tertiary-fixed/40">
+<p class="text-xs font-bold text-primary/70 uppercase tracking-widest">Watchlist</p>
+<p class="font-bold text-primary mt-1">Snail supply rising in Ogun</p>
+<p class="text-xs text-secondary mt-1">Likely softening by next market cycle</p>
+</div>
+<div class="p-4 rounded-xl bg-secondary-fixed/30">
+<p class="text-xs font-bold text-primary/70 uppercase tracking-widest">Action Needed</p>
+<p class="font-bold text-primary mt-1">Review smoked fish bundle rates</p>
+<p class="text-xs text-secondary mt-1">Your listing trails market by 3.4%</p>
+</div>
+</div>
+</div>
+
+<div class="bg-surface-container-lowest rounded-2xl p-6 border border-outline-variant/10 shadow-sm">
+<h3 class="text-lg font-black text-primary mb-4">Pricing Playbook</h3>
+<div class="space-y-4 text-sm">
+<div class="flex gap-3">
+<span class="material-symbols-outlined text-primary">insights</span>
+<p class="text-secondary"><span class="font-bold text-primary">Peak timing:</span> Publish price updates before 8:00 AM on Fridays for stronger conversion.</p>
+</div>
+<div class="flex gap-3">
+<span class="material-symbols-outlined text-primary">sell</span>
+<p class="text-secondary"><span class="font-bold text-primary">Bundle strategy:</span> Pair slow-moving stock with high-demand products to protect average margin.</p>
+</div>
+<div class="flex gap-3">
+<span class="material-symbols-outlined text-primary">monitoring</span>
+<p class="text-secondary"><span class="font-bold text-primary">Guardrails:</span> Keep price delta within +/-12% of hub average unless quality premium is documented.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<section class="bg-surface-container-lowest rounded-2xl p-8 border border-outline-variant/10 shadow-sm">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div>
+<h3 class="text-xl font-black text-primary">Next Intelligence Update</h3>
+<p class="text-secondary mt-1" data-next-update-text>Auto-refresh in 2h 15m from Lagos and Ogun trade feeds.</p>
+</div>
+<button class="bg-primary-fixed text-on-primary-fixed-variant px-5 py-2.5 rounded-lg text-sm font-bold hover:opacity-90 transition-all" data-refresh-intel-btn type="button">Refresh Now</button>
+</div>
+</section>
+</div>
+</main>
+<div class="hidden fixed inset-0 z-[90] bg-black/40 backdrop-blur-sm items-center justify-center p-4" data-pricing-modal-overlay>
+<div class="w-full max-w-md bg-surface-container-lowest rounded-2xl shadow-[0_24px_48px_-12px_rgba(15,61,46,0.3)] border border-outline-variant/20 p-6">
+<h3 class="text-xl font-black text-primary mb-2">Apply Pricing Actions</h3>
+<p class="text-sm text-secondary mb-6" data-pricing-modal-message>Apply all suggested actions to your active listings now?</p>
+<div class="flex gap-3">
+<button class="flex-1 py-2.5 rounded-lg bg-surface-container-high text-on-surface-variant font-bold hover:bg-surface-container transition-colors" data-pricing-modal-cancel type="button">Cancel</button>
+<button class="flex-1 py-2.5 rounded-lg bg-primary text-white font-bold hover:opacity-90 transition-opacity" data-pricing-modal-confirm type="button">Confirm</button>
+</div>
+</div>
+</div>
+<div class="fixed top-4 right-4 z-[95] space-y-3 pointer-events-none" data-price-toast-stack></div>
+
+<script>
+        function toggleDrawer() {
+            const drawer = document.getElementById('mobile-drawer');
+            const overlay = document.getElementById('mobile-drawer-overlay');
+            const isActive = drawer.classList.contains('active');
+
+            if (isActive) {
+                drawer.classList.remove('active');
+                overlay.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            } else {
+                drawer.classList.add('active');
+                overlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        (function () {
+            const actionButtons = Array.from(document.querySelectorAll('[data-price-action-btn]'));
+            const applyPricingButton = document.querySelector('[data-apply-pricing-btn]');
+            const exportReportButton = document.querySelector('[data-export-report-btn]');
+            const refreshIntelButton = document.querySelector('[data-refresh-intel-btn]');
+            const nextUpdateText = document.querySelector('[data-next-update-text]');
+            const toastStack = document.querySelector('[data-price-toast-stack]');
+            const modalOverlay = document.querySelector('[data-pricing-modal-overlay]');
+            const modalMessage = document.querySelector('[data-pricing-modal-message]');
+            const modalCancel = document.querySelector('[data-pricing-modal-cancel]');
+            const modalConfirm = document.querySelector('[data-pricing-modal-confirm]');
+
+            if (!toastStack || !modalOverlay || !modalMessage || !modalCancel || !modalConfirm) {
+                return;
+            }
+
+            function showToast(message, type) {
+                const toast = document.createElement('div');
+                const baseClass = 'rounded-lg px-4 py-3 text-sm font-bold shadow-lg transition-all duration-200';
+                const variantClass = type === 'warning'
+                    ? 'bg-[#7b2f2f] text-[#fff6f6]'
+                    : 'bg-[#0f3d2e] text-[#f6fff9]';
+
+                toast.className = baseClass + ' ' + variantClass;
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateY(-8px)';
+                toast.textContent = message;
+                toastStack.appendChild(toast);
+
+                requestAnimationFrame(function () {
+                    toast.style.opacity = '1';
+                    toast.style.transform = 'translateY(0)';
+                });
+
+                setTimeout(function () {
+                    toast.style.opacity = '0';
+                    toast.style.transform = 'translateY(-8px)';
+                    setTimeout(function () {
+                        toast.remove();
+                    }, 220);
+                }, 2200);
+            }
+
+            function openModal(message) {
+                modalMessage.textContent = message;
+                modalOverlay.classList.remove('hidden');
+                modalOverlay.classList.add('flex');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeModal() {
+                modalOverlay.classList.add('hidden');
+                modalOverlay.classList.remove('flex');
+                document.body.style.overflow = 'auto';
+            }
+
+            function markActionApplied(button) {
+                if (!button) return;
+                button.dataset.applied = 'true';
+                button.textContent = 'Applied';
+                button.classList.add('text-slate-400', 'cursor-default', 'no-underline');
+                button.classList.remove('text-primary', 'hover:underline');
+            }
+
+            actionButtons.forEach(function (button) {
+                button.addEventListener('click', function () {
+                    if (button.dataset.applied === 'true') {
+                        showToast('Action already applied for this listing.', 'warning');
+                        return;
+                    }
+
+                    const action = button.getAttribute('data-action-label') || 'Action';
+                    const product = button.getAttribute('data-product-name') || 'listing';
+                    markActionApplied(button);
+                    showToast(action + ' applied for ' + product + '.');
+                });
+            });
+
+            if (applyPricingButton) {
+                applyPricingButton.addEventListener('click', function () {
+                    openModal('Apply all suggested actions to your active listings now?');
+                });
+            }
+
+            modalCancel.addEventListener('click', function () {
+                closeModal();
+                showToast('Bulk pricing update cancelled.', 'warning');
+            });
+
+            modalOverlay.addEventListener('click', function (event) {
+                if (event.target === modalOverlay) {
+                    closeModal();
+                }
+            });
+
+            modalConfirm.addEventListener('click', function () {
+                actionButtons.forEach(function (button) {
+                    markActionApplied(button);
+                });
+                closeModal();
+                showToast('All suggested pricing actions applied successfully.');
+            });
+
+            if (exportReportButton) {
+                exportReportButton.addEventListener('click', function () {
+                    const reportDate = new Date();
+                    const fileDate = reportDate.toISOString().slice(0, 10);
+                    const content = [
+                        'Travia Price Intelligence Report',
+                        'Date: ' + reportDate.toLocaleString(),
+                        '',
+                        'Point-and-Kill Catfish: Hold Price',
+                        'Jumbo AAA Snails: Raise +3%',
+                        'Fresh Tilapia: Bundle Offer',
+                        'Smoked Catfish Pack: Reduce -2%'
+                    ].join('\n');
+
+                    const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+                    const link = document.createElement('a');
+                    link.href = URL.createObjectURL(blob);
+                    link.download = 'price-intelligence-report-' + fileDate + '.txt';
+                    document.body.appendChild(link);
+                    link.click();
+                    link.remove();
+                    URL.revokeObjectURL(link.href);
+                    showToast('Weekly report exported.');
+                });
+            }
+
+            if (refreshIntelButton) {
+                refreshIntelButton.addEventListener('click', function () {
+                    if (refreshIntelButton.dataset.loading === 'true') return;
+
+                    refreshIntelButton.dataset.loading = 'true';
+                    const originalText = refreshIntelButton.textContent;
+                    refreshIntelButton.textContent = 'Refreshing...';
+                    refreshIntelButton.classList.add('opacity-80', 'cursor-wait');
+
+                    setTimeout(function () {
+                        refreshIntelButton.dataset.loading = 'false';
+                        refreshIntelButton.textContent = originalText;
+                        refreshIntelButton.classList.remove('opacity-80', 'cursor-wait');
+                        if (nextUpdateText) {
+                            nextUpdateText.textContent = 'Last refreshed just now. Next sync in about 3 hours.';
+                        }
+                        showToast('Price intelligence refreshed successfully.');
+                    }, 900);
+                });
+            }
+        })();
+    </script>
+    <script src="farmers-shell.js"></script>
+</body></html>

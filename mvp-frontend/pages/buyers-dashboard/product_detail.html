@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Marketplace - Travia Premium Agritech</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="tailwind-theme.js"></script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .font-headline { font-family: 'Manrope', sans-serif; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface min-h-screen">
+<!-- NavigationDrawer (Shared Component) -->
+<aside id="sidebar" data-sidebar class="fixed left-0 top-0 h-screen w-64 z-40 bg-white dark:bg-[#00261a] shadow-[0_12px_32px_-4px_rgba(15,61,46,0.08)] hidden md:flex flex-col">
+<div class="p-6 flex flex-col gap-1">
+<span class="font-manrope font-extrabold text-[#00261a] dark:text-[#beedd7] text-2xl tracking-tight">Travia</span>
+<div class="mt-8 flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center overflow-hidden">
+<img alt="Buyer Avatar" data-alt="Professional headshot of a smiling man with short hair in a neutral studio setting with soft lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBu_UZP0CvMkoXb-pWMJ4pTwIDd0J3TkWo6ZVq2MMaXX4kRf8A292qNnp0blPE0rZv4hSfDnbdC7b_OOH2a1l_zeA3T-bJbI_Ld_MxLmHo7l1_hwJEBkd8zvmpTtpykZ0DiKNUX6ljdPJkwkHYUasGOJeiEEIIdK0wnYsEV7atboaefP3fg2jzbDs5NTWBNGRk25idXS-6ra5Jk0q2e49qkYGksT7oQ13W6l1jZ15rl3dybOE7e0yT2R2U5jdDs6u7UGE-5xo775ak"/>
+</div>
+<div>
+<p class="font-manrope font-bold text-sm text-[#0f3d2e] dark:text-[#beedd7]">Alex Rivers</p>
+<p class="text-xs text-slate-500">Premium Buyer</p>
+</div>
+</div>
+</div>
+<nav class="mt-4 flex-1">
+<!-- Active: Marketplace -->
+<a class="flex items-center gap-3 px-6 py-3 text-[#00261a] dark:text-[#beedd7] border-l-4 border-[#beedd7] bg-[#f3f4f3] dark:bg-[#0f3d2e] font-manrope text-sm font-medium transition-colors" href="buyers-dashboard.html">
+<span class="material-symbols-outlined" data-icon="storefront">storefront</span>
+<span>Marketplace</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-slate-500 dark:text-slate-400 hover:bg-[#f3f4f3] dark:hover:bg-[#0f3d2e] transition-colors font-manrope text-sm font-medium" href="my-orders.html">
+<span class="material-symbols-outlined" data-icon="shopping_bag">shopping_bag</span>
+<span>My Orders</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-slate-500 dark:text-slate-400 hover:bg-[#f3f4f3] dark:hover:bg-[#0f3d2e] transition-colors font-manrope text-sm font-medium" href="pre-orders.html">
+<span class="material-symbols-outlined" data-icon="pending_actions">pending_actions</span>
+<span>Pre-Orders</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-slate-500 dark:text-slate-400 hover:bg-[#f3f4f3] dark:hover:bg-[#0f3d2e] transition-colors font-manrope text-sm font-medium" href="favourite-farms.html">
+<span class="material-symbols-outlined" data-icon="potted_plant">potted_plant</span>
+<span>Favourite Farms</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-slate-500 dark:text-slate-400 hover:bg-[#f3f4f3] dark:hover:bg-[#0f3d2e] transition-colors font-manrope text-sm font-medium" href="my-profile.html">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span>My Profile</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-slate-500 dark:text-slate-400 hover:bg-[#f3f4f3] dark:hover:bg-[#0f3d2e] transition-colors font-manrope text-sm font-medium" href="cart.html">
+<span class="material-symbols-outlined" data-icon="shopping_cart">shopping_cart</span>
+<span>Cart</span>
+</a>
+</nav>
+<div class="p-6">
+<a class="flex items-center gap-3 text-slate-500 hover:text-error transition-colors font-manrope text-sm font-medium" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span>Sign Out</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="md:ml-64 min-h-screen">
+<!-- TopAppBar (Shared Component) -->
+<header class="w-full sticky top-0 z-30 bg-[#f8faf9]/80 dark:bg-[#00261a]/80 backdrop-blur-md flex justify-between items-center px-6 py-4">
+<div class="flex items-center gap-4">
+<button class="md:hidden text-[#0f3d2e] dark:text-[#beedd7]" data-menu-toggle aria-label="Open menu" aria-expanded="false">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+<h2 class="font-manrope font-bold text-xl text-[#0f3d2e] dark:text-[#beedd7]">Marketplace</h2>
+</div>
+<div class="flex items-center gap-4">
+<button class="px-4 py-2 rounded-full bg-primary text-white text-sm font-bold active:scale-95 transition-all">Pre-Order</button>
+<button class="text-slate-400 hover:text-[#0f3d2e] transition-all">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+</div>
+</header>
+<!-- Product Detail Section -->
+<div class="max-w-7xl mx-auto px-6 py-8 lg:py-12">
+<!-- Breadcrumbs -->
+<nav class="flex items-center gap-2 mb-8 text-xs font-semibold text-outline tracking-wider uppercase">
+<a class="hover:text-primary transition-colors" href="#">Marketplace</a>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<a class="hover:text-primary transition-colors" href="#">Aquaculture</a>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="text-primary-container">Live African Catfish</span>
+</nav>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+<!-- Product Gallery: Asymmetric Layout -->
+<div class="lg:col-span-7 space-y-6">
+<div class="aspect-[4/3] rounded-xl overflow-hidden bg-surface-container-low shadow-[0_20px_50px_rgba(0,38,26,0.05)]">
+<img alt="Fresh Catfish" class="w-full h-full object-cover" data-alt="Premium close-up of fresh African Catfish swimming in crystal clear water, natural light, high-end organic farm aesthetic" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCxrlRUpCBoIfTa6Tl4kyaXuilHnVP_tWy0BvK551U-TQ5tEYVLxL5rXRexw7Q_YvhXer_r4DHZeX9JVKXlIVBFJ3Wa0E-7QGZznsYC06oGE6dVH4I16_Q5-xB0aSRM6sQ3LyGT4AnKQ9FaENNiaDUO5cT-facAz83S3JffYvG0F6Omy-Sa-tUOBZhy9WbVHh66Z63zVgG0xcET-nv5Gc4yfrQ5Ji0WtDr-jrcJkXUd1ytxVmBYq_4KandFCpS6OoElmM3xvvEAzbw"/>
+</div>
+<div class="grid grid-cols-3 gap-4">
+<div class="aspect-square rounded-lg overflow-hidden bg-surface-container-low border-2 border-primary-fixed">
+<img class="w-full h-full object-cover" data-alt="Close up detail of healthy catfish scales and skin, shimmering under water, macro photography" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAtCqzzrR6IWjM0_D9DMDOc_1FNQpXFZk8EazNSxEpltQwqSHvyKPt1SD6HTuMpCEEkC6rk84z8D_rHpVZ6U0owIaVmdI1-3BQ00PMb7jcb4r6oBZsAPiG_giVxTT-Wd0RnWoXhmcBCp1pEwMWbS7R6Mt1aX68T8eUm0Ml_vw-veRYZ18_BZYwmuuSLdi-IByoDIuPyNXM0XQsvqqRJ4xH1HMsHr22jYcgtK_xLShbsP3hH9sTWOukD7E1S88yREO2Pv_D5yIxAnRk"/>
+</div>
+<div class="aspect-square rounded-lg overflow-hidden bg-surface-container-low grayscale hover:grayscale-0 transition-all cursor-pointer">
+<img class="w-full h-full object-cover" data-alt="Modern high-tech fish farm facility with clean concrete tanks and automated feeding systems" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAdE-TuOTyZQedBYCyqohdNQuytBvgKG69IaNDnGfhlzar5SsZe8c6F1GHs_1LoXFHSfrzOlfyXcMLzV44fZ7Lc7H5mIsWpu0Cuoj1zkHbv5ykBSaS22O9qJ08AeASzSi_k9l6nzDj-pMmzy9EkiNWF94MZwRxRuRzwe6hGbrKlQli-DA340lGaYod1QU-iO4egUV7UPMNPfMG-Safpu1prr0jsJZB_EYqYB2jBUOtguYyFyPrC5SlqR5GGoQt3ZFrt9azpAyxis2c"/>
+</div>
+<div class="aspect-square rounded-lg overflow-hidden bg-surface-container-low grayscale hover:grayscale-0 transition-all cursor-pointer">
+<img class="w-full h-full object-cover" data-alt="Freshly harvested fish being prepared for delivery in a clean, professional environment" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCRLO0-jKWmh6J8SAdPP074WyndeVpa7WLiIiqA-5t2fhhLZ04sROpJU-yL6x3pwX3-ydKQBZwY41wSnQOHcZDJ91jY_xPYcCUNem7yRH_ADyxD081OeDY1_tcEbnXcEmpY84uQ9jDcBt0prQr-avnRc1nfr7m62e-gSWsv5hbWoyyrOgwb50r04z_3mk9Zx_OIeDixHwMTpO1QNTpK_A78RnJGn9g4SzzMp7Svk4604O9XRE7KpQ_a7w_o-j-1ZswrsZf6ajgBN1c"/>
+</div>
+</div>
+</div>
+<!-- Product Information -->
+<div class="lg:col-span-5 space-y-8">
+<div class="space-y-4">
+<div class="flex items-center gap-3">
+<span class="px-3 py-1 rounded-full bg-primary-fixed text-on-primary-fixed-variant text-[10px] font-bold uppercase tracking-widest">In Stock</span>
+<div class="flex items-center gap-1 text-tertiary-container">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-sm font-bold">4.9</span>
+<span class="text-xs text-outline font-normal">(124 reviews)</span>
+</div>
+</div>
+<h1 class="text-4xl lg:text-5xl font-extrabold text-primary tracking-tight leading-tight">Premium Live African Catfish</h1>
+<p class="text-on-surface-variant leading-relaxed font-body">
+                            Sourced from the pristine waters of GreenLeaf Farms, our African Catfish are hormone-free, grain-fed, and harvested on demand. Known for their firm texture and rich nutrient profile, perfect for premium culinary preparations.
+                        </p>
+</div>
+<div class="p-6 rounded-xl bg-surface-container-low space-y-6">
+<div class="flex items-baseline gap-2">
+<span class="text-3xl font-extrabold text-primary">₦4,500</span>
+<span class="text-sm font-medium text-outline">per kg</span>
+</div>
+<div class="space-y-3">
+<label class="block text-xs font-bold text-primary uppercase tracking-wider">Select Weight</label>
+<div class="flex flex-wrap gap-2">
+<button class="px-6 py-3 rounded-lg bg-surface-container-lowest border border-primary-fixed text-primary font-bold text-sm">1.0kg - 1.5kg</button>
+<button class="px-6 py-3 rounded-lg bg-transparent border border-outline-variant text-outline hover:border-primary-fixed transition-colors text-sm">1.5kg - 2.5kg</button>
+<button class="px-6 py-3 rounded-lg bg-transparent border border-outline-variant text-outline hover:border-primary-fixed transition-colors text-sm">Bulk (5kg+)</button>
+</div>
+</div>
+<div class="flex gap-4 pt-2">
+<button class="flex-1 bg-tertiary-fixed-dim hover:bg-tertiary-fixed text-on-tertiary-fixed-variant font-bold py-4 rounded-xl transition-all shadow-lg shadow-tertiary-fixed-dim/20 active:scale-95 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">shopping_cart</span>
+                                Add to Cart
+                            </button>
+<button class="w-14 h-14 rounded-xl border-2 border-surface-container-highest flex items-center justify-center text-primary-container hover:bg-primary-fixed transition-colors">
+<span class="material-symbols-outlined">favorite</span>
+</button>
+</div>
+</div>
+<!-- Trust Signals -->
+<div class="grid grid-cols-2 gap-4">
+<div class="flex items-center gap-3 p-4 rounded-lg bg-white shadow-sm">
+<span class="material-symbols-outlined text-primary-fixed-dim" style="font-variation-settings: 'wght' 700;">verified_user</span>
+<div class="text-[11px] font-bold text-primary leading-tight uppercase">Certified Organic</div>
+</div>
+<div class="flex items-center gap-3 p-4 rounded-lg bg-white shadow-sm">
+<span class="material-symbols-outlined text-primary-fixed-dim" style="font-variation-settings: 'wght' 700;">local_shipping</span>
+<div class="text-[11px] font-bold text-primary leading-tight uppercase">Express Delivery</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Tabs/Detailed Sections -->
+<div class="mt-24 grid grid-cols-1 lg:grid-cols-12 gap-16">
+<!-- Reviews Section -->
+<div class="lg:col-span-8 space-y-12">
+<div class="flex items-end justify-between border-b border-surface-container pb-6">
+<h3 class="text-2xl font-bold text-primary">Customer Reviews</h3>
+<button class="text-sm font-bold text-primary-container hover:underline underline-offset-4">Write a review</button>
+</div>
+<div class="space-y-8">
+<!-- Review 1 -->
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container font-bold">EM</div>
+<div>
+<p class="font-bold text-sm">Emeka Nwosu</p>
+<p class="text-xs text-outline">Verified Buyer • 2 days ago</p>
+</div>
+</div>
+<div class="flex text-tertiary-container">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</div>
+<p class="text-on-surface-variant text-sm leading-relaxed">
+                                Extremely fresh! The fish was still alive when it arrived at my doorstep in Lagos. Properly packaged and the weight was exactly as ordered. Highly recommended for fresh seafood lovers.
+                            </p>
+</div>
+<!-- Review 2 -->
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary-fixed flex items-center justify-center text-on-primary-fixed font-bold">SJ</div>
+<div>
+<p class="font-bold text-sm">Sarah Johnson</p>
+<p class="text-xs text-outline">Verified Buyer • 1 week ago</p>
+</div>
+</div>
+<div class="flex text-tertiary-container">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm">star</span>
+</div>
+</div>
+<p class="text-on-surface-variant text-sm leading-relaxed">
+                                Great quality catfish. The meat is very sweet and non-oily. Taking off one star only because the delivery was 30 minutes later than the scheduled window, but the product itself is 5-star.
+                            </p>
+</div>
+</div>
+</div>
+<!-- Farmer Stats / Side Info -->
+<div class="lg:col-span-4">
+<div class="p-8 rounded-2xl bg-primary-container text-white space-y-6">
+<div class="flex items-center gap-4">
+<div class="w-16 h-16 rounded-xl overflow-hidden">
+<img alt="Farmer" class="w-full h-full object-cover" data-alt="Portrait of a smiling professional African fish farmer in clean utility gear standing before a modern pond" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDL78XQdPNWqWuTnEh4CDHOjIUgQ0sr9yR0Q4nMgas6MPvHvxC6pFKTDef27Tu42K-c79jQFfsRvB-f3zI8cKoJWL4WHVL0haPlelsp6w15K8pKrvrcrp6PGkuDzehNUanbpKE2NhdC-VFDU2DufAtI5BiYWRx_3h98HVbr-XkurNSjIZp5qjmIaB8pZVEt1XZfdWqja2ShThvVaBDYMyejHzvmKds16CLP9iPh_MmDy2zFVH5mpPuc6fBWNT-_Q6YC-71d0c7xAl4"/>
+</div>
+<div>
+<p class="text-xs font-bold text-on-primary-container uppercase tracking-widest">The Producer</p>
+<h4 class="text-xl font-bold">Ikeja Aqua Ventures</h4>
+</div>
+</div>
+<p class="text-sm text-on-primary-container leading-relaxed">
+                            A pioneer in sustainable aquaculture in South West Nigeria. Utilizing circular water systems to ensure 0% waste and 100% purity.
+                        </p>
+<div class="grid grid-cols-2 gap-4 pt-4 border-t border-white/10">
+<div>
+<p class="text-xs text-on-primary-container uppercase font-bold">Rating</p>
+<p class="text-lg font-bold">4.95 / 5.0</p>
+</div>
+<div>
+<p class="text-xs text-on-primary-container uppercase font-bold">Orders</p>
+<p class="text-lg font-bold">2.4k+</p>
+</div>
+</div>
+<button class="w-full py-3 rounded-lg border border-primary-fixed/30 hover:bg-white/5 transition-colors text-sm font-bold">Visit Farm Store</button>
+</div>
+</div>
+</div>
+<!-- Related Products Section -->
+<div class="mt-32 space-y-12">
+<div class="flex items-end justify-between">
+<div class="space-y-2">
+<p class="text-xs font-bold text-primary uppercase tracking-[0.2em]">Curated Picks</p>
+<h3 class="text-3xl font-extrabold text-primary">Farmers also bought</h3>
+</div>
+<button class="flex items-center gap-2 font-bold text-primary group">
+                        View All
+                        <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+<!-- Related Item 1 -->
+<div class="group cursor-pointer">
+<div class="aspect-[4/5] rounded-2xl overflow-hidden bg-surface-container-low mb-4 relative">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Premium giant African land snails on a bed of fresh green leaves, clean agricultural studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCVShVswxbdzydKg-_dm_9mDHDUGpce3dwmJ6dM0LuWTyhCgzuTKJQOe-_tucsTUV2uLnhJSY2ZFCbpWqqWaVv6uyknOWqd5xPwjid5WfqSrqGY9H2IvQaxEpfL_dLPU8s4O-v58Obfx1Mcc4N28IZUWhbrxnwos7mT8aAXfJLt8d3Ur85nUqhshp6ZoAAjFYw4av4BWWigelIYCubiJZjYqW5EcaJ9zHgoBx4jAQbqWlx8L2KnxkgLa-K1-pAnTfl21MFHBMtcBkQ"/>
+<button class="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/80 backdrop-blur shadow-sm flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[20px]">favorite</span>
+</button>
+</div>
+<h5 class="font-bold text-primary group-hover:text-primary-container transition-colors">Giant African Land Snails</h5>
+<div class="flex items-center justify-between mt-1">
+<p class="text-sm font-bold text-primary">₦2,800 <span class="text-[10px] text-outline font-normal">/ pack</span></p>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px] text-tertiary-container" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-[11px] font-bold">4.8</span>
+</div>
+</div>
+</div>
+<!-- Related Item 2 -->
+<div class="group cursor-pointer">
+<div class="aspect-[4/5] rounded-2xl overflow-hidden bg-surface-container-low mb-4 relative">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Variety of vibrant fresh organic vegetables in a rustic wooden crate, lifestyle farm-to-table aesthetic" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD2AE8MZfC5zIGgju4hKVrRsR1CGxQOkg8CmBRGycZLCk7637uayvvLbAsrBpxXU_9ww2ma0BUBOHQFyWM6938r_fiy0wR-3WxgkatOhBS2c8CvD4ZYZLQ1pCvdDpeRei9ssZlEPKpyjHRfXwg3ExVpn4B5HKmx4Un01iQASub9HyY0OInN11e1xr-9oTm1zePsBXPHtApZOKibyBywfVyRU6QCTx1rtAaf41HQwVlo7klQsi921pxEteIVMmG9vsm3obYNwko3AyU"/>
+<button class="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/80 backdrop-blur shadow-sm flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[20px]">favorite</span>
+</button>
+</div>
+<h5 class="font-bold text-primary group-hover:text-primary-container transition-colors">Seasonal Veggie Box</h5>
+<div class="flex items-center justify-between mt-1">
+<p class="text-sm font-bold text-primary">₦5,500 <span class="text-[10px] text-outline font-normal">/ box</span></p>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px] text-tertiary-container" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-[11px] font-bold">4.9</span>
+</div>
+</div>
+</div>
+<!-- Related Item 3 -->
+<div class="group cursor-pointer">
+<div class="aspect-[4/5] rounded-2xl overflow-hidden bg-surface-container-low mb-4 relative">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Premium organic white eggs in a minimalist clean egg carton, bright morning natural light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBdSJdOV_uLh2qdmFy7STL8zMjNZxa48oe5A8ArDVKbFceYyyjAXNJ-zap7Xb0rUTp7Qh5kTltb9JiaTITqWcLtHzgyAJyJiygiCJ2q3zFLIvtmEhqiq8lOTPiRHvoJdMLJVLmSB-ZUtgZkTZA3SF4x4dR7J5mgGSmrGTtPTKPjdj9QEI6uFgO9V0qmMsxQZksi7eXyUqBOHRl6HOJStCz6nNe34YNOyoRfGa6rZXIvYrIrXlrZVOHmuI7Zxm0nQ_VwF8Ewn8-ki9s"/>
+<button class="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/80 backdrop-blur shadow-sm flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[20px]">favorite</span>
+</button>
+</div>
+<h5 class="font-bold text-primary group-hover:text-primary-container transition-colors">Organic Farm Eggs (30pcs)</h5>
+<div class="flex items-center justify-between mt-1">
+<p class="text-sm font-bold text-primary">₦3,200 <span class="text-[10px] text-outline font-normal">/ crate</span></p>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px] text-tertiary-container" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-[11px] font-bold">5.0</span>
+</div>
+</div>
+</div>
+<!-- Related Item 4 -->
+<div class="group cursor-pointer">
+<div class="aspect-[4/5] rounded-2xl overflow-hidden bg-surface-container-low mb-4 relative">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Golden raw honey dripping from a honey dipper into a crystal jar, backlit by warm golden hour sun" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUJxjHGsap114WFDrElzjJLFv-Ak9Un7CnnZ1HM_LbGQqUIXNn0QD7zjTVNrJbXgPH8zMDpDE0KjRzP79VmY2EBzqPrrLgCwdOXDpF0r9lXAq0YsTMDRPWZbRIfSoe_6FmBUu5WMIt9a5HKadyHl8zkl11qa7TXjVSy_WSSL9FuMxPg8pgcKHcrXpi0Kmwakq9eAPwjLy8uJ1asyLTquXlAPUlcd-6h352rqxIYgEaW0fka3R46RrlOY-Ps2ewwa7qoRKR_6XWC3s"/>
+<button class="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/80 backdrop-blur shadow-sm flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[20px]">favorite</span>
+</button>
+</div>
+<h5 class="font-bold text-primary group-hover:text-primary-container transition-colors">Pure Wildflower Honey</h5>
+<div class="flex items-center justify-between mt-1">
+<p class="text-sm font-bold text-primary">₦4,000 <span class="text-[10px] text-outline font-normal">/ 500ml</span></p>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px] text-tertiary-container" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-[11px] font-bold">4.7</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer class="mt-24 border-t border-surface-container py-12 px-6">
+<div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+<div class="space-y-4 text-center md:text-left">
+<h2 class="font-manrope font-extrabold text-[#00261a] text-2xl tracking-tight">Travia</h2>
+<p class="text-xs text-outline max-w-xs uppercase tracking-widest font-bold">Elevating Nigerian Agriculture Through Digital Excellence.</p>
+</div>
+<div class="flex gap-8 text-xs font-bold uppercase tracking-widest text-primary">
+<a class="hover:underline" href="#">Privacy Policy</a>
+<a class="hover:underline" href="#">Terms of Service</a>
+<a class="hover:underline" href="#">Support</a>
+</div>
+<p class="text-xs text-outline">© 2024 Travia Marketplace Inc.</p>
+</div>
+</footer>
+</main>
+<!-- BottomNavBar for Mobile (Shared Component Logic) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full bg-white border-t-0 shadow-[0_-8px_24px_rgba(0,38,26,0.05)] grid grid-cols-4 px-2 py-3 z-50">
+<a class="flex flex-col items-center gap-1 text-[#00261a]" href="#">
+<span class="material-symbols-outlined text-[24px]">storefront</span>
+<span class="text-[10px] font-bold uppercase">Shop</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400" href="#">
+<span class="material-symbols-outlined text-[24px]">pending_actions</span>
+<span class="text-[10px] font-bold uppercase">Orders</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400" href="#">
+<span class="material-symbols-outlined text-[24px]">shopping_cart</span>
+<span class="text-[10px] font-bold uppercase">Cart</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400" href="#">
+<span class="material-symbols-outlined text-[24px]">person</span>
+<span class="text-[10px] font-bold uppercase">Account</span>
+</a>
+</nav>
+    <script src="travia-state.js"></script>
+</body></html>

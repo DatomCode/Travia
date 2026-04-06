@@ -1,0 +1,198 @@
+﻿<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Farmer Pre-Orders | Travia Marketplace</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="farmers-theme.js"></script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .headline { font-family: 'Manrope', sans-serif; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- TopAppBar -->
+<header class="fixed top-0 right-0 left-0 lg:left-64 z-40 bg-slate-50/80 dark:bg-emerald-950/80 backdrop-blur-md flex justify-between items-center px-4 md:px-8 h-20 shadow-sm dark:shadow-none" data-farmer-topbar data-title="Pre-Orders" data-cta-href="my_listing.html" data-cta-label="+ Add Listing" data-show-menu="true"></header>
+<!-- NavigationDrawer (Sidebar) -->
+<aside class="fixed left-0 top-0 w-64 h-full bg-white dark:bg-emerald-950 border-r border-surface-container py-6 z-[70] lg:z-50 flex flex-col transition-transform duration-300 ease-in-out" id="mobile-drawer" data-farmer-sidebar></aside>
+<!-- Main Content Canvas -->
+<main class="lg:ml-72 pt-24 pb-12 px-6 md:px-12">
+<header class="mb-10">
+<h1 class="text-4xl md:text-5xl font-extrabold text-primary tracking-tight mb-2">Customer Pre-Orders</h1>
+<p class="text-on-surface-variant font-medium">Manage harvest reservations and deposit verification.</p>
+</header>
+<!-- Stats Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+<div class="bg-surface-container-lowest rounded-xl p-6 shadow-[0_12px_32px_-4px_rgba(15,61,46,0.04)] flex items-center justify-between">
+<div>
+<span class="text-on-surface-variant text-sm font-medium block mb-1">Total Pending Deposit</span>
+<span class="text-3xl font-extrabold text-primary">₦1,240,500</span>
+</div>
+<div class="bg-primary-fixed p-3 rounded-full">
+<span class="material-symbols-outlined text-primary" data-icon="account_balance_wallet">account_balance_wallet</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-xl p-6 shadow-[0_12px_32px_-4px_rgba(15,61,46,0.04)] flex items-center justify-between">
+<div>
+<span class="text-on-surface-variant text-sm font-medium block mb-1">Awaiting Harvest</span>
+<span class="text-3xl font-extrabold text-primary">42 Units</span>
+</div>
+<div class="bg-tertiary-fixed p-3 rounded-full">
+<span class="material-symbols-outlined text-on-tertiary-fixed" data-icon="eco">eco</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-xl p-6 shadow-[0_12px_32px_-4px_rgba(15,61,46,0.04)] flex items-center justify-between">
+<div>
+<span class="text-on-surface-variant text-sm font-medium block mb-1">Upcoming Deliveries</span>
+<span class="text-3xl font-extrabold text-primary">12 Orders</span>
+</div>
+<div class="bg-secondary-fixed p-3 rounded-full">
+<span class="material-symbols-outlined text-on-secondary-fixed" data-icon="local_shipping">local_shipping</span>
+</div>
+</div>
+</div>
+<!-- Orders Table Container -->
+<div class="bg-surface-container rounded-2xl overflow-hidden shadow-sm">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead class="bg-surface-container-high">
+<tr>
+<th class="px-6 py-4 font-manrope font-bold text-primary text-sm tracking-wide">Product</th>
+<th class="px-6 py-4 font-manrope font-bold text-primary text-sm tracking-wide">Customer Name</th>
+<th class="px-6 py-4 font-manrope font-bold text-primary text-sm tracking-wide">Reserved Qty</th>
+<th class="px-6 py-4 font-manrope font-bold text-primary text-sm tracking-wide">Deposit Paid (₦)</th>
+<th class="px-6 py-4 font-manrope font-bold text-primary text-sm tracking-wide">Expected Date</th>
+<th class="px-6 py-4 font-manrope font-bold text-primary text-sm tracking-wide">Status</th>
+<th class="px-6 py-4 font-manrope font-bold text-primary text-sm tracking-wide"></th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/10">
+<!-- Row 1 -->
+<tr class="bg-surface-container-lowest hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 bg-primary-fixed-dim rounded-lg overflow-hidden">
+<img alt="Catfish" class="w-full h-full object-cover" data-alt="Top view of fresh whole catfish on a clean industrial kitchen surface with vibrant natural colors." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC7W18tWQdVD0yXAxELKmb2rG88JCpA9ZvHLWpNHZ_lOvb6kgUHDqosg05WiQIaIHzI6F3LSo5qJIAb6tBvgDyShPrM0999eAIvgCh-4xpPUlqk-MZlaU2FHamgMOsGxttH1yON-u2PmwSGSw7wf00VQaxtJ2N5EsLiW1a0gzueM75lFry9-R20E7NECpY8xwY_J34BD4S-UoBVq7Rji2A6hPHDyizGA5cH_MLLfM2-rYeZC_rmxjedi7ISMG90eyUKzenG7ks5ByQ"/>
+</div>
+<span class="font-bold text-on-surface">Premium Catfish</span>
+</div>
+</td>
+<td class="px-6 py-5 text-on-surface font-medium text-sm">Chidi Benson</td>
+<td class="px-6 py-5 text-on-surface-variant text-sm">50kg</td>
+<td class="px-6 py-5 text-primary font-bold text-sm">₦75,000</td>
+<td class="px-6 py-5 text-on-surface-variant text-sm">Oct 24, 2023</td>
+<td class="px-6 py-5">
+<span class="bg-tertiary-fixed text-on-tertiary-fixed-variant px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest">Awaiting Harvest</span>
+</td>
+<td class="px-6 py-5 text-right">
+<button class="opacity-0 group-hover:opacity-100 transition-opacity text-primary-container">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="bg-surface-container-lowest hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 bg-primary-fixed-dim rounded-lg overflow-hidden">
+<img alt="Snail" class="w-full h-full object-cover" data-alt="Close up of a large land snail on a green organic leaf with soft diffused morning sunlight." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB_-OhzGIeSprMGZGKL6Yfee2Kck5NAX3LQ_FcmpGu69FO8-KHJfdiD7-rie6YJaoge_I8USOZjkzoWsMBlQW8mj_b9-9-E2oMUrbkvd4c4tndzCVbqkrWhcMcrYnCiETRN7xaAd7r52-QBRqNSDuyPFPvkuPLSAvkkaoqp61h4dibdMySg81_X3vzym2g00GKKu0KuT-Boi--E7XS6oFcm3Zhj3f7JvEEWp2r8ExG2gmPedanU2-avQVzzLd4eOOs_vR8i7jMaYLs"/>
+</div>
+<span class="font-bold text-on-surface">Giant African Snail</span>
+</div>
+</td>
+<td class="px-6 py-5 text-on-surface font-medium text-sm">Funmi Adeyemi</td>
+<td class="px-6 py-5 text-on-surface-variant text-sm">12 Basket</td>
+<td class="px-6 py-5 text-primary font-bold text-sm">₦120,000</td>
+<td class="px-6 py-5 text-on-surface-variant text-sm">Oct 18, 2023</td>
+<td class="px-6 py-5">
+<span class="bg-primary-fixed text-on-primary-fixed-variant px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest">Ready</span>
+</td>
+<td class="px-6 py-5 text-right">
+<button class="opacity-0 group-hover:opacity-100 transition-opacity text-primary-container">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="bg-surface-container-lowest hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 bg-primary-fixed-dim rounded-lg overflow-hidden">
+<img alt="Yam" class="w-full h-full object-cover" data-alt="Tuber of fresh yam on a rustic wooden table with bright, clean studio lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAK-zNCqU4nJWW8fOwgQFM9QGGm9-MwFOIsuUB28CHWpAQQRdmRWm3Dh0Co1LRdWGA6fJYPF3KSS8HtWyHL7YGczXSXg11SZNnvKHrcL4f9cZJRw__YJeOVx5YiQsXZuJxBf-5Ge9r3GuM3G9FEJmm-lgSKauvRjdZCO4llcG-5XkQpO_w3apm6LQULu7sk_ehUctgAYqW8U5WMCE_i30UmPgFDtHmVn_Ejz5furE9L_GRHpN9qjBiJ5DaMROudU1W2OETcwszlke0"/>
+</div>
+<span class="font-bold text-on-surface">Puna Yams</span>
+</div>
+</td>
+<td class="px-6 py-5 text-on-surface font-medium text-sm">Hauwa Ibrahim</td>
+<td class="px-6 py-5 text-on-surface-variant text-sm">20 Tubers</td>
+<td class="px-6 py-5 text-primary font-bold text-sm">₦40,000</td>
+<td class="px-6 py-5 text-on-surface-variant text-sm">Oct 12, 2023</td>
+<td class="px-6 py-5">
+<span class="bg-surface-container-highest text-on-surface-variant px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest">Fulfilled</span>
+</td>
+<td class="px-6 py-5 text-right">
+<button class="opacity-0 group-hover:opacity-100 transition-opacity text-primary-container">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="bg-surface-container-lowest hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 bg-primary-fixed-dim rounded-lg overflow-hidden">
+<img alt="Honey" class="w-full h-full object-cover" data-alt="Glistening pure honey pouring from a wooden dipper into a glass jar, golden hour lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCRPrhmMk6NKtiUNul3WyvB0B9MHaYoBl_l9WR0rcLG6UzW-XF1rcFaWKPFYrBZWfpQ7E6rjThKxpP9kCII3DIlJMzAXauh4JBsMsMDyiTzgcDn28KahzVTJBgGMuPHhkTG5XoHQh9g5L-Mqq4aV57gq-UDD-qzPkqgjNzS070R-q8aSuNV2Hcggk99UKQzLWWxPxTtPadXHMbQBQWe8B2ZGpkahthfynKofUpmz1P8Eud0CruXh_NLdcYxOujodD77-fkA_PQmvRk"/>
+</div>
+<span class="font-bold text-on-surface">Wild Forest Honey</span>
+</div>
+</td>
+<td class="px-6 py-5 text-on-surface font-medium text-sm">Umar Sani</td>
+<td class="px-6 py-5 text-on-surface-variant text-sm">5 Liters</td>
+<td class="px-6 py-5 text-primary font-bold text-sm">₦25,000</td>
+<td class="px-6 py-5 text-on-surface-variant text-sm">Oct 30, 2023</td>
+<td class="px-6 py-5">
+<span class="bg-tertiary-fixed text-on-tertiary-fixed-variant px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest">Awaiting Harvest</span>
+</td>
+<td class="px-6 py-5 text-right">
+<button class="opacity-0 group-hover:opacity-100 transition-opacity text-primary-container">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination-like Footer -->
+<div class="bg-surface-container-low px-6 py-4 flex items-center justify-between">
+<span class="text-sm text-on-surface-variant font-medium">Showing 4 of 24 pre-orders</span>
+<div class="flex gap-2">
+<button class="w-10 h-10 rounded-lg flex items-center justify-center hover:bg-surface-variant transition-colors text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="chevron_left">chevron_left</span>
+</button>
+<button class="w-10 h-10 rounded-lg flex items-center justify-center hover:bg-surface-variant transition-colors text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+<!-- FAB (Suppressed on this data-heavy management screen per logic, but here's a subtle variant if needed) -->
+<!-- In this specific case, the "Add Listing" in the header acts as the primary action -->
+    <script src="farmers-shell.js"></script>
+</body></html>
+
+
+
+

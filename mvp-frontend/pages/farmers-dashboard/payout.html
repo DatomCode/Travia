@@ -1,0 +1,362 @@
+﻿<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Farmer Payout System | Travia Marketplace</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="farmers-theme.js"></script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3 { font-family: 'Manrope', sans-serif; }
+        .payout-toast-container {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            pointer-events: none;
+        }
+        .payout-toast {
+            background: #0f3d2e;
+            color: #f6fff9;
+            border-radius: 0.75rem;
+            padding: 0.75rem 1rem;
+            font-size: 0.875rem;
+            font-weight: 700;
+            box-shadow: 0 12px 32px -4px rgba(15, 61, 46, 0.24);
+            transform: translateY(-8px);
+            opacity: 0;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+        .payout-toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        .payout-toast.warning {
+            background: #7b2f2f;
+            color: #fff6f6;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface">
+<!-- TopAppBar -->
+<header class="fixed top-0 right-0 left-0 lg:left-64 z-40 bg-slate-50/80 dark:bg-emerald-950/80 backdrop-blur-md flex justify-between items-center px-4 md:px-8 h-20 shadow-sm dark:shadow-none" data-farmer-topbar data-title="Payout" data-cta-href="my_listing.html" data-cta-label="+ Add Listing" data-show-menu="true"></header>
+<!-- NavigationDrawer Shell -->
+<aside class="fixed left-0 top-0 w-64 h-full bg-white dark:bg-emerald-950 border-r border-surface-container py-6 z-[70] lg:z-50 flex flex-col transition-transform duration-300 ease-in-out" id="mobile-drawer" data-farmer-sidebar></aside>
+<!-- Main Canvas -->
+<main class="lg:ml-72 pt-24 pb-12 px-6 min-h-screen max-w-7xl mx-auto">
+<!-- Header Section -->
+<div class="mb-12">
+<h1 class="text-4xl font-extrabold text-primary mb-2 tracking-tight">Financial Overview</h1>
+<p class="text-on-surface-variant font-medium">Manage your farm earnings and withdrawal destinations.</p>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-8">
+<!-- Prominent Balance Card -->
+<div class="md:col-span-12 lg:col-span-12">
+<div class="bg-primary-container text-on-primary rounded-[2rem] p-8 md:p-12 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-8 shadow-[0_24px_48px_-12px_rgba(15,61,46,0.2)]">
+<div class="relative z-10">
+<span class="uppercase tracking-widest text-xs font-bold opacity-70 mb-2 block">Available Balance</span>
+<div class="flex items-baseline gap-2">
+<span class="text-5xl md:text-7xl font-extrabold tracking-tighter">₦482,950.00</span>
+<span class="text-primary-fixed-dim font-bold">NGN</span>
+</div>
+<div class="mt-6 flex items-center gap-4">
+<div class="flex items-center gap-2 bg-white/10 px-4 py-2 rounded-full backdrop-blur-md">
+<span class="material-symbols-outlined text-tertiary-fixed-dim">trending_up</span>
+<span class="text-sm font-bold">+12.5% vs last month</span>
+</div>
+<div class="flex items-center gap-2 bg-white/10 px-4 py-2 rounded-full backdrop-blur-md">
+<span class="material-symbols-outlined text-primary-fixed">verified</span>
+<span class="text-sm font-bold">Payouts ready</span>
+</div>
+</div>
+</div>
+<!-- Decorative Element -->
+<div class="absolute -right-10 -bottom-10 opacity-10">
+<span class="material-symbols-outlined text-[240px]" style="font-variation-settings: 'FILL' 1;">payments</span>
+</div>
+<div class="relative z-10 w-full md:w-auto">
+<div class="bg-white/5 rounded-2xl p-6 backdrop-blur-sm border border-white/10">
+<p class="text-xs uppercase font-bold opacity-60 mb-4">Upcoming Settlements</p>
+<div class="space-y-4">
+<div class="flex justify-between gap-8 items-center">
+<span class="text-sm">Batch #829 â€” Snail Shells</span>
+<span class="font-bold">₦12,400</span>
+</div>
+<div class="flex justify-between gap-8 items-center">
+<span class="text-sm">Batch #830 â€” Catfish Harvest</span>
+<span class="font-bold">₦85,000</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Bank Verification Form (Left) -->
+<div class="md:col-span-12 lg:col-span-6 space-y-6">
+<div class="bg-surface-container-lowest p-8 rounded-[2rem] shadow-sm">
+<div class="flex items-center gap-4 mb-8">
+<div class="h-12 w-12 bg-primary-fixed rounded-2xl flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">account_balance</span>
+</div>
+<div>
+<h2 class="text-xl font-extrabold text-on-surface">Payout Destination</h2>
+<p class="text-sm text-on-surface-variant">Verify your bank details for secure transfers.</p>
+</div>
+</div>
+<form class="space-y-6">
+<div class="space-y-2">
+<label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant ml-1">Bank Name</label>
+<div class="relative">
+<input class="w-full bg-surface-container-low border-none rounded-2xl py-4 px-5 text-on-surface font-medium focus:ring-2 focus:ring-primary focus:bg-surface-container-lowest transition-all" list="banks" placeholder="Search or select your bank" type="text"/>
+<datalist id="banks">
+<option value="Access Bank">
+</option><option value="First Bank of Nigeria">
+</option><option value="Guaranty Trust Bank (GTB)">
+</option><option value="United Bank for Africa (UBA)">
+</option><option value="Zenith Bank">
+</option><option value="Kuda Microfinance Bank">
+</option></datalist>
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+</div>
+</div>
+<div class="space-y-2">
+<label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant ml-1">Account Number (NUBAN)</label>
+<input class="w-full bg-surface-container-low border-none rounded-2xl py-4 px-5 text-on-surface font-medium focus:ring-2 focus:ring-primary focus:bg-surface-container-lowest transition-all" maxlength="10" placeholder="e.g. 0123456789" type="text"/>
+</div>
+<div class="space-y-2">
+<label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant ml-1">Account Name</label>
+<div class="flex items-center gap-3 bg-surface-container rounded-2xl p-4 border border-outline-variant/20">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-bold text-on-surface opacity-80">Farmer Joe Agro Ventures</span>
+</div>
+</div>
+<button class="w-full py-4 bg-primary text-on-primary font-extrabold rounded-2xl hover:bg-primary-container transition-all active:scale-[0.98] shadow-lg shadow-primary/10" data-payout-verify-btn type="button">
+                            Update &amp; Verify Bank
+                        </button>
+</form>
+</div>
+<!-- Security Note -->
+<div class="bg-surface-container-low p-6 rounded-2xl flex gap-4 border border-outline-variant/10">
+<span class="material-symbols-outlined text-primary-container">encrypted</span>
+<p class="text-sm text-on-surface-variant leading-relaxed">
+                        Your financial data is encrypted using military-grade security protocols. Travia never stores your full bank credentials.
+                    </p>
+</div>
+</div>
+<!-- Withdrawal Form (Right) -->
+<div class="md:col-span-12 lg:col-span-6">
+<div class="bg-surface-container-lowest p-8 rounded-[2rem] shadow-sm h-full border-t-8 border-primary-fixed">
+<div class="flex items-center gap-4 mb-8">
+<div class="h-12 w-12 bg-tertiary-fixed rounded-2xl flex items-center justify-center">
+<span class="material-symbols-outlined text-on-tertiary-fixed">send_money</span>
+</div>
+<div>
+<h2 class="text-xl font-extrabold text-on-surface">Request Withdrawal</h2>
+<p class="text-sm text-on-surface-variant">Funds are usually settled within 24 hours.</p>
+</div>
+</div>
+<div class="space-y-8">
+<div class="space-y-2">
+<label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant ml-1">Amount to Withdraw</label>
+<div class="relative">
+<span class="absolute left-5 top-1/2 -translate-y-1/2 text-2xl font-extrabold text-on-surface-variant">₦</span>
+<input class="w-full bg-surface-container-low border-none rounded-2xl py-6 pl-12 pr-5 text-3xl font-extrabold text-primary focus:ring-2 focus:ring-primary focus:bg-surface-container-lowest transition-all" type="number" value="50000"/>
+</div>
+<div class="flex justify-between items-center px-1">
+<span class="text-xs text-on-surface-variant font-medium">Min: ₦1,000</span>
+<button class="text-xs font-extrabold text-primary-container hover:underline">MAX AMOUNT</button>
+</div>
+</div>
+<div class="bg-surface-container p-6 rounded-2xl space-y-4">
+<div class="flex justify-between items-center text-sm font-medium">
+<span class="text-on-surface-variant">Processing Fee (1.5%)</span>
+<span class="text-on-surface">₦750.00</span>
+</div>
+<div class="flex justify-between items-center text-sm font-medium">
+<span class="text-on-surface-variant">Bank Transfer Charge</span>
+<span class="text-on-surface">₦52.50</span>
+</div>
+<div class="h-[1px] bg-outline-variant/30"></div>
+<div class="flex justify-between items-center">
+<span class="font-bold text-on-surface">You will receive:</span>
+<span class="text-xl font-extrabold text-primary">₦49,197.50</span>
+</div>
+</div>
+<div class="p-4 bg-tertiary-fixed/30 rounded-2xl border border-tertiary-fixed/50">
+<div class="flex gap-3">
+<span class="material-symbols-outlined text-on-tertiary-fixed-variant">schedule</span>
+<p class="text-xs text-on-tertiary-fixed-variant leading-relaxed font-medium">
+                                    Next payout window closes in <span class="font-bold">2h 45m</span>. Withdraw now to receive funds by tomorrow morning.
+                                </p>
+</div>
+</div>
+<button class="w-full py-5 bg-primary-container text-on-primary font-extrabold rounded-2xl hover:shadow-xl hover:shadow-primary-container/20 transition-all active:scale-[0.98] flex items-center justify-center gap-3" data-payout-confirm-btn type="submit">
+<span class="material-symbols-outlined">rocket_launch</span>
+                            Confirm &amp; Initiate Payout
+                        </button>
+</div>
+</div>
+</div>
+<!-- Transaction History Preview -->
+<div class="md:col-span-12">
+<div class="bg-surface-container-lowest rounded-[2rem] overflow-hidden shadow-sm">
+<div class="p-8 border-b border-surface-container flex flex-col md:flex-row md:items-center justify-between gap-4">
+<h2 class="text-xl font-extrabold text-on-surface">Recent Payouts</h2>
+<button class="text-sm font-bold text-primary-container flex items-center gap-1 hover:gap-2 transition-all">
+                            View All History <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead>
+<tr class="bg-surface-container-low text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">
+<th class="px-8 py-4">Ref ID</th>
+<th class="px-8 py-4">Date</th>
+<th class="px-8 py-4">Destination</th>
+<th class="px-8 py-4 text-right">Amount</th>
+<th class="px-8 py-4 text-center">Status</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container">
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="px-8 py-5 font-mono text-xs font-bold text-on-surface-variant">#TRV-82190</td>
+<td class="px-8 py-5 text-sm text-on-surface">Oct 24, 2023</td>
+<td class="px-8 py-5 text-sm">
+<div class="flex items-center gap-2">
+<div class="h-6 w-6 rounded bg-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-[14px]">account_balance</span>
+</div>
+<span class="font-medium text-on-surface">GTBank (...8901)</span>
+</div>
+</td>
+<td class="px-8 py-5 text-sm font-extrabold text-on-surface text-right">₦120,500.00</td>
+<td class="px-8 py-5 text-center">
+<span class="bg-primary-fixed text-on-primary-fixed-variant px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wide">Success</span>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="px-8 py-5 font-mono text-xs font-bold text-on-surface-variant">#TRV-81842</td>
+<td class="px-8 py-5 text-sm text-on-surface">Oct 18, 2023</td>
+<td class="px-8 py-5 text-sm">
+<div class="flex items-center gap-2">
+<div class="h-6 w-6 rounded bg-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-[14px]">account_balance</span>
+</div>
+<span class="font-medium text-on-surface">GTBank (...8901)</span>
+</div>
+</td>
+<td class="px-8 py-5 text-sm font-extrabold text-on-surface text-right">₦45,000.00</td>
+<td class="px-8 py-5 text-center">
+<span class="bg-primary-fixed text-on-primary-fixed-variant px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wide">Success</span>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="px-8 py-5 font-mono text-xs font-bold text-on-surface-variant">#TRV-80122</td>
+<td class="px-8 py-5 text-sm text-on-surface">Oct 05, 2023</td>
+<td class="px-8 py-5 text-sm">
+<div class="flex items-center gap-2">
+<div class="h-6 w-6 rounded bg-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-[14px]">account_balance</span>
+</div>
+<span class="font-medium text-on-surface">GTBank (...8901)</span>
+</div>
+</td>
+<td class="px-8 py-5 text-sm font-extrabold text-on-surface text-right">₦210,000.00</td>
+<td class="px-8 py-5 text-center">
+<span class="bg-tertiary-fixed text-on-tertiary-fixed-variant px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wide">Pending</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</main>
+    <script src="farmers-shell.js"></script>
+<script>
+        (function () {
+            const verifyButton = document.querySelector('[data-payout-verify-btn]');
+            const confirmButton = document.querySelector('[data-payout-confirm-btn]');
+            const bankInput = document.querySelector('input[list=\"banks\"]');
+            const accountInput = document.querySelector('input[maxlength=\"10\"]');
+            const amountInput = document.querySelector('input[type=\"number\"]');
+
+            const toastContainer = document.createElement('div');
+            toastContainer.className = 'payout-toast-container';
+            document.body.appendChild(toastContainer);
+
+            function showToast(message, type) {
+                const toast = document.createElement('div');
+                toast.className = 'payout-toast' + (type === 'warning' ? ' warning' : '');
+                toast.textContent = message;
+                toastContainer.appendChild(toast);
+
+                requestAnimationFrame(function () {
+                    toast.classList.add('show');
+                });
+
+                setTimeout(function () {
+                    toast.classList.remove('show');
+                    setTimeout(function () {
+                        toast.remove();
+                    }, 220);
+                }, 2200);
+            }
+
+            function isValidNuban(value) {
+                return /^\\d{10}$/.test(value);
+            }
+
+            if (verifyButton) {
+                verifyButton.addEventListener('click', function () {
+                    const bank = bankInput ? bankInput.value.trim() : '';
+                    const account = accountInput ? accountInput.value.trim() : '';
+
+                    if (!bank || !isValidNuban(account)) {
+                        showToast('Enter a valid bank and 10-digit account number.', 'warning');
+                        return;
+                    }
+
+                    showToast('Bank updated and verified successfully.');
+                    verifyButton.blur();
+                });
+            }
+
+            if (confirmButton) {
+                confirmButton.addEventListener('click', function (event) {
+                    event.preventDefault();
+                    const amount = amountInput ? Number(amountInput.value) : 0;
+
+                    if (!amount || amount < 1000) {
+                        showToast('Withdrawal must be at least ₦1,000.', 'warning');
+                        return;
+                    }
+
+                    showToast('Payout request submitted successfully.');
+                    confirmButton.blur();
+                });
+            }
+        })();
+    </script>
+</body></html>
+
+
+
+

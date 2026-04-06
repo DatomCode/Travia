@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Travia Buyer Dashboard - My Orders</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="tailwind-theme.js"></script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .font-headline { font-family: 'Manrope', sans-serif; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface min-h-screen">
+<!-- Navigation Drawer (Desktop) -->
+<aside id="sidebar" data-sidebar class="fixed left-0 top-0 h-screen w-64 z-40 bg-white dark:bg-[#00261a] shadow-[0_12px_32px_-4px_rgba(15,61,46,0.08)] hidden md:flex flex-col">
+<div class="p-6 flex flex-col gap-1">
+<span class="font-manrope font-extrabold text-[#00261a] dark:text-[#beedd7] text-2xl tracking-tight">Travia</span>
+<div class="mt-8 flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center overflow-hidden">
+<img alt="Buyer Avatar" data-alt="Professional headshot of a smiling man with short hair in a neutral studio setting with soft lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBu_UZP0CvMkoXb-pWMJ4pTwIDd0J3TkWo6ZVq2MMaXX4kRf8A292qNnp0blPE0rZv4hSfDnbdC7b_OOH2a1l_zeA3T-bJbI_Ld_MxLmHo7l1_hwJEBkd8zvmpTtpykZ0DiKNUX6ljdPJkwkHYUasGOJeiEEIIdK0wnYsEV7atboaefP3fg2jzbDs5NTWBNGRk25idXS-6ra5Jk0q2e49qkYGksT7oQ13W6l1jZ15rl3dybOE7e0yT2R2U5jdDs6u7UGE-5xo775ak"/>
+</div>
+<div>
+<p class="font-manrope font-bold text-sm text-[#0f3d2e] dark:text-[#beedd7]">Alex Rivers</p>
+<p class="text-xs text-slate-500">Premium Buyer</p>
+</div>
+</div>
+</div>
+<nav class="mt-4 flex-1">
+<!-- Active: Marketplace -->
+<a class="flex items-center gap-3 px-6 py-3 text-[#00261a] dark:text-[#beedd7] border-l-4 border-[#beedd7] bg-[#f3f4f3] dark:bg-[#0f3d2e] font-manrope text-sm font-medium transition-colors" href="buyers-dashboard.html">
+<span class="material-symbols-outlined" data-icon="storefront">storefront</span>
+<span>Marketplace</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-slate-500 dark:text-slate-400 hover:bg-[#f3f4f3] dark:hover:bg-[#0f3d2e] transition-colors font-manrope text-sm font-medium" href="my-orders.html">
+<span class="material-symbols-outlined" data-icon="shopping_bag">shopping_bag</span>
+<span>My Orders</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-slate-500 dark:text-slate-400 hover:bg-[#f3f4f3] dark:hover:bg-[#0f3d2e] transition-colors font-manrope text-sm font-medium" href="pre-orders.html">
+<span class="material-symbols-outlined" data-icon="pending_actions">pending_actions</span>
+<span>Pre-Orders</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-slate-500 dark:text-slate-400 hover:bg-[#f3f4f3] dark:hover:bg-[#0f3d2e] transition-colors font-manrope text-sm font-medium" href="favourite-farms.html">
+<span class="material-symbols-outlined" data-icon="potted_plant">potted_plant</span>
+<span>Favourite Farms</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-slate-500 dark:text-slate-400 hover:bg-[#f3f4f3] dark:hover:bg-[#0f3d2e] transition-colors font-manrope text-sm font-medium" href="my-profile.html">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span>My Profile</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-slate-500 dark:text-slate-400 hover:bg-[#f3f4f3] dark:hover:bg-[#0f3d2e] transition-colors font-manrope text-sm font-medium" href="cart.html">
+<span class="material-symbols-outlined" data-icon="shopping_cart">shopping_cart</span>
+<span>Cart</span>
+</a>
+</nav>
+<div class="p-6">
+<a class="flex items-center gap-3 text-slate-500 hover:text-error transition-colors font-manrope text-sm font-medium" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span>Sign Out</span>
+</a>
+</div>
+</aside>
+<div class="md:ml-64 flex flex-col min-h-screen">
+<!-- Top App Bar -->
+<header class="w-full sticky top-0 z-30 bg-[#f8faf9]/80 dark:bg-[#00261a]/80 backdrop-blur-md flex justify-between items-center px-6 py-4">
+<div class="flex items-center gap-4">
+<button class="md:hidden text-[#0f3d2e] dark:text-[#beedd7]" data-menu-toggle aria-label="Open menu" aria-expanded="false">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+<h1 class="font-manrope font-bold text-xl text-[#0f3d2e] dark:text-[#beedd7]">My Orders</h1>
+</div>
+<div class="flex items-center gap-4">
+<button class="px-4 py-2 bg-primary text-on-primary rounded-full text-sm font-bold active:scale-95 transition-all">
+                    Pre-Order
+                </button>
+<button class="text-slate-500 hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-1 p-6 lg:p-10 space-y-10">
+<!-- Summary Stats Section: Bento Style -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-[0_12px_32px_-4px_rgba(15,61,46,0.08)] flex items-center justify-between group hover:bg-primary-container transition-colors duration-300">
+<div>
+<p class="text-label-sm text-on-secondary-container group-hover:text-primary-fixed uppercase tracking-wider font-semibold">Total Orders</p>
+<h2 class="text-3xl font-extrabold text-primary group-hover:text-white mt-1">128</h2>
+</div>
+<div class="w-12 h-12 rounded-full bg-primary-fixed flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-[0_12px_32px_-4px_rgba(15,61,46,0.08)] flex items-center justify-between group hover:bg-primary-container transition-colors duration-300">
+<div>
+<p class="text-label-sm text-on-secondary-container group-hover:text-primary-fixed uppercase tracking-wider font-semibold">Active Shipments</p>
+<h2 class="text-3xl font-extrabold text-primary group-hover:text-white mt-1">14</h2>
+</div>
+<div class="w-12 h-12 rounded-full bg-secondary-fixed flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors">
+<span class="material-symbols-outlined" data-icon="local_shipping">local_shipping</span>
+</div>
+</div>
+<div class="bg-primary-container p-6 rounded-xl shadow-[0_12px_32px_-4px_rgba(15,61,46,0.08)] flex flex-col justify-center relative overflow-hidden">
+<div class="relative z-10">
+<p class="text-label-sm text-primary-fixed uppercase tracking-wider font-semibold">Pending Delivery</p>
+<h2 class="text-3xl font-extrabold text-white mt-1">₦ 452,000</h2>
+</div>
+<div class="absolute -right-4 -bottom-4 opacity-10">
+<span class="material-symbols-outlined text-9xl" data-icon="payments">payments</span>
+</div>
+</div>
+</section>
+<!-- Filters & Search -->
+<section class="flex flex-col md:flex-row items-center justify-between gap-4">
+<div class="relative w-full md:w-96">
+<span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400" data-icon="search">search</span>
+<input class="w-full pl-12 pr-4 py-3 bg-surface-container-low border-none rounded-xl focus:ring-2 focus:ring-primary-fixed transition-all placeholder:text-slate-400 text-sm" placeholder="Search by Order ID or Product..." type="text"/>
+</div>
+<div class="flex items-center gap-2 overflow-x-auto pb-2 md:pb-0 w-full md:w-auto">
+<button class="px-5 py-2 rounded-full bg-primary text-white text-sm font-semibold whitespace-nowrap">All</button>
+<button class="px-5 py-2 rounded-full bg-surface-container-low text-slate-600 hover:bg-surface-container-high transition-colors text-sm font-semibold whitespace-nowrap">Pending</button>
+<button class="px-5 py-2 rounded-full bg-surface-container-low text-slate-600 hover:bg-surface-container-high transition-colors text-sm font-semibold whitespace-nowrap">Shipped</button>
+<button class="px-5 py-2 rounded-full bg-surface-container-low text-slate-600 hover:bg-surface-container-high transition-colors text-sm font-semibold whitespace-nowrap">Delivered</button>
+</div>
+</section>
+<!-- Orders Table/List Section -->
+<section class="bg-surface-container-lowest rounded-2xl overflow-hidden shadow-[0_12px_32px_-4px_rgba(15,61,46,0.08)]">
+<!-- Desktop Table View -->
+<div class="hidden lg:block overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low border-b border-surface-container">
+<th class="px-8 py-5 text-label-sm font-bold text-on-surface-variant uppercase tracking-wider">Product</th>
+<th class="px-6 py-5 text-label-sm font-bold text-on-surface-variant uppercase tracking-wider">Order Date</th>
+<th class="px-6 py-5 text-label-sm font-bold text-on-surface-variant uppercase tracking-wider">Amount</th>
+<th class="px-6 py-5 text-label-sm font-bold text-on-surface-variant uppercase tracking-wider">Status</th>
+<th class="px-8 py-5 text-right text-label-sm font-bold text-on-surface-variant uppercase tracking-wider">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="px-8 py-5">
+<div class="flex items-center gap-4">
+<div class="w-14 h-14 rounded-lg bg-primary-fixed-dim flex-shrink-0 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="close-up of fresh green organic vegetables in a rustic wooden crate with soft morning light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAqgyWQWCWlWSdI3mHAhjDenCJ6wMW8SyV72-AFibXrLNUTbMwFiVaCTw-44WZOmGl3PsEQIpjo6OhH-QfzsjOZPHiDCBFNGNKW3E_UfX9VaiS-EOPYf4906vxIZlKihPTMeUdxEdbr5Vh-PuUJk-zmrl4QTdSFNJ6CgxVg_PWC1skEbjsY_AY4euZmCrNvnekcYuTFXlPYo6mBKP1-4fgSka7iJnyZ2v4CXqtJNZMNbGoAJ8R9IViYyI93PAX8uGFv1TFCEA_hqLE"/>
+</div>
+<div>
+<p class="font-bold text-primary">Organic Green Spinach</p>
+<p class="text-xs text-slate-400">Order ID: #TRV-88219</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-5 text-sm font-medium text-on-surface">Oct 24, 2023</td>
+<td class="px-6 py-5 text-sm font-bold text-primary">₦ 12,500</td>
+<td class="px-6 py-5">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary-fixed text-on-primary-fixed-variant text-xs font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+                                        Delivered
+                                    </span>
+</td>
+<td class="px-8 py-5 text-right">
+<button class="text-primary hover:underline font-bold text-sm">View Details</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="px-8 py-5">
+<div class="flex items-center gap-4">
+<div class="w-14 h-14 rounded-lg bg-tertiary-fixed-dim flex-shrink-0 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="vibrant tray of fresh red tomatoes on a clean white surface with sharp shadows and bright daylight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCkBHmxe1wj7t7TrWFM62MfjMZATjDjUnp8swrBKNnG93n8ebrnHyPQeGTeHO87u-Scn6ZsG_uoso_6DQbuikNGrIl9j_OBXtphldYBaA3XCX4FQV3dBzbBlDUmXQpXsPFn21gcJOGC6uERrsQXZHddbt5XX4RK7SK0_wBDio2B7pdRdvLyRbwdLZCWjlGXEC-f6GOYF1_vbaLGL3ZUQC2fvSorhNUrmWLuu8ErXMg9HqtdHY2-MOUA-qjBrwr6ek4FnipqjWfyM_4"/>
+</div>
+<div>
+<p class="font-bold text-primary">Premium Roma Tomatoes</p>
+<p class="text-xs text-slate-400">Order ID: #TRV-88224</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-5 text-sm font-medium text-on-surface">Nov 02, 2023</td>
+<td class="px-6 py-5 text-sm font-bold text-primary">₦ 28,400</td>
+<td class="px-6 py-5">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-secondary-fixed text-on-secondary-fixed-variant text-xs font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></span>
+                                        Shipped
+                                    </span>
+</td>
+<td class="px-8 py-5 text-right">
+<button class="text-primary hover:underline font-bold text-sm">Track Order</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="px-8 py-5">
+<div class="flex items-center gap-4">
+<div class="w-14 h-14 rounded-lg bg-surface-container flex-shrink-0 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="bulk stack of large white poultry eggs in a clean industrial farm warehouse setting with uniform lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAiu8rGXwzgJwGbCAV2LGZt7sfxtvl6Ec2S3_WJ0kzpd3oX-8tH57g7vBUUL5Gokl2ujK-YV0_r2RqJZRtDSuN7vLbbXz527VZfxS2ByyoGHcxiTBUSOsW8X1p4lVSElCbmsRi8g6RX3IrvJv8Y1p_p903l9AiHQUtTNaIGZRODwDMK-Jgi4K7o4Hdo8bQizEkE574z3CRhISvl5SnpWvONiu3cZu1JpJpdrDwj4YKkRsEhzJav1mcSSygXI0epXT721x5Mz3ZRre0"/>
+</div>
+<div>
+<p class="font-bold text-primary">Bulk Farm Eggs (Crats)</p>
+<p class="text-xs text-slate-400">Order ID: #TRV-88231</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-5 text-sm font-medium text-on-surface">Nov 15, 2023</td>
+<td class="px-6 py-5 text-sm font-bold text-primary">₦ 145,000</td>
+<td class="px-6 py-5">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-tertiary-fixed text-on-tertiary-fixed-variant text-xs font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+                                        Pending
+                                    </span>
+</td>
+<td class="px-8 py-5 text-right">
+<button class="text-primary hover:underline font-bold text-sm">Modify</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Mobile Card View -->
+<div class="lg:hidden p-4 space-y-4">
+<div class="p-4 bg-surface rounded-xl border border-surface-container space-y-4">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-lg bg-primary-fixed-dim overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="close-up of fresh green organic vegetables in a rustic wooden crate with soft morning light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAmQ3iEUASPs04JQuLXTRlTvvQ5t9Coeah8cSsymxGJgXtwwBdM9_6hRsrzH7sH82mzT-fK4KJrVta8aBjj9XSoxja1zPgKOqW1Bsj5bXD1W4PEQXPM2OoEW6y0VBs3m4B0JvhHysPIeMuap1bprCC7pbBDHlQvdJgH7oIgBu4EH0ER6BC9BFXRvSi5EC6VILsNvkPMHJLC-ifcLWSnZkYx6b-qbEgUqZXnNQCzZg0BBENjZNhRgH7h16uWD1LYoV06VuMuU05fwYA"/>
+</div>
+<div>
+<p class="text-sm font-bold text-primary">Organic Green Spinach</p>
+<p class="text-[10px] text-slate-400">ID: #TRV-88219</p>
+</div>
+</div>
+<span class="inline-flex items-center px-2 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed-variant text-[10px] font-bold">Delivered</span>
+</div>
+<div class="flex justify-between items-end border-t border-surface-container pt-3">
+<div>
+<p class="text-[10px] text-slate-400">Amount Paid</p>
+<p class="text-sm font-extrabold text-primary">₦ 12,500</p>
+</div>
+<button class="text-xs font-bold text-white bg-primary px-4 py-1.5 rounded-lg">Details</button>
+</div>
+</div>
+<div class="p-4 bg-surface rounded-xl border border-surface-container space-y-4">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-lg bg-tertiary-fixed-dim overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="vibrant tray of fresh red tomatoes on a clean white surface with sharp shadows and bright daylight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDo2VZZBOt4fv2rnYhNdaeq2bx71HXjk1rDjMIqrHp1Nw9pP9wHP6jfJyAKCW6jdDFeuJdURXRIZRm_v_CS0wRzwPnJxqCbL4r2qZyRd8wWvgyNwemrp2rWaDVkG2VIle_Oi8tJBAAbbErGanhzgDDZfEabKaT7B0Orx5nGXopxREtxlreER8Npcb4rkaVh4HNONY8JVVhCAZwcJqNE-QC-5P1-UqtBU8BBLLqkGLR66Oz44NWBG5wpPS81E8FI8cFXox1zP_oPbM8"/>
+</div>
+<div>
+<p class="text-sm font-bold text-primary">Premium Roma Tomatoes</p>
+<p class="text-[10px] text-slate-400">ID: #TRV-88224</p>
+</div>
+</div>
+<span class="inline-flex items-center px-2 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed-variant text-[10px] font-bold">Shipped</span>
+</div>
+<div class="flex justify-between items-end border-t border-surface-container pt-3">
+<div>
+<p class="text-[10px] text-slate-400">Amount Paid</p>
+<p class="text-sm font-extrabold text-primary">₦ 28,400</p>
+</div>
+<button class="text-xs font-bold text-white bg-primary px-4 py-1.5 rounded-lg">Track</button>
+</div>
+</div>
+</div>
+<div class="px-8 py-4 bg-surface-container-low flex items-center justify-between border-t border-surface-container">
+<p class="text-xs text-slate-500 font-medium">Showing 1-10 of 128 orders</p>
+<div class="flex items-center gap-2">
+<button class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-surface-container transition-colors disabled:opacity-30" disabled="">
+<span class="material-symbols-outlined text-sm" data-icon="chevron_left">chevron_left</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-lg bg-primary text-white text-xs font-bold">1</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-surface-container text-xs font-bold">2</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-surface-container text-xs font-bold">3</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+</section>
+</main>
+</div>
+    <script src="travia-state.js"></script>
+</body></html>
